@@ -5,14 +5,14 @@ using IdentityService.Application.Interfaces.Security;
 using IdentityService.Domain.Entities;
 using Microsoft.IdentityModel.Tokens;
 
-namespace IdentityService.Application.Services.Security
+namespace IdentityService.Infrastructure.Security
 {
     public sealed class JwtService : IJwtService
     {
         private readonly string _issuer;
         private readonly string _audience;
-        private readonly double _expiryMinutes;
-        private readonly double _refreshExpiryMinutes;
+        private readonly int _expiryMinutes;
+        private readonly int _expirationRefreshMinutes;
         private readonly Lazy<Task<RSA>> _privateKey;
         private readonly Lazy<Task<RSA>> _publicKey;
 
@@ -20,8 +20,9 @@ namespace IdentityService.Application.Services.Security
         {
             _issuer = configuration["JwtSettings:Issuer"] ?? throw new ArgumentNullException(nameof(_issuer));
             _audience = configuration["JwtSettings:Audience"] ?? throw new ArgumentNullException(nameof(_audience));
-            _expiryMinutes = Convert.ToDouble(configuration["JwtSettings:ExpiryMinutes"] ?? "60");
-            _refreshExpiryMinutes = Convert.ToDouble(configuration["JwtSettings:RefreshTokenExpiryMinutes"] ?? "1440");
+            _expiryMinutes = Convert.ToInt16(configuration["JwtSettings:ExpiryMinutes"] ?? "60");
+            _expirationRefreshMinutes = Convert.ToInt16(configuration["JwtSettings:ExpiryDay"] ?? "1") * 1440;
+
 
             var privateKeyPath = configuration["JwtSettings:PrivateKeyPath"] ?? throw new ArgumentNullException("JwtSettings:PrivateKeyPath");
             var publicKeyPath = configuration["JwtSettings:PublicKeyPath"] ?? throw new ArgumentNullException("JwtSettings:PublicKeyPath");
@@ -60,7 +61,7 @@ namespace IdentityService.Application.Services.Security
                 _issuer,
                 _audience,
                 claims,
-                expires: DateTime.UtcNow.AddMinutes(_refreshExpiryMinutes),
+                expires: DateTime.UtcNow.AddMinutes(_expirationRefreshMinutes),
                 signingCredentials: credentials
             );
 

@@ -8,7 +8,12 @@ namespace IdentityService.Infrastructure.Extensions
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
                 .AddDatabase(configuration)
-                .AddServices();
+                .AddRedisConnection(configuration)
+                .AddAuthenticationExtensions(configuration)
+                .AddFluentValidationServices()
+                .AddUseCases()
+                .AddServices()
+                .AddRepositories();
 
             return services;
         }
