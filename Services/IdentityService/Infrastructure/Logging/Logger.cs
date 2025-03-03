@@ -20,7 +20,7 @@ namespace IdentityService.Infrastructure.Logging
                 .CreateLogger();
         }
 
-        public void LogInformasi(string message)
+        public void LogInformation(string message)
         {
             Log.ForContext("SourceContext", typeof(T).Name)
                .Information(message);

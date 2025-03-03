@@ -25,7 +25,7 @@ namespace IdentityService.Api.Middlewares
             var request = context.Request;
 
             // Log request details
-            loggerService.LogInformasi($"Incoming Request: {request.Method} {request.Path}");
+            loggerService.LogInformation($"Incoming Request: {request.Method} {request.Path}");
 
             try
             {
@@ -44,7 +44,7 @@ namespace IdentityService.Api.Middlewares
                 var response = context.Response;
                 stopwatch.Stop();
 
-                loggerService.LogInformasi($"Outgoing Response: {response.StatusCode} (Request took {stopwatch.ElapsedMilliseconds} ms)");
+                loggerService.LogInformation($"Outgoing Response: {response.StatusCode} (Request took {stopwatch.ElapsedMilliseconds} ms)");
             }
         }
     }
