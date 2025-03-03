@@ -1,3 +1,4 @@
+using IdentityService.Api.Middlewares;
 using Microsoft.OpenApi.Models;
 using IdentityService.Infrastructure.Extensions;
 
@@ -50,6 +51,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<LoggerMiddleware>();
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();
