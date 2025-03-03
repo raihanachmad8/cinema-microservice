@@ -7,7 +7,8 @@ namespace IdentityService.Infrastructure.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
-                .AddDatabase(configuration);
+                .AddDatabase(configuration)
+                .AddServices();
 
             return services;
         }
