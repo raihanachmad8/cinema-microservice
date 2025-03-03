@@ -3,7 +3,7 @@ using Microsoft.OpenApi.Models;
 using IdentityService.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Configuration.AddJsonFile("API/appsettings.json", optional: true, reloadOnChange: true)
+builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                     .AddEnvironmentVariables();
 
 
