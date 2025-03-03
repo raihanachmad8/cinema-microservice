@@ -9,6 +9,8 @@ builder.Configuration.AddJsonFile("API/appsettings.json", optional: true, reload
 builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
 
+
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
