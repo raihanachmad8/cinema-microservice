@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateways", "Gateways", "{85B4CAC6-30BC-4517-B414-3705FE1651C4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotApiGateway", "Gateway\OcelotApiGateway\OcelotApiGateway.csproj", "{D9FC6BD8-18EF-47E1-B234-78C666A4C680}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{ABF1A7CE-5760-4392-B344-53E09F92130B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService", "Services\IdentityService\IdentityService.csproj", "{1E9AF2E6-807E-4F63-8621-6D2182001E17}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateways", "Gateways", "{DA95E66C-A10E-4B05-8070-F3896429F7B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotApiGateway", "Gateways\OcelotApiGateway\OcelotApiGateway.csproj", "{4BC10DED-3653-4DC1-A938-6C60331D4BB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,17 +20,17 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D9FC6BD8-18EF-47E1-B234-78C666A4C680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D9FC6BD8-18EF-47E1-B234-78C666A4C680}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D9FC6BD8-18EF-47E1-B234-78C666A4C680}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D9FC6BD8-18EF-47E1-B234-78C666A4C680}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1E9AF2E6-807E-4F63-8621-6D2182001E17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1E9AF2E6-807E-4F63-8621-6D2182001E17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E9AF2E6-807E-4F63-8621-6D2182001E17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E9AF2E6-807E-4F63-8621-6D2182001E17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BC10DED-3653-4DC1-A938-6C60331D4BB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BC10DED-3653-4DC1-A938-6C60331D4BB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BC10DED-3653-4DC1-A938-6C60331D4BB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BC10DED-3653-4DC1-A938-6C60331D4BB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D9FC6BD8-18EF-47E1-B234-78C666A4C680} = {85B4CAC6-30BC-4517-B414-3705FE1651C4}
 		{1E9AF2E6-807E-4F63-8621-6D2182001E17} = {ABF1A7CE-5760-4392-B344-53E09F92130B}
+		{4BC10DED-3653-4DC1-A938-6C60331D4BB3} = {DA95E66C-A10E-4B05-8070-F3896429F7B6}
 	EndGlobalSection
 EndGlobal
