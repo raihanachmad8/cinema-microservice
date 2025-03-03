@@ -1,4 +1,6 @@
+using CinemaApp.Domain.Enums;
 using IdentityService.Api.Middlewares;
+using IdentityService.Domain.Entities;
 using Microsoft.OpenApi.Models;
 using IdentityService.Infrastructure.Extensions;
 
