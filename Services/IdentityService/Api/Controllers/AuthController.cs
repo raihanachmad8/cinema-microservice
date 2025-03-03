@@ -1,4 +1,5 @@
 using IdentityService.Application.Interfaces.Services;
+using IdentityService.Common.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IdentityService.Api.Controllers
@@ -16,6 +17,7 @@ namespace IdentityService.Api.Controllers
         [Route("test")]
         public IActionResult Test()
         {
+            throw new ConflictException();
             _logger.LogInformasi("Test");
             return Ok();
         }

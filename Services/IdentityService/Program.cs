@@ -52,6 +52,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<LoggerMiddleware>();
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();
