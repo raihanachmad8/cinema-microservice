@@ -1,11 +1,10 @@
-using CinemaApp.Domain.Enums;
 using IdentityService.Api.Middlewares;
-using IdentityService.Domain.Entities;
 using Microsoft.OpenApi.Models;
 using IdentityService.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
                     .AddEnvironmentVariables();
 
 

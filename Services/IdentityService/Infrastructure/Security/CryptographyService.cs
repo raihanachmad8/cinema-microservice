@@ -3,7 +3,7 @@ using System.Text;
 using Isopoh.Cryptography.Argon2;
 using IdentityService.Application.Interfaces.Security;
 
-namespace IdentityService.Infrastructure.Services
+namespace IdentityService.Infrastructure.Security
 {
     public class CryptographyService : ICryptographyService
     {

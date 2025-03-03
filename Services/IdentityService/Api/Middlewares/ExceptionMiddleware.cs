@@ -1,6 +1,7 @@
 using System.Net;
 using IdentityService.Common.Exceptions;
 using Microsoft.AspNetCore.Mvc;
+using FluentValidation;
 
 public class ExceptionMiddleware
 {
@@ -53,6 +54,7 @@ public class ExceptionMiddleware
             UnauthorizedAccessException => HttpStatusCode.Unauthorized,
             ConflictException => HttpStatusCode.Conflict,
             ForbiddenException => HttpStatusCode.Forbidden,
+            BadHttpRequestException => HttpStatusCode.BadRequest,
             KeyNotFoundException => HttpStatusCode.NotFound,
             FormatException => HttpStatusCode.BadRequest,
             NullReferenceException => HttpStatusCode.InternalServerError,
