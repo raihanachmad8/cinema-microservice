@@ -9,6 +9,26 @@ services:
       ACCEPT_EULA: "Y"
     volumes:
       - mssql_data:/var/opt/mssql
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+  
+  api_gateway:
+    build:
+      context: ./../Gateways/OcelotApiGateway
+      dockerfile: Dockerfile
+    container_name: cinema_api_gateway
+    environment:
+      - API_GATEWAY_HOST=http://api_gateway:5000
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./docker/mssql/mssql_data:/var/opt/mssql
+    depends_on: 
+      - mssql
+      - nats
 
   nats:
     image: "nats:latest"
