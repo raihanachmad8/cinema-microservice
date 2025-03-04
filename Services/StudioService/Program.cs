@@ -1,5 +1,7 @@
 using StudioService.Infrastructure.Extensions;
 using Microsoft.OpenApi.Models;
+using StudioService.Api.Middlewares;
+using StudioService.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -36,7 +38,7 @@ builder.Services.AddSwaggerGen(c =>
             {
                 Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
             },
-            new string[] {}
+            new string[] { }
         }
     });
 });
@@ -49,13 +51,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<LoggerMiddleware>();
+
 app.UseHttpsRedirection();
-app.UseRouting();   
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
 // Set service URL
-app.Urls.Add(Environment.GetEnvironmentVariable("STUDIO_SERVICE_URL") ?? builder.Configuration["Service:Url"] ?? "http://localhost:5002");
+app.Urls.Add(Environment.GetEnvironmentVariable("STUDIO_SERVICE_URL") ??
+             builder.Configuration["Service:Url"] ?? "http://localhost:5002");
 
 app.Run();

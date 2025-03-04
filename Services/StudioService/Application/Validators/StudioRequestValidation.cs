@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
-using IdentityService.Application.DTOs;
+using StudioService.Application.DTOs.Requests;
 
-namespace IdentityService.Application.Validators
+namespace StudioService.Application.Validators
 {
-    public class StudioRequestValidator : AbstractValidator<StudioRequestDto>
+    public class StudioRequestValidator : AbstractValidator<StudioRequest>
     {
         public StudioRequestValidator()
         {

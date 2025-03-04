@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using StudioService.Domain.Entities;
 
-namespace IdentityService.Infrastructure.Persistence
+namespace StudioService.Infrastructure.Persistence
 {
     public class StudioDbContext : DbContext
     {

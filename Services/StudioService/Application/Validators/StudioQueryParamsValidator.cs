@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using StudioService.Application.DTOs.Requests;
 
-namespace IdentityService.Application.Validators
+namespace StudioService.Application.Validators
 {
     public class StudioQueryParamsValidator : AbstractValidator<StudioQueryParams>
     {
@@ -9,10 +9,6 @@ namespace IdentityService.Application.Validators
         {
             RuleFor(x => x.Search)
                 .MaximumLength(100).WithMessage("Search term must not exceed 100 characters.");
-
-            RuleFor(x => x.Columns)
-                .Must(columns => columns == null || columns.Count <= 10)
-                .WithMessage("You can specify a maximum of 10 columns.");
 
             RuleFor(x => x.OrderBy)
                 .Must(orderBy => string.IsNullOrEmpty(orderBy) || IsValidColumn(orderBy))
@@ -32,8 +28,6 @@ namespace IdentityService.Application.Validators
 
         private bool IsValidColumn(string columnName)
         {
-            // Here you can implement logic to check if the column name is valid.
-            // For example, you can check against a list of valid column names.
             var validColumns = new List<string> { "Name", "Capacity", "AdditionalFacilities", "CreatedAt", "UpdatedAt" };
             return validColumns.Contains(columnName);
         }

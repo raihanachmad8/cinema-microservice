@@ -1,19 +1,17 @@
 using System.Net;
-using IdentityService.Common.Exceptions;
+using StudioService.Common.Exceptions;
 using Microsoft.AspNetCore.Mvc;
-using FluentValidation;
 
+namespace StudioService.API.Middlewares;
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly ILogger<ExceptionMiddleware> _logger;
-    private readonly IWebHostEnvironment _env;
 
-    public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger, IWebHostEnvironment env)
+    public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
     {
         _next = next;
         _logger = logger;
-        _env = env;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -53,7 +51,6 @@ public class ExceptionMiddleware
             InvalidOperationException => HttpStatusCode.BadRequest,
             UnauthorizedAccessException => HttpStatusCode.Unauthorized,
             ConflictException => HttpStatusCode.Conflict,
-            ForbiddenException => HttpStatusCode.Forbidden,
             BadHttpRequestException => HttpStatusCode.BadRequest,
             KeyNotFoundException => HttpStatusCode.NotFound,
             FormatException => HttpStatusCode.BadRequest,
@@ -68,13 +65,11 @@ public class ExceptionMiddleware
             HttpStatusCode.Unauthorized => "Unauthorized access.",
             HttpStatusCode.Conflict => "Conflict.",
             HttpStatusCode.Forbidden => "Forbidden.",
-            HttpStatusCode.NotFound => "Not found.",
+            HttpStatusCode.NotFound => "Resource not found.",
             HttpStatusCode.InternalServerError => "Internal server error.",
             HttpStatusCode.NotImplemented => "Not implemented.",
             _ => "An error occurred while processing your request."
         };
-        
-        
 
         return HandleResponseAsync(context, statusCode, title, ex.Message);
     }
