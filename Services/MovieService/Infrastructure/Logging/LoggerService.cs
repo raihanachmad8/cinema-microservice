@@ -2,8 +2,6 @@ using System;
 using MovieService.Application.Interfaces.Services;
 using Serilog;
 using Serilog.Formatting.Json;
-using Serilog.Sinks.SystemConsole;
-using Serilog.Sinks.File;
 
 namespace MovieService.Infrastructure.Logging;
 

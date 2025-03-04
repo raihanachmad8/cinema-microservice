@@ -1,4 +1,5 @@
-using MovieService.Infrastructure.Extensions;
+using MovieService.Application.Mapper;
+using MovieServiceService.Infrastructure.Extensions;
 
 namespace MovieService.Infrastructure.Extensions;
 
@@ -7,9 +8,13 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddApplicationServices(this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
+        services
+            .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
+            .AddAutoMapper(typeof(MovieMappingProfile))
             .AddDatabase(configuration)
-            
+            .AddFluentValidationServices()
+            .AddServices()
+            .AddRepositories()
             ;
 
         return services;
