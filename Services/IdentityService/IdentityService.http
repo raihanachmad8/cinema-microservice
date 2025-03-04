@@ -1,6 +1,6 @@
-@IdentityService_HostAddress = http://localhost:5103
+@IdentityService_HostAddress = http://localhost:5001
 
-GET {{IdentityService_HostAddress}}/weatherforecast/
+GET {{IdentityService_HostAddress}}/auth/test
 Accept: application/json
 
 ###
