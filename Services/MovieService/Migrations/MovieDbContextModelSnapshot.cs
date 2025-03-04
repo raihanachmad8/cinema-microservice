@@ -58,9 +58,6 @@ namespace MovieService.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Title")
-                        .IsUnique();
-
                     b.ToTable("movies");
 
                     b.HasData(

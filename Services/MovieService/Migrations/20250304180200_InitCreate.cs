@@ -28,12 +28,6 @@ namespace MovieService.Migrations
                 {
                     table.PrimaryKey("PK_movies", x => x.Id);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_movies_Title",
-                table: "movies",
-                column: "Title",
-                unique: true);
         }
 
         /// <inheritdoc />
