@@ -13,6 +13,7 @@ public static class ServiceCollectionExtensions
             .AddAutoMapper(typeof(MovieMappingProfile))
             .AddDatabase(configuration)
             .AddFluentValidationServices()
+            .AddUseCases()
             .AddServices()
             .AddRepositories()
             ;

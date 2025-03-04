@@ -11,6 +11,7 @@ public static class FluentValidationExtensions
         services.AddFluentValidationAutoValidation();
         services.AddValidatorsFromAssemblyContaining<MovieRequestValidator>();
         services.AddValidatorsFromAssemblyContaining<MovieQueryParamsValidator>();
+        services.AddValidatorsFromAssemblyContaining<GenreRouteValidator>();
         return services;
     }
 }
