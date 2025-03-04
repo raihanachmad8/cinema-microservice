@@ -14,10 +14,6 @@ public class MovieDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Index for Movie entity
-        modelBuilder.Entity<Movie>()
-            .HasIndex(m => m.Title)
-            .IsUnique();
 
         // Global Query Filter for Soft Delete
         modelBuilder.Entity<Movie>().HasQueryFilter(m => m.DeletedAt == null);

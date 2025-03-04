@@ -12,7 +12,7 @@ using MovieService.Infrastructure.Persistence;
 namespace MovieService.Migrations
 {
     [DbContext(typeof(MovieDbContext))]
-    [Migration("20250304105028_InitCreate")]
+    [Migration("20250304180200_InitCreate")]
     partial class InitCreate
     {
         /// <inheritdoc />
@@ -60,9 +60,6 @@ namespace MovieService.Migrations
                         .HasColumnName("updated_at");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Title")
-                        .IsUnique();
 
                     b.ToTable("movies");
                 });
