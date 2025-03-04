@@ -9,7 +9,7 @@ namespace MovieService.Infrastructure.Persistence
         public MovieDbContext(DbContextOptions<MovieDbContext> options) : base(options)
         { }
 
-        public DbSet<Movie> Movies { get; set; } // Change from Studios to Movies
+        public DbSet<Movie> Movies { get; set; } // Change from Movies to Movies
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

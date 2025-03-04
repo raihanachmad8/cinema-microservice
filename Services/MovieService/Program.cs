@@ -56,6 +56,6 @@ app.MapControllers();
 
 // Set service URL
 app.Urls.Add(Environment.GetEnvironmentVariable("MOVIE_SERVICE_URL") ?? // Change environment variable name
-             builder.Configuration["Service:Url"] ?? "http://localhost:5002");
+             builder.Configuration["Service:Url"] ?? "http://localhost:5003");
 
 app.Run();
