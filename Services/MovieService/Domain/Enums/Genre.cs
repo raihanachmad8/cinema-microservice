@@ -1,5 +1,8 @@
-﻿namespace MovieService.Domain.Enums;
+﻿using System.Text.Json.Serialization;
 
+namespace MovieService.Domain.Enums;
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum Genre
 {
     Action = 1,

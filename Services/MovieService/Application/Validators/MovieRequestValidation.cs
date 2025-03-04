@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MovieService.Application.DTOs.Requests;
+using MovieService.Domain.Enums;
 
 namespace MovieService.Application.Validators
 {
@@ -12,7 +13,9 @@ namespace MovieService.Application.Validators
                 .MaximumLength(255).WithMessage("Title cannot exceed 255 characters.");
 
             RuleFor(movie => movie.Genre)
-                .IsInEnum().WithMessage("Genre is required.");
+                .NotEmpty().WithMessage("Genre is required.")
+                .Must(BeAValidGenre).WithMessage("Invalid genre provided.");
+
 
             RuleFor(movie => movie.DurationInMinutes)
                 .NotEmpty().WithMessage("Duration in minutes is required.")
@@ -20,6 +23,11 @@ namespace MovieService.Application.Validators
 
             RuleFor(movie => movie.Description)
                 .MaximumLength(500).WithMessage("Description cannot exceed 500 characters.");
+        }
+
+        private bool BeAValidGenre(string genre)
+        {
+            return Enum.TryParse<Genre>(genre, true, out _);
         }
     }
 }

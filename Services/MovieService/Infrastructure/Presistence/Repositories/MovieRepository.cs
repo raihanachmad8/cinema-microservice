@@ -3,6 +3,7 @@ using MovieService.Application.DTOs.Responses;
 using MovieService.Application.Interfaces.Repositories;
 using MovieService.Domain.Entities;
 using MovieService.Application.Interfaces.Services;
+using MovieService.Domain.Enums;
 
 namespace MovieService.Infrastructure.Persistence.Repositories;
 
@@ -42,6 +43,20 @@ public class MovieRepository : IMovieRepository
             throw;
         }
     }
+
+    public async Task<List<Movie?>> GetByGenreAsync(Genre genre)
+    {
+        try
+        {
+            return await _context.Movies.Where(m => m.Genre == genre).ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error retrieving movie with Genre {genre}", ex);
+            throw;
+        }
+    }
+
 
     public async Task<IEnumerable<Movie>> GetAllAsync()
     {
@@ -119,7 +134,8 @@ public class MovieRepository : IMovieRepository
         }
     }
 
-    public async Task<MoviePaginateResponse> GetMoviesAsync(string search, string orderBy, string? sort, int page, int pageSize)
+    public async Task<MoviePaginateResponse> GetMoviesAsync(string search, string orderBy, string? sort, int page,
+        int pageSize)
     {
         try
         {
