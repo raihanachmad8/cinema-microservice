@@ -1,5 +1,4 @@
-﻿
-namespace StudioService.Application.DTOs.Responses;
+﻿namespace StudioService.Application.DTOs.Responses;
 
 public record Metadata
 {
