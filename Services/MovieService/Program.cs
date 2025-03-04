@@ -1,5 +1,7 @@
-using MovieService.Infrastructure.Extensions; 
+using MovieService.Infrastructure.Extensions;
 using Microsoft.OpenApi.Models;
+using MovieService.Api.Middlewares;
+using MovieService.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json", true, true)
@@ -13,7 +15,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "MovieService API", 
+        Title = "MovieService API",
         Version = "v1",
         Description = "Movie Service for managing movies in the cinema."
     });
@@ -47,6 +49,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<LoggerMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseRouting();

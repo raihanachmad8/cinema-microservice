@@ -15,7 +15,13 @@ public record Metadata
         TotalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
     }
 
-    public int GetFirstPageNumber() => TotalRecords > 0 ? 1 : 0;
+    public int GetFirstPageNumber()
+    {
+        return TotalRecords > 0 ? 1 : 0;
+    }
 
-    public int GetLastPageNumber() => TotalPages > 0 ? TotalPages : 0;
+    public int GetLastPageNumber()
+    {
+        return TotalPages > 0 ? TotalPages : 0;
+    }
 }

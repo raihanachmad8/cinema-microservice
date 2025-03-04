@@ -1,4 +1,5 @@
 ﻿namespace MovieService.Domain.Enums;
+
 public enum Genre
 {
     Action = 1,
