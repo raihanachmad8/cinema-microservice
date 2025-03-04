@@ -1,15 +1,22 @@
-using IdentityService.Infrastructure.Extensions;
-using Microsoft.Extensions.DependencyInjection;
+using StudioService.Application.Mapper;
+using StudioServiceService.Infrastructure.Extensions;
 
 namespace StudioService.Infrastructure.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services,
+            IConfiguration configuration)
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
+                .AddAutoMapper(typeof(StudioMappingProfile))
+                .AddAuthenticationExtensions(configuration)
                 .AddFluentValidationServices()
-                .AddDatabase(configuration);
+                .AddDatabase(configuration)
+                .AddUseCases()
+                .AddServices()
+                .AddRepositories()
+                ;
 
             return services;
         }

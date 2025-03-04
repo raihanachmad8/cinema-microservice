@@ -1,5 +1,5 @@
-using IdentityService.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using StudioService.Infrastructure.Persistence;
 
 namespace StudioService.Infrastructure.Extensions
 {

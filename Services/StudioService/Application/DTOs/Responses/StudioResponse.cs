@@ -1,6 +1,6 @@
-﻿namespace IdentityService.Application.DTOs
+﻿namespace StudioService.Application.DTOs.Responses
 {
-    public class StudioResponseDto
+    public record StudioResponse
     {
         public Guid Id { get; set; } 
         public string Name { get; set; } = string.Empty;

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StudioService.Domain.Entities
 {
-    public abstract class BaseEntity
+    public record class BaseEntity
     {
         [Required, Column("created_at")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

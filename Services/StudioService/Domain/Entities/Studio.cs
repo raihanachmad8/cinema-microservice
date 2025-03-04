@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace StudioService.Domain.Entities
 {
     [Table("studios")]
-    public class Studio : BaseEntity
+    public record Studio : BaseEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

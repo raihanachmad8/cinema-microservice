@@ -1,8 +1,8 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using IdentityService.Application.Validators;
+using StudioService.Application.Validators;
 
-namespace IdentityService.Infrastructure.Extensions
+namespace StudioService.Infrastructure.Extensions
 {
     public static class FluentValidationExtensions
     {

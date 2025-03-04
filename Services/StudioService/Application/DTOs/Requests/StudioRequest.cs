@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IdentityService.Application.DTOs
+namespace StudioService.Application.DTOs.Requests
 {
-    public class StudioRequestDto
+    public record StudioRequest
     {
         [Required]
         [MaxLength(100)]
