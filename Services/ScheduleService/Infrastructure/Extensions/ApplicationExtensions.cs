@@ -9,7 +9,13 @@ public static class ServiceCollectionExtensions
     {
         services
             .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
+            .AddAutoMapper(typeof(MappingProfileMapper))
+            .AddAuthenticationExtensions(configuration)
+            .AddFluentValidationServices()
             .AddDatabase(configuration)
+            .AddUseCases()
+            .AddServices()
+            .AddRepositories()
             ;
 
         return services;
