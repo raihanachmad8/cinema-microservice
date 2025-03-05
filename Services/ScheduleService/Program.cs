@@ -13,7 +13,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "MovieService API",
+        Title = "ScheduleService API",
         Version = "v1",
         Description = "Movie Service for managing movies in the cinema."
     });

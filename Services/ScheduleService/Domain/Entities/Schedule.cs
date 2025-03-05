@@ -21,5 +21,9 @@ namespace ScheduleService.Domain.Entities
         [Required]
         [Range(0, double.MaxValue, ErrorMessage = "Ticket price must be a positive value.")]
         public decimal TicketPrice { get; set; } 
+        
+        // Properti navigasi
+        public Movie Movie { get; set; } 
+        public Studio Studio { get; set; } 
     }
 }
