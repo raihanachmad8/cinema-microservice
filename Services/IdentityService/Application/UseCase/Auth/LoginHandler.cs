@@ -3,11 +3,8 @@ using IdentityService.Application.DTOs.Responses;
 using IdentityService.Application.Interfaces.Repositories;
 using IdentityService.Application.Interfaces.Security;
 using IdentityService.Application.Interfaces.Services;
-using IdentityService.Domain.Enums;
-using Microsoft.AspNetCore.Authentication.BearerToken;
-using IdentityService.Application.DTOs.Responses;
 
-namespace IdentityService.Application.UseCases;
+namespace IdentityService.Application.UseCase.Auth;
 
 public class LoginHandler
 {
@@ -33,7 +30,7 @@ public class LoginHandler
         _logger = logger;
     }
 
-    public async Task<Response<TokenResponse>> Handle(LoginRequest request)
+    public async Task<Response<TokenResponse?>> Handle(LoginRequest request)
     {
         _logger.LogInformation("Processing login request for email: {Email}", request.Email);
 

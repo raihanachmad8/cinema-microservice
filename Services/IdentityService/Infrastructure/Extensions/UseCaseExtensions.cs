@@ -1,4 +1,5 @@
-using IdentityService.Application.UseCase.User;
+using IdentityService.Application.UseCase.Auth;
+using IdentityService.Application.UseCase.Users;
 using IdentityService.Application.UseCases;
 
 namespace IdentityService.Infrastructure.Extensions;

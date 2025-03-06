@@ -4,7 +4,7 @@ using IdentityService.Application.Events.Responses;
 using IdentityService.Application.Interfaces.Messaging;
 using IdentityService.Application.Interfaces.Repositories;
 
-namespace IdentityService.Infrastructure.Messaging
+namespace IdentityService.Application.EventHandlers
 {
     public class UserRequestHandler
     {
@@ -34,7 +34,7 @@ namespace IdentityService.Infrastructure.Messaging
             Console.WriteLine("[NATS] UserRequestHandler registered for user.get, user.created, user.updated, and user.deleted");
         }
 
-        private async Task<GetUserResponse> HandleGetUserRequest(GetUserRequest request)
+        private async Task<GetUserResponse?> HandleGetUserRequest(GetUserRequest request)
         {
             Console.WriteLine($"[NATS] Handling user.get for ID: {request.Id}");
 

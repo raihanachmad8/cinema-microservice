@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 
-namespace IdentityService.Controllers
+namespace IdentityService.API.Controllers
 {
     [ApiController]
     [Route(".well-known")]
@@ -42,7 +40,7 @@ namespace IdentityService.Controllers
         }
 
         /// <summary>
-        /// JSON Web Key Set (JWKS) untuk validasi JWT
+        /// JSON Web Key Set (JWKS) for validation JWT
         /// </summary>
         [HttpGet("jwks.json")]
         public IActionResult GetJwks()
@@ -55,7 +53,7 @@ namespace IdentityService.Controllers
             }
 
             var rsa = LoadRsaPublicKey(publicKeyPath);
-            var rsaParameters = rsa.ExportParameters(false); // Hanya mengambil kunci publik
+            var rsaParameters = rsa.ExportParameters(false); // just get public key
 
             var jwk = new
             {
@@ -67,8 +65,8 @@ namespace IdentityService.Controllers
                         use = "sig",
                         alg = "RS256",
                         kid = "default-key",
-                        n = Base64UrlEncode(rsaParameters.Modulus),
-                        e = Base64UrlEncode(rsaParameters.Exponent)
+                        n = Base64UrlEncode(rsaParameters.Modulus!),
+                        e = Base64UrlEncode(rsaParameters.Exponent!)
                     }
                 }
             };
@@ -89,7 +87,7 @@ namespace IdentityService.Controllers
         }
 
         /// <summary>
-        /// Mengonversi byte array ke Base64 URL Safe string
+        /// convertion byte array ke Base64 URL Safe string
         /// </summary>
         private static string Base64UrlEncode(byte[] input)
         {

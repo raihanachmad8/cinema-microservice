@@ -1,8 +1,7 @@
 ﻿using System.Security.Claims;
 using FluentValidation;
 using IdentityService.Application.DTOs.Requests;
-using IdentityService.Application.UseCase.User;
-using IdentityService.Application.UseCases;
+using IdentityService.Application.UseCase.Users;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 

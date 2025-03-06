@@ -2,7 +2,7 @@
 using IdentityService.Application.DTOs.Responses;
 using IdentityService.Application.Interfaces.Repositories;
 
-namespace IdentityService.Application.UseCase.User
+namespace IdentityService.Application.UseCase.Users
 {
     public class GetUserHandler
     {
@@ -16,7 +16,7 @@ namespace IdentityService.Application.UseCase.User
             _mapper = mapper;
         }
 
-        public async Task<Response<UserResponse>> Handle(int id)
+        public async Task<Response<UserResponse?>> Handle(int id)
         {
             // Fetch the user profile from the user service
             var userProfile = await _userRepository.GetByIdAsync(id);

@@ -4,8 +4,8 @@ public class GetUserRequest
 {
     public int Id { get; set; }
 
-    public GetUserRequest(int userId)
+    public GetUserRequest(int id)
     {
-        Id = userId;
+        Id = id;
     }
 }

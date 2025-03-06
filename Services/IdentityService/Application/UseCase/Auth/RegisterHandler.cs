@@ -6,11 +6,10 @@ using IdentityService.Application.Interfaces.Repositories;
 using IdentityService.Application.Interfaces.Security;
 using IdentityService.Application.Interfaces.Services;
 using IdentityService.Common.Exceptions;
-using IdentityService.Domain.Entities;
-using IdentityService.Application.DTOs.Responses;
 using IdentityService.Application.Interfaces.Messaging;
+using IdentityService.Domain.Entities;
 
-namespace IdentityService.Application.UseCases;
+namespace IdentityService.Application.UseCase.Auth;
 
 public class RegisterHandler
 {
@@ -40,7 +39,7 @@ public class RegisterHandler
         _natsPublisher = natsPublisher;
     }
 
-    public async Task<Response<TokenResponse>> Handle(RegisterRequest request)
+    public async Task<Response<TokenResponse?>> Handle(RegisterRequest request)
     {
         _logger.LogInformation("Processing registration request for email: {Email}", request.Email);
 
