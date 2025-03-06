@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IdentityService.Migrations
 {
     [DbContext(typeof(IdentityDBContext))]
-    [Migration("20250303081015_SeedDataUser")]
-    partial class SeedDataUser
+    [Migration("20250306045222_SeedData")]
+    partial class SeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,9 +27,11 @@ namespace IdentityService.Migrations
 
             modelBuilder.Entity("IdentityService.Domain.Entities.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -80,7 +82,7 @@ namespace IdentityService.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                            Id = 1,
                             Address = "Jl. Kebon Jeruk 11, Jakarta Selatan",
                             CreatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin1@cinema.com",
@@ -92,7 +94,7 @@ namespace IdentityService.Migrations
                         },
                         new
                         {
-                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
+                            Id = 2,
                             Address = "Jl. Kebon Jeruk 11, Jakarta Selatan",
                             CreatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin2@cinema.com",
@@ -104,7 +106,7 @@ namespace IdentityService.Migrations
                         },
                         new
                         {
-                            Id = new Guid("33333333-3333-3333-3333-333333333333"),
+                            Id = 3,
                             Address = "Jl. Kebon Jeruk 11, Jakarta Selatan",
                             CreatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "user1@cinema.com",
@@ -116,7 +118,7 @@ namespace IdentityService.Migrations
                         },
                         new
                         {
-                            Id = new Guid("44444444-4444-4444-4444-444444444444"),
+                            Id = 4,
                             Address = "Jl. Kebon Jeruk 11, Jakarta Selatan",
                             CreatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "user2@cinema.com",
@@ -128,7 +130,7 @@ namespace IdentityService.Migrations
                         },
                         new
                         {
-                            Id = new Guid("55555555-5555-5555-5555-555555555555"),
+                            Id = 5,
                             Address = "Jl. Kebon Jeruk 11, Jakarta Selatan",
                             CreatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "user3@cinema.com",
@@ -140,7 +142,7 @@ namespace IdentityService.Migrations
                         },
                         new
                         {
-                            Id = new Guid("66666666-6666-6666-6666-666666666666"),
+                            Id = 6,
                             Address = "Jl. Kebon Jeruk 11, Jakarta Selatan",
                             CreatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "user4@cinema.com",
@@ -152,11 +154,47 @@ namespace IdentityService.Migrations
                         },
                         new
                         {
-                            Id = new Guid("77777777-7777-7777-7777-777777777777"),
+                            Id = 7,
                             Address = "Jl. Kebon Jeruk 11, Jakarta Selatan",
                             CreatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "user5@cinema.com",
                             Name = "User 5",
+                            Password = "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw",
+                            PhoneNumber = "08123456789",
+                            Role = 1,
+                            UpdatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Address = "Jl. Kebon Jeruk 11, Jakarta Selatan",
+                            CreatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "user6@cinema.com",
+                            Name = "User 6",
+                            Password = "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw",
+                            PhoneNumber = "08123456789",
+                            Role = 1,
+                            UpdatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Address = "Jl. Kebon Jeruk 11, Jakarta Selatan",
+                            CreatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "user7@cinema.com",
+                            Name = "User 7",
+                            Password = "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw",
+                            PhoneNumber = "08123456789",
+                            Role = 1,
+                            UpdatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Address = "Jl. Kebon Jeruk 11, Jakarta Selatan",
+                            CreatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "user8@cinema.com",
+                            Name = "User 8",
                             Password = "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw",
                             PhoneNumber = "08123456789",
                             Role = 1,

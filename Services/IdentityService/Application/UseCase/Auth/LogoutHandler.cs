@@ -11,13 +11,13 @@ public class LogoutHandler
     private readonly IUserRepository _userRepository;
     private readonly IJwtService _jwtService;
     private readonly ITokenService _tokenService;
-    private readonly ILogger<LogoutHandler> _logger;
+    private readonly ISerilog<LogoutHandler> _logger;
 
     public LogoutHandler(
         ITokenService tokenService,
         IUserRepository userRepository,
         IJwtService jwtService,
-        ILogger<LogoutHandler> logger)
+        ISerilog<LogoutHandler> logger)
     {
         _tokenService = tokenService;
         _userRepository = userRepository;

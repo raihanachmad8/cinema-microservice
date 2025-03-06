@@ -10,9 +10,9 @@ namespace IdentityService.Infrastructure.Persistence.Repositories;
 public class TokenRepository : ITokenRepository
 {
     private readonly IDatabase _database;
-    private readonly ILoggerService<TokenRepository> _logger;
+    private readonly ISerilog<TokenRepository> _logger;
 
-    public TokenRepository(IConnectionMultiplexer redis, ILoggerService<TokenRepository> logger)
+    public TokenRepository(IConnectionMultiplexer redis, ISerilog<TokenRepository> logger)
     {
         _database = redis.GetDatabase();
         _logger = logger;

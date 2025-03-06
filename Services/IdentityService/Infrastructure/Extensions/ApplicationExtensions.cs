@@ -1,3 +1,4 @@
+using IdentityService.Application.Mapper;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IdentityService.Infrastructure.Extensions;
@@ -8,7 +9,9 @@ public static class ServiceCollectionExtensions
         IConfiguration configuration)
     {
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
+            .AddAutoMapper(typeof(MapperUserProfile))
             .AddDatabase(configuration)
+            .AddNats(configuration)
             .AddRedisConnection(configuration)
             .AddServices()
             .AddAuthenticationExtensions(configuration)

@@ -1,31 +1,30 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MovieService.Application.DTOs.Responses;
+namespace IdentityService.Application.DTOs.Responses;
 
 public record Response<T>
 {
-    public string Status { get; set; } = "200";
+    public int Status { get; set; } = 200;
     public string Title { get; set; } = string.Empty;
     public string Detail { get; set; } = string.Empty;
     public T? Data { get; set; }
 
-
-    public Response<T> Ok(T data, string message = "Ok")
+    public Response<T?> Ok(T? data, string message = "Ok")
     {
-        return new Response<T>
+        return new Response<T?>
         {
-            Status = "200",
+            Status = 200,
             Title = "Ok",
             Detail = message,
             Data = data
         };
     }
 
-    public Response<T> Created(T data, string message = "Created")
+    public Response<T?> Created(T? data, string message = "Created")
     {
-        return new Response<T>
+        return new Response<T?>
         {
-            Status = "201",
+            Status = 201,
             Title = "Created",
             Detail = message,
             Data = data

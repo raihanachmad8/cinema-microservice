@@ -1,5 +1,5 @@
+using IdentityService.Application.UseCase.User;
 using IdentityService.Application.UseCases;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace IdentityService.Infrastructure.Extensions;
 
@@ -11,6 +11,10 @@ public static class UseCaseExtensions
         services.AddScoped<RegisterHandler>();
         services.AddScoped<RefreshTokenHandler>();
         services.AddScoped<LogoutHandler>();
+
+        services.AddScoped<GetUserHandler>();
+        services.AddScoped<UpdateUserHandler>();
+        services.AddScoped<ChangePasswordHandler>();
         return services;
     }
 }

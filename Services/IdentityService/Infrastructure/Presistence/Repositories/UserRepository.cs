@@ -7,22 +7,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using IdentityService.Application.Interfaces.Services;
 
 namespace IdentityService.Infrastructure.Persistence.Repositories;
 
 public class UserRepository : IUserRepository
 {
     private readonly IdentityDBContext _context;
-    private readonly ILogger<UserRepository> _logger;
+    private readonly ISerilog<UserRepository> _logger;
 
-    public UserRepository(IdentityDBContext context, ILogger<UserRepository> logger)
+    public UserRepository(IdentityDBContext context, ISerilog<UserRepository> logger)
     {
         _context = context;
         _logger = logger;
     }
 
 
-    public async Task<User?> GetByIdAsync(Guid id)
+    public async Task<User?> GetByIdAsync(int id)
     {
         return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
     }

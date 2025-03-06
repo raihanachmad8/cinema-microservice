@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using MovieService.Application.Interfaces.Services;
 
-namespace MovieService.Api.Middlewares;
+namespace MovieService.API.Middlewares;
 
 public class LoggerMiddleware
 {

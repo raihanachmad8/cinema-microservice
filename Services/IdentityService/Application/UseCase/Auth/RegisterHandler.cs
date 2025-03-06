@@ -1,4 +1,5 @@
 using CinemaApp.Domain.Enums;
+using IdentityService.Appication.Events.User;
 using IdentityService.Application.DTOs.Requests;
 using IdentityService.Application.DTOs.Responses;
 using IdentityService.Application.Interfaces.Repositories;
@@ -6,7 +7,8 @@ using IdentityService.Application.Interfaces.Security;
 using IdentityService.Application.Interfaces.Services;
 using IdentityService.Common.Exceptions;
 using IdentityService.Domain.Entities;
-using MovieService.Application.DTOs.Responses;
+using IdentityService.Application.DTOs.Responses;
+using IdentityService.Application.Interfaces.Messaging;
 
 namespace IdentityService.Application.UseCases;
 
@@ -17,7 +19,8 @@ public class RegisterHandler
     private readonly ICryptographyService _cryptoService;
     private readonly IConfiguration _configuration;
     private readonly ITokenService _tokenService;
-    private readonly ILogger<RegisterHandler> _logger;
+    private readonly ISerilog<RegisterHandler> _logger;
+    private readonly INatsPublisher _natsPublisher;
 
     public RegisterHandler(
         IUserRepository userRepository,
@@ -25,7 +28,8 @@ public class RegisterHandler
         IConfiguration configuration,
         IJwtService jwtService,
         ICryptographyService cryptoService,
-        ILogger<RegisterHandler> logger)
+        INatsPublisher natsPublisher,
+        ISerilog<RegisterHandler> logger)
     {
         _userRepository = userRepository;
         _tokenService = tokenService;
@@ -33,6 +37,7 @@ public class RegisterHandler
         _jwtService = jwtService;
         _cryptoService = cryptoService;
         _logger = logger;
+        _natsPublisher = natsPublisher;
     }
 
     public async Task<Response<TokenResponse>> Handle(RegisterRequest request)
@@ -58,6 +63,13 @@ public class RegisterHandler
         };
 
         await _userRepository.AddAsync(user);
+        await _natsPublisher.PublishAsync("user.created", new UserCreatedEvent
+        {
+            Email = request.Email,
+            Name = request.Name,
+            Role = Role.User.ToString()
+        });
+        
         _logger.LogInformation("User {Email} registered successfully.", user.Email);
 
         var tokenResponse = await _tokenService.GenerateToken(user);

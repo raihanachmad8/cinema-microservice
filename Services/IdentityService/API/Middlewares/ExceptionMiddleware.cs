@@ -81,10 +81,10 @@ public class ExceptionMiddleware
 
     private Task HandleResponseAsync(HttpContext context, HttpStatusCode statusCode, string title, string detail)
     {
-        // Resolve ILoggerService<ExceptionMiddleware> from the scoped service provider
+        // Resolve ISerilog<ExceptionMiddleware> from the scoped service provider
         using (var scope = _serviceScopeFactory.CreateScope())
         {
-            var loggerService = scope.ServiceProvider.GetRequiredService<ILoggerService<ExceptionMiddleware>>();
+            var loggerService = scope.ServiceProvider.GetRequiredService<ISerilog<ExceptionMiddleware>>();
             loggerService.LogWarning($"{title}: {context.Request.Path}");
         }
 

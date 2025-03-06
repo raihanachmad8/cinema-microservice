@@ -1,4 +1,4 @@
-﻿namespace IdentityService.Application.Services;
+namespace IdentityService.Application.Services;
 
 public class TokenData
 {
