@@ -1,43 +1,50 @@
-using System;
-using IdentityService.Application.Interfaces.Services;
 using Serilog;
-using Serilog.Formatting.Json;
-using Serilog.Sinks.SystemConsole;
-using Serilog.Sinks.File;
+using IdentityService.Application.Interfaces.Services;
+using System;
 
-namespace IdentityService.Infrastructure.Logging;
-
-public class LoggerService<T> : ILoggerService<T>
+namespace IdentityService.Infrastructure.Logging
 {
-    public LoggerService()
+    public class SerilogLogger<T> : ISerilog<T>
     {
-        Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Debug()
-            .WriteTo.Console(
-                outputTemplate:
-                "{Timestamp:yyyy-MM-dd HH:mm:ss} [{SourceContext}] [{Level}] : {Message}{NewLine}{Exception}"
-            )
-            .WriteTo
-            .File(new JsonFormatter(), "logs/application-log.json",
-                rollingInterval: RollingInterval.Day) // JSON format for the log file
-            .CreateLogger();
-    }
+        // Constructor initializes the logger (Serilog)
+        public SerilogLogger()
+        {
+            // Configure the global logger once.
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.Console(outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{SourceContext}] [{Level}] : {Message}{NewLine}{Exception}")
+                .WriteTo.File("logs/application-log.json", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+        }
 
-    public void LogInformation(string message)
-    {
-        Log.ForContext("SourceContext", typeof(T).Name)
-            .Information(message);
-    }
+        public void LogInformation(string message, params object[] args)
+        {
+            Log.ForContext("SourceContext", typeof(T).Name)
+                .Information(message, args);
+        }
 
-    public void LogWarning(string message)
-    {
-        Log.ForContext("SourceContext", typeof(T).Name)
-            .Warning(message);
-    }
+        public void LogWarning(string message, params object[] args)
+        {
+            Log.ForContext("SourceContext", typeof(T).Name)
+                .Warning(message, args);
+        }
 
-    public void LogError(Exception ex, string message)
-    {
-        Log.ForContext("SourceContext", typeof(T).Name)
-            .Error(ex, message);
+        public void LogError(Exception exception, string message)
+        {
+            Log.ForContext("SourceContext", typeof(T).Name)
+                .Error(exception, message);
+        }
+
+        public void LogDebug(string message, params object[] args)
+        {
+            Log.ForContext("SourceContext", typeof(T).Name)
+                .Debug(message, args);
+        }
+
+        public void LogTrace(string message)
+        {
+            Log.ForContext("SourceContext", typeof(T).Name)
+                .Verbose(message); // Serilog does not have a `Trace` level, we use `Verbose` instead
+        }
     }
 }

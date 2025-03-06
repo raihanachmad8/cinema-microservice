@@ -5,7 +5,7 @@ using IdentityService.Application.Interfaces.Security;
 using IdentityService.Application.Interfaces.Services;
 using IdentityService.Domain.Enums;
 using Microsoft.AspNetCore.Authentication.BearerToken;
-using MovieService.Application.DTOs.Responses;
+using IdentityService.Application.DTOs.Responses;
 
 namespace IdentityService.Application.UseCases;
 
@@ -15,7 +15,7 @@ public class LoginHandler
     private readonly ICryptographyService _cryptoService;
     private readonly IConfiguration _configuration;
     private readonly ITokenService _tokenService;
-    private readonly ILogger<LoginHandler> _logger;
+    private readonly ISerilog<LoginHandler> _logger;
 
 
     public LoginHandler(
@@ -24,7 +24,7 @@ public class LoginHandler
         IConfiguration configuration,
         IJwtService jwtService,
         ICryptographyService cryptoService,
-        ILogger<LoginHandler> logger)
+        ISerilog<LoginHandler> logger)
     {
         _userRepository = userRepository;
         _tokenService = tokenService;

@@ -15,14 +15,14 @@ public class TokenService : ITokenService
     private readonly IUserRepository _userRepository;
     private readonly IConfiguration _configuration;
     private readonly IJwtService _jwtService;
-    private readonly ILoggerService<TokenService> _logger;
+    private readonly ISerilog<TokenService> _logger;
 
     public TokenService(
         IConfiguration configuration,
         IJwtService jwtService,
         IUserRepository userRepository,
         ITokenRepository tokenRepository,
-        ILoggerService<TokenService> logger)
+        ISerilog<TokenService> logger)
     {
         _tokenRepository = tokenRepository;
         _configuration = configuration;

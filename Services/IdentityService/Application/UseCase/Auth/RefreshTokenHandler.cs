@@ -5,18 +5,18 @@ using IdentityService.Application.Interfaces.Services;
 using IdentityService.Domain.Enums;
 using Microsoft.AspNetCore.Authentication.BearerToken;
 using System.Security.Claims;
-using MovieService.Application.DTOs.Responses;
+using IdentityService.Application.DTOs.Responses;
 
 namespace IdentityService.Application.UseCases;
 
 public class RefreshTokenHandler
 {
     private readonly ITokenService _tokenService;
-    private readonly ILogger<RefreshTokenHandler> _logger;
+    private readonly ISerilog<RefreshTokenHandler> _logger;
 
     public RefreshTokenHandler(
         ITokenService tokenService,
-        ILogger<RefreshTokenHandler> logger)
+        ISerilog<RefreshTokenHandler> logger)
     {
         _tokenService = tokenService;
         _logger = logger;
