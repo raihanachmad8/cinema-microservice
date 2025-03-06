@@ -1,5 +1,4 @@
 using StudioService.Application.Mapper;
-using StudioServiceService.Infrastructure.Extensions;
 
 namespace StudioService.Infrastructure.Extensions;
 

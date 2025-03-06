@@ -5,6 +5,7 @@ using IdentityService.Application.Interfaces.Security;
 using IdentityService.Application.Interfaces.Services;
 using IdentityService.Domain.Enums;
 using Microsoft.AspNetCore.Authentication.BearerToken;
+using MovieService.Application.DTOs.Responses;
 
 namespace IdentityService.Application.UseCases
 {
@@ -32,7 +33,7 @@ namespace IdentityService.Application.UseCases
             _logger = logger;
         }
 
-        public async Task<AuthResponse> Handle(LoginRequest request)
+        public async Task<Response<TokenResponse>> Handle(LoginRequest request)
         {
             _logger.LogInformation("Processing login request for email: {Email}", request.Email);
 
@@ -47,10 +48,7 @@ namespace IdentityService.Application.UseCases
 
             var tokenReponse = await _tokenService.GenerateToken(user);
 
-            return new AuthResponse
-            {
-                Data = tokenReponse
-            };
+            return new Response<TokenResponse>().Ok(tokenReponse);
         }
     }
 

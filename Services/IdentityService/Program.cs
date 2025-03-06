@@ -1,4 +1,5 @@
-using IdentityService.Api.Middlewares;
+using IdentityService.API.Middlewares;
+using IdentityService.Application.Middlewares;
 using Microsoft.OpenApi.Models;
 using IdentityService.Infrastructure.Extensions;
 

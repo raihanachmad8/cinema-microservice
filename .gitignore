@@ -484,4 +484,6 @@ $RECYCLE.BIN/
 *.swp
 
 logs
-Key/*.pem
+
+private.pem
+public.pem

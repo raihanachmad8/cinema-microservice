@@ -6,6 +6,7 @@ using IdentityService.Application.Interfaces.Security;
 using IdentityService.Application.Interfaces.Services;
 using IdentityService.Common.Exceptions;
 using IdentityService.Domain.Entities;
+using MovieService.Application.DTOs.Responses;
 
 namespace IdentityService.Application.UseCases
 {
@@ -34,7 +35,7 @@ namespace IdentityService.Application.UseCases
             _logger = logger;
         }
 
-        public async Task<AuthResponse> Handle(RegisterRequest request)
+        public async Task<Response<TokenResponse>> Handle(RegisterRequest request)
         {
             _logger.LogInformation("Processing registration request for email: {Email}", request.Email);
             
@@ -59,24 +60,8 @@ namespace IdentityService.Application.UseCases
             await _userRepository.AddAsync(user);
             _logger.LogInformation("User {Email} registered successfully.", user.Email);
             
-            var accessToken = await _tokenService.GenerateToken(user);
-            // var accessToken = await _jwtService.GenerateTokenAsync(user);
-            // var refreshToken = await _jwtService.GenerateRefreshTokenAsync(user);
-            //
-            // var expirationAccess = _configuration.GetValue<int>("JwtSettings:ExpiryMinutes");
-            //
-            // await _tokenService.StoreTokenAsync(user.Id.ToString(), TokenType.Access, accessToken,
-            //     new TokenData { UserId = user.Id, Token = accessToken, ExpiryDate = DateTime.UtcNow.AddMinutes(expirationAccess) },
-            //     TimeSpan.FromMinutes(expirationAccess));
-            //
-            // await _tokenService.StoreTokenAsync(user.Id.ToString(), TokenType.Refresh, refreshToken,
-            //     new TokenData { UserId = user.Id, Token = refreshToken, ExpiryDate = DateTime.UtcNow.AddMinutes(expirationRefresh) },
-            //     TimeSpan.FromMinutes(expirationRefresh));
-
-            return new AuthResponse
-            {
-                Data = accessToken
-            };
+            var tokenResponse = await _tokenService.GenerateToken(user);
+            return new Response<TokenResponse>().Created(tokenResponse);
         }
     }
 }

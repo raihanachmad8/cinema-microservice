@@ -1,7 +1,8 @@
 using System.Net;
 using IdentityService.Common.Exceptions;
 using Microsoft.AspNetCore.Mvc;
-using FluentValidation;
+
+namespace IdentityService.Application.Middlewares;
 
 public class ExceptionMiddleware
 {

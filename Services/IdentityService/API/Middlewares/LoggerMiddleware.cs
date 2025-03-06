@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 using IdentityService.Application.Interfaces.Services;
 
-namespace IdentityService.Api.Middlewares
+namespace IdentityService.API.Middlewares
 {
     public class LoggerMiddleware
     {

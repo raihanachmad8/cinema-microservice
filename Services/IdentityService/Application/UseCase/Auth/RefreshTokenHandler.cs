@@ -6,6 +6,7 @@ using IdentityService.Application.Interfaces.Services;
 using IdentityService.Domain.Enums;
 using Microsoft.AspNetCore.Authentication.BearerToken;
 using System.Security.Claims;
+using MovieService.Application.DTOs.Responses;
 
 namespace IdentityService.Application.UseCases
 {
@@ -22,16 +23,13 @@ namespace IdentityService.Application.UseCases
             _logger = logger;
         }
 
-        public async Task<AuthResponse> Handle(string refreshToken)
+        public async Task<Response<TokenResponse>> Handle(string refreshToken)
         {
             _logger.LogInformation("Processing token refresh for refresh token: {RefreshToken}", refreshToken);
             
             var tokenReponse = await _tokenService.RefreshToken(refreshToken);
 
-            return new AuthResponse
-            {
-                Data = tokenReponse,
-            };
+            return new Response<TokenResponse>().Ok(tokenReponse);
         }
     }
 }
