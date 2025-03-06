@@ -1,4 +1,5 @@
 using System.Net;
+using StudioService.Application.Interfaces.Services;
 using StudioService.Common.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,12 +8,12 @@ namespace StudioService.API.Middlewares;
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ILogger<ExceptionMiddleware> _logger;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+    public ExceptionMiddleware(RequestDelegate next, IServiceScopeFactory serviceScopeFactory)
     {
         _next = next;
-        _logger = logger;
+        _serviceScopeFactory = serviceScopeFactory;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -65,14 +66,14 @@ public class ExceptionMiddleware
 
         var title = statusCode switch
         {
-            HttpStatusCode.BadRequest => "Invalid argument or format.",
-            HttpStatusCode.Unauthorized => "Unauthorized access.",
-            HttpStatusCode.Conflict => "Conflict.",
-            HttpStatusCode.Forbidden => "Forbidden.",
-            HttpStatusCode.NotFound => "Resource not found.",
-            HttpStatusCode.InternalServerError => "Internal server error.",
-            HttpStatusCode.NotImplemented => "Not implemented.",
-            _ => "An error occurred while processing your request."
+            HttpStatusCode.BadRequest => "Invalid argument or format",
+            HttpStatusCode.Unauthorized => "Unauthorized access",
+            HttpStatusCode.Conflict => "Conflict",
+            HttpStatusCode.Forbidden => "Forbidden",
+            HttpStatusCode.NotFound => "Resource not found",
+            HttpStatusCode.InternalServerError => "Internal server error",
+            HttpStatusCode.NotImplemented => "Not implemented",
+            _ => "An error occurred while processing your request"
         };
 
         return HandleResponseAsync(context, statusCode, title, ex.Message);
@@ -80,7 +81,12 @@ public class ExceptionMiddleware
 
     private Task HandleResponseAsync(HttpContext context, HttpStatusCode statusCode, string title, string detail)
     {
-        _logger.LogWarning($"{title}: {context.Request.Path}");
+        // Resolve ISerilog<ExceptionMiddleware> from the scoped service provider
+        using (var scope = _serviceScopeFactory.CreateScope())
+        {
+            var loggerService = scope.ServiceProvider.GetRequiredService<ISerilog<ExceptionMiddleware>>();
+            loggerService.LogWarning($"{title}: {context.Request.Path}");
+        }
 
         var problemDetails = new ProblemDetails
         {

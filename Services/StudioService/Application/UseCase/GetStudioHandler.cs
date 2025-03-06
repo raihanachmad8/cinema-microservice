@@ -2,17 +2,18 @@
 using StudioService.Application.Interfaces.Repositories;
 using StudioService.Application.DTOs.Requests;
 using StudioService.Application.DTOs.Responses;
+using StudioService.Application.Interfaces.Services;
 
 namespace StudioService.Application.UseCases;
 
 public class GetStudiosHandler
 {
     private readonly IStudioRepository _studioRepository;
-    private readonly ILogger<GetStudiosHandler> _logger;
+    private readonly ISerilog<GetStudiosHandler> _logger;
     private readonly IMapper _mapper;
 
 
-    public GetStudiosHandler(IStudioRepository studioRepository, ILogger<GetStudiosHandler> logger,
+    public GetStudiosHandler(IStudioRepository studioRepository, ISerilog<GetStudiosHandler> logger,
         IMapper mapper)
     {
         _studioRepository = studioRepository;

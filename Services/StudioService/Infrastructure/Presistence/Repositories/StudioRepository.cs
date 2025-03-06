@@ -9,9 +9,9 @@ namespace StudioService.Infrastructure.Persistence.Repositories;
 public class StudioRepository : IStudioRepository
 {
     private readonly StudioDbContext _context;
-    private readonly ILoggerService<Studio> _logger;
+    private readonly ISerilog<Studio> _logger;
 
-    public StudioRepository(StudioDbContext context, ILoggerService<Studio> logger)
+    public StudioRepository(StudioDbContext context, ISerilog<Studio> logger)
     {
         _context = context;
         _logger = logger;
@@ -25,7 +25,7 @@ public class StudioRepository : IStudioRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error retrieving studio with ID {id}", ex);
+            _logger.LogError(ex, $"Error retrieving studio with ID {id}");
             throw;
         }
     }
@@ -38,7 +38,7 @@ public class StudioRepository : IStudioRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error retrieving studio with Name {name}", ex);
+            _logger.LogError(ex, $"Error retrieving studio with Name {name}");
             throw;
         }
     }
@@ -51,7 +51,7 @@ public class StudioRepository : IStudioRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError("Error retrieving all studios", ex);
+            _logger.LogError(ex, "Error retrieving all studios");
             throw;
         }
     }
@@ -68,7 +68,7 @@ public class StudioRepository : IStudioRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error searching studios with term '{searchTerm}'", ex);
+            _logger.LogError(ex, $"Error searching studios with term '{searchTerm}'");
             throw;
         }
     }
@@ -82,7 +82,7 @@ public class StudioRepository : IStudioRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError("Error adding a new studio", ex);
+            _logger.LogError(ex, "Error adding a new studio");
             throw;
         }
     }
@@ -96,7 +96,7 @@ public class StudioRepository : IStudioRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error updating studio with ID {studio.Id}", ex);
+            _logger.LogError(ex, $"Error updating studio with ID {studio.Id}");
             throw;
         }
     }
@@ -114,7 +114,7 @@ public class StudioRepository : IStudioRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error deleting studio with ID {id}", ex);
+            _logger.LogError(ex, $"Error deleting studio with ID {id}");
             throw;
         }
     }
@@ -151,7 +151,7 @@ public class StudioRepository : IStudioRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError("Error retrieving studios with search, order, and pagination parameters", ex);
+            _logger.LogError(ex, "Error retrieving studios with search, order, and pagination parameters");
             throw;
         }
     }

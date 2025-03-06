@@ -15,7 +15,7 @@ public class LoggerMiddleware
     public async Task InvokeAsync(HttpContext context)
     {
         // Resolve the ILoggerService from the service provider
-        var loggerService = context.RequestServices.GetRequiredService<ILoggerService<LoggerMiddleware>>();
+        var loggerService = context.RequestServices.GetRequiredService<ISerilog<LoggerMiddleware>>();
 
         var stopwatch = Stopwatch.StartNew();
         var request = context.Request;
@@ -31,7 +31,7 @@ public class LoggerMiddleware
         catch (Exception ex)
         {
             // Log any exceptions that happen during request processing
-            loggerService.LogError("An error occurred during request processing.", ex);
+            loggerService.LogError(ex, "An error occurred during request processing.");
             throw;
         }
         finally
