@@ -1,6 +1,5 @@
 using MovieService.Infrastructure.Extensions;
 using Microsoft.OpenApi.Models;
-using MovieService.Api.Middlewares;
 using MovieService.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
