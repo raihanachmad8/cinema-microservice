@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Models;
+using ScheduleService.API.Middlewares;
 using ScheduleService.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,12 +42,17 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+app.UseApplicationBuilderExtensions();
+
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<LoggerMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseRouting();

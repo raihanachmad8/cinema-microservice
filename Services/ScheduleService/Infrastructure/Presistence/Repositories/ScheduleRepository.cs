@@ -10,9 +10,9 @@ namespace ScheduleService.Infrastructure.Persistence.Repositories
     public class ScheduleRepository : IScheduleRepository
     {
         private readonly ScheduleDbContext _context; // Ganti dengan konteks database Anda
-        private readonly ILoggerService<Schedule> _logger;
+        private readonly ISerilog<Schedule> _logger;
 
-        public ScheduleRepository(ScheduleDbContext context, ILoggerService<Schedule> logger)
+        public ScheduleRepository(ScheduleDbContext context, ISerilog<Schedule> logger)
         {
             _context = context;
             _logger = logger;
@@ -26,7 +26,7 @@ namespace ScheduleService.Infrastructure.Persistence.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error retrieving schedule with ID {id}", ex);
+                _logger.LogError(ex, $"Error retrieving schedule with ID {id}");
                 throw;
             }
         }
@@ -48,7 +48,7 @@ namespace ScheduleService.Infrastructure.Persistence.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error retrieving schedules for studio {studioId} at {time}", ex);
+                _logger.LogError(ex, $"Error retrieving schedules for studio {studioId} at {time}");
                 throw;
             }
         }
@@ -62,7 +62,7 @@ namespace ScheduleService.Infrastructure.Persistence.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error adding a new schedule", ex);
+                _logger.LogError(ex, "Error adding a new schedule");
                 throw;
             }
         }
@@ -76,7 +76,7 @@ namespace ScheduleService.Infrastructure.Persistence.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error updating schedule with ID {schedule.Id}", ex);
+                _logger.LogError(ex, $"Error updating schedule with ID {schedule.Id}");
                 throw;
             }
         }
@@ -94,7 +94,7 @@ namespace ScheduleService.Infrastructure.Persistence.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting schedule with ID {id}", ex);
+                _logger.LogError(ex, $"Error deleting schedule with ID {id}");
                 throw;
             }
         }
@@ -110,7 +110,7 @@ namespace ScheduleService.Infrastructure.Persistence.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting schedules for movie with ID {movieId}", ex);
+                _logger.LogError(ex, $"Error deleting schedules for movie with ID {movieId}");
                 throw;
             }
         }
@@ -126,7 +126,7 @@ namespace ScheduleService.Infrastructure.Persistence.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error deleting schedules for studio with ID {studioId}", ex);
+                _logger.LogError(ex,$"Error deleting schedules for studio with ID {studioId}");
                 throw;
             }
         }
@@ -180,7 +180,7 @@ namespace ScheduleService.Infrastructure.Persistence.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error retrieving schedules with pagination parameters", ex);
+                _logger.LogError(ex,"Error retrieving schedules with pagination parameters");
                 throw;
             }
         }

@@ -11,6 +11,7 @@ public static class ServiceCollectionExtensions
             .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
             .AddAutoMapper(typeof(MappingProfileMapper))
             .AddAuthenticationExtensions(configuration)
+            .AddNats(configuration)
             .AddFluentValidationServices()
             .AddDatabase(configuration)
             .AddUseCases()
