@@ -12,7 +12,6 @@ public class GetMoviesHandler
     private readonly ISerilog<GetMoviesHandler> _logger;
     private readonly IMapper _mapper;
 
-
     public GetMoviesHandler(IMovieRepository MovieRepository, ISerilog<GetMoviesHandler> logger,
         IMapper mapper)
     {

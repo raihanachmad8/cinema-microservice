@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using MovieService.Appication.Events.Movie;
 using MovieService.Application.DTOs.Requests;
 using MovieService.Application.DTOs.Responses;
+using MovieService.Application.Interfaces.Messaging;
 using MovieService.Application.Interfaces.Repositories;
 using MovieService.Application.Interfaces.Services;
 using MovieService.Common.Exceptions;
@@ -13,12 +15,14 @@ public class UpdateMovieHandler
     private readonly IMovieRepository _movieRepository;
     private readonly ISerilog<UpdateMovieHandler> _logger;
     private readonly IMapper _mapper;
+    private readonly INatsPublisher _natsPublisher;
 
-    public UpdateMovieHandler(IMovieRepository MovieRepository, ISerilog<UpdateMovieHandler> logger, IMapper mapper)
+    public UpdateMovieHandler(IMovieRepository MovieRepository, ISerilog<UpdateMovieHandler> logger, IMapper mapper, INatsPublisher natsPublisher)
     {
         _movieRepository = MovieRepository;
         _logger = logger;
         _mapper = mapper;
+        _natsPublisher = natsPublisher;
     }
 
     public async Task<Response<MovieResponse>> Handle(int id, MovieRequest request)
@@ -50,6 +54,7 @@ public class UpdateMovieHandler
         Movie.UpdatedAt = DateTime.UtcNow;
 
         await _movieRepository.UpdateAsync(Movie);
+        await _natsPublisher.PublishAsync("movie.updated", _mapper.Map<MovieUpdatedEvent>(Movie));
 
         return new Response<MovieResponse>().Ok(_mapper.Map<MovieResponse>(Movie), "Movie updated");
     }

@@ -42,6 +42,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+app.UseApplicationBuilderExtensions();
 
 if (app.Environment.IsDevelopment())
 {
