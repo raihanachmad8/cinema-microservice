@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using StudioService.Appication.Events.User;
 using StudioService.Application.DTOs.Requests;
 using StudioService.Application.DTOs.Responses;
+using StudioService.Application.Interfaces.Messaging;
 using StudioService.Application.Interfaces.Repositories;
 using StudioService.Application.Interfaces.Services;
 using StudioService.Common.Exceptions;
@@ -12,12 +14,14 @@ public class UpdateStudioHandler
     private readonly IStudioRepository _studioRepository;
     private readonly ISerilog<UpdateStudioHandler> _logger;
     private readonly IMapper _mapper;
+    private readonly INatsPublisher _natsPublisher;
 
-    public UpdateStudioHandler(IStudioRepository studioRepository, ISerilog<UpdateStudioHandler> logger, IMapper mapper)
+    public UpdateStudioHandler(IStudioRepository studioRepository, ISerilog<UpdateStudioHandler> logger, IMapper mapper, INatsPublisher natsPublisher)
     {
         _studioRepository = studioRepository;
         _logger = logger;
         _mapper = mapper;
+        _natsPublisher = natsPublisher;
     }
 
     public async Task<Response<StudioResponse>> Handle(int id, StudioRequest request)
@@ -44,6 +48,7 @@ public class UpdateStudioHandler
         studio.UpdatedAt = DateTime.UtcNow;
 
         await _studioRepository.UpdateAsync(studio);
+        await _natsPublisher.PublishAsync("studio.updated", _mapper.Map<StudioUpdatedEvent>(studio));
 
         return new Response<StudioResponse>().Ok(_mapper.Map<StudioResponse>(studio), "Studio updated");
     }
