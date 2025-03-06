@@ -11,7 +11,8 @@ namespace ScheduleService.Application.UseCases
         private readonly ILogger<GetSchedulesHandler> _logger;
         private readonly IMapper _mapper;
 
-        public GetSchedulesHandler(IScheduleRepository scheduleRepository, ILogger<GetSchedulesHandler> logger, IMapper mapper)
+        public GetSchedulesHandler(IScheduleRepository scheduleRepository, ILogger<GetSchedulesHandler> logger,
+            IMapper mapper)
         {
             _scheduleRepository = scheduleRepository;
             _logger = logger;
@@ -25,16 +26,11 @@ namespace ScheduleService.Application.UseCases
                 queryParams.MovieId, queryParams.StudioId, queryParams.OrderBy, queryParams.Sort, queryParams.Page,
                 queryParams.PageSize);
 
-            Guid? movieId = string.IsNullOrEmpty(queryParams.MovieId) ? (Guid?)null : Guid.Parse(queryParams.MovieId);
-            Guid? studioId = string.IsNullOrEmpty(queryParams.StudioId)
-                ? (Guid?)null
-                : Guid.Parse(queryParams.StudioId);
-            var schedules = await _scheduleRepository.GetSchedulesAsync(movieId,
-                studioId, queryParams.OrderBy, queryParams.Sort, queryParams.Page,
+            var schedules = await _scheduleRepository.GetSchedulesAsync(queryParams.MovieId,
+                queryParams.StudioId, queryParams.OrderBy, queryParams.Sort, queryParams.Page,
                 queryParams.PageSize);
 
 
-            
             return new Response<IEnumerable<ScheduleResponse>>().Ok(
                 _mapper.Map<IEnumerable<ScheduleResponse>>(schedules.Schedules), "List of Schedules",
                 schedules.Metadata);

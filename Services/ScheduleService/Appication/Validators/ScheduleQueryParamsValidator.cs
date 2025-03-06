@@ -8,12 +8,12 @@ namespace ScheduleService.Application.Validators
         public ScheduleQueryParamsValidator()
         {
             RuleFor(x => x.MovieId)
-                .Must(BeAValidGuid).WithMessage("MovieId must be a valid GUID.")
-                .When(x => !string.IsNullOrEmpty(x.MovieId)); 
+                .Must(BeAValidPositiveInteger).WithMessage("MovieId must be a positive integer.")
+                .When(x => x.MovieId.HasValue); // Validate only if MovieId is provided
 
             RuleFor(x => x.StudioId)
-                .Must(BeAValidGuid).WithMessage("StudioId must be a valid GUID.")
-                .When(x => !string.IsNullOrEmpty(x.StudioId));
+                .Must(BeAValidPositiveInteger).WithMessage("StudioId must be a positive integer.")
+                .When(x => x.StudioId.HasValue); // Validate only if StudioId is provided
 
             RuleFor(x => x.OrderBy)
                 .Must(orderBy => string.IsNullOrEmpty(orderBy) || IsValidColumn(orderBy))
@@ -31,9 +31,9 @@ namespace ScheduleService.Application.Validators
                 .LessThanOrEqualTo(100).WithMessage("Page size must not exceed 100.");
         }
 
-        private bool BeAValidGuid(string? guid)
+        private bool BeAValidPositiveInteger(int? value)
         {
-            return string.IsNullOrEmpty(guid) || Guid.TryParse(guid, out _);
+            return !value.HasValue || (value > 0);
         }
 
         private bool IsValidColumn(string columnName)

@@ -65,8 +65,8 @@ public class ScheduleDbContext : DbContext
             new Schedule
             {
                 Id = 1,
-                StudioId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
-                MovieId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                StudioId = 1,
+                MovieId = 1,
                 StartDatetime = DateTime.Parse("2025-03-03 10:00:00"),
                 EndDatetime = DateTime.Parse("2025-03-03 12:00:00"),
                 TicketPrice = 35000,
@@ -76,8 +76,8 @@ public class ScheduleDbContext : DbContext
             new Schedule
             {
                 Id = 2,
-                StudioId = Guid.Parse("22222222-2222-2222-2222-222222222222"),
-                MovieId = Guid.Parse("22222222-2222-2222-2222-222222222222"),
+                StudioId = 2,
+                MovieId = 2,
                 StartDatetime = DateTime.Parse("2025-03-03 11:00:00"),
                 EndDatetime = DateTime.Parse("2025-03-03 13:20:00"),
                 TicketPrice = 30000,
@@ -87,8 +87,8 @@ public class ScheduleDbContext : DbContext
             new Schedule
             {
                 Id = 3,
-                StudioId = Guid.Parse("22222222-2222-2222-2222-222222222222"),
-                MovieId = Guid.Parse("33333333-3333-3333-3333-333333333333"),
+                StudioId = 2,
+                MovieId = 3,
                 StartDatetime = DateTime.Parse("2025-03-03 13:00:00"),
                 EndDatetime = DateTime.Parse("2025-03-03 15:30:00"),
                 TicketPrice = 40000,
@@ -98,8 +98,8 @@ public class ScheduleDbContext : DbContext
             new Schedule
             {
                 Id = 4,
-                StudioId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
-                MovieId = Guid.Parse("44444444-4444-4444-4444-444444444444"),
+                StudioId = 1,
+                MovieId = 4,
                 StartDatetime = DateTime.Parse("2025-03-03 12:00:00"),
                 EndDatetime = DateTime.Parse("2025-03-03 14:10:00"),
                 TicketPrice = 35000,
@@ -109,8 +109,8 @@ public class ScheduleDbContext : DbContext
             new Schedule()
             {
                 Id = 5,
-                StudioId = Guid.Parse("33333333-3333-3333-3333-333333333333"),
-                MovieId = Guid.Parse("66666666-6666-6666-6666-666666666666"),
+                StudioId = 3,
+                MovieId = 6,
                 StartDatetime = DateTime.Parse("2025-03-03 14:00:00"),
                 EndDatetime = DateTime.Parse("2025-03-03 15:50:00"),
                 TicketPrice = 35000,

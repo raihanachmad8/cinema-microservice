@@ -2,8 +2,8 @@
 
 public record ScheduleQueryParams
 {
-    public string? MovieId { get; set; } = string.Empty;
-    public string? StudioId { get; set; } = string.Empty;
+    public int? MovieId { get; set; }
+    public int? StudioId { get; set; }
     public string? OrderBy { get; set; }
     public string? Sort { get; set; } = "asc";
     public int Page { get; set; } = 1;

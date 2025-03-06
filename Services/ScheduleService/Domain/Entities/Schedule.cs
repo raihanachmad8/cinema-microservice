@@ -10,10 +10,10 @@ namespace ScheduleService.Domain.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public Guid MovieId { get; set; }
+        public int MovieId { get; set; }
 
         [Required]
-        public Guid StudioId { get; set; } 
+        public int StudioId { get; set; } 
 
         [Required]
         public DateTime StartDatetime { get; set; }

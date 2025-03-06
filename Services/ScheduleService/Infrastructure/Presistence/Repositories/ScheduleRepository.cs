@@ -33,7 +33,7 @@ namespace ScheduleService.Infrastructure.Persistence.Repositories
 
         public async Task<IEnumerable<Schedule>> GetAllAsync() => await _context.Schedules.ToListAsync();
 
-        public async Task<IEnumerable<Schedule>> GetByShowTimeAsync(DateTime time, Guid studioId, int duration)
+        public async Task<IEnumerable<Schedule>> GetByShowTimeAsync(DateTime time, int studioId, int duration)
         {
             try
             {
@@ -41,9 +41,9 @@ namespace ScheduleService.Infrastructure.Persistence.Repositories
                 var endTime = time.AddMinutes(duration);
 
                 return await _context.Schedules
-                    .Where(s => s.StudioId == studioId && 
-                                s.StartDatetime < endTime && // Jadwal yang ada mulai sebelum jadwal baru selesai
-                                s.EndDatetime > startTime)   // Jadwal yang ada selesai setelah jadwal baru mulai
+                    .Where(s => s.StudioId == studioId &&
+                                s.StartDatetime < endTime &&
+                                s.EndDatetime > startTime)
                     .ToListAsync();
             }
             catch (Exception ex)
@@ -99,7 +99,7 @@ namespace ScheduleService.Infrastructure.Persistence.Repositories
             }
         }
 
-        public async Task DeleteSchedulesByMovieIdAsync(Guid movieId)
+        public async Task DeleteSchedulesByMovieIdAsync(int movieId)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace ScheduleService.Infrastructure.Persistence.Repositories
             }
         }
 
-        public async Task DeleteSchedulesByStudioIdAsync(Guid studioId)
+        public async Task DeleteSchedulesByStudioIdAsync(int studioId)
         {
             try
             {
@@ -132,13 +132,12 @@ namespace ScheduleService.Infrastructure.Persistence.Repositories
         }
 
 
-        public async Task<SchedulePaginateResponse> GetSchedulesAsync(Guid? movieId, Guid? studioId, string orderBy,
+        public async Task<SchedulePaginateResponse> GetSchedulesAsync(int? movieId, int? studioId, string orderBy,
             string? sort, int page, int pageSize)
         {
             try
             {
                 var query = _context.Schedules.AsQueryable();
-                Console.WriteLine(movieId != Guid.Empty);
                 if (movieId.HasValue)
                 {
                     query = query.Where(s => s.MovieId == movieId.Value);
