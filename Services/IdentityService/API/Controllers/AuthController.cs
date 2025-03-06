@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace IdentityService.API.Controllers;
 
-[Route("auth")]
+[Route("api/auth")]
 [ApiController]
 public class AuthController : ControllerBase
 {

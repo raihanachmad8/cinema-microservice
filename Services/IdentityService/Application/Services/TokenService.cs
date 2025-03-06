@@ -18,7 +18,6 @@ public class TokenService : ITokenService
     private readonly ILoggerService<TokenService> _logger;
 
     public TokenService(
-        IConnectionMultiplexer redis,
         IConfiguration configuration,
         IJwtService jwtService,
         IUserRepository userRepository,
@@ -81,7 +80,7 @@ public class TokenService : ITokenService
 
         ValidateToken(tokenData!);
 
-        var user = await _userRepository.GetByIdAsync(Guid.Parse(id));
+        var user = await _userRepository.GetByIdAsync(int.Parse(id));
         if (user == null)
         {
             _logger.LogWarning("Invalid refresh token payload.");
