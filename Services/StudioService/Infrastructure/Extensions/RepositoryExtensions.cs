@@ -1,7 +1,6 @@
 using StudioService.Application.Interfaces.Repositories;
 using StudioService.Infrastructure.Persistence.Repositories;
 
-namespace StudioService.Infrastructure.Extensions;
 
 public static class RepositoryExtensions
 {
