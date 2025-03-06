@@ -4,8 +4,9 @@ namespace MovieService.Application.DTOs.Responses;
 
 public record Response<T>
 {
-    public string Status { get; set; } = "200";
-    public string Message { get; set; } = "OK";
+    public int Status { get; set; } = 200;
+    public string Title { get; set; } = string.Empty;
+    public string Detail { get; set; } = string.Empty;
     public T? Data { get; set; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -15,8 +16,8 @@ public record Response<T>
     {
         return new Response<T>
         {
-            Status = "200",
-            Message = message,
+            Title = "Ok",
+            Detail = message,
             Data = data,
             Metadata = metadata
         };
@@ -26,8 +27,8 @@ public record Response<T>
     {
         return new Response<T>
         {
-            Status = "201",
-            Message = message,
+            Title = "Created",
+            Detail = message,
             Data = data
         };
     }

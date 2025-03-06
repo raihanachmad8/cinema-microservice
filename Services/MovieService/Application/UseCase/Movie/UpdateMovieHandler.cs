@@ -33,7 +33,7 @@ public class UpdateMovieHandler
         }
 
         var existingName = await _movieRepository.GetByTitleAsync(request.Title);
-        if (existingName != null)
+        if (existingName != null && existingName.Id != id)
         {
             _logger.LogWarning("Title {Title} already exists", request.Title);
             throw new ConflictException("Name is already taken.");
