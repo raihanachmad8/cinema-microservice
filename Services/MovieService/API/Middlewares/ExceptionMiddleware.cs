@@ -1,19 +1,19 @@
 using System.Net;
+using MovieService.Application.Interfaces.Services;
 using MovieService.Common.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace  MovieService.API.Middlewares;
+namespace MovieService.API.Middlewares;
+
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly ILogger<ExceptionMiddleware> _logger;
-    private readonly IWebHostEnvironment _env;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger, IWebHostEnvironment env)
+    public ExceptionMiddleware(RequestDelegate next, IServiceScopeFactory serviceScopeFactory)
     {
         _next = next;
-        _logger = logger;
-        _env = env;
+        _serviceScopeFactory = serviceScopeFactory;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -34,13 +34,16 @@ public class ExceptionMiddleware
         switch (context.Response.StatusCode)
         {
             case (int)HttpStatusCode.NotFound:
-                await HandleResponseAsync(context, HttpStatusCode.NotFound, "Resource Not Found", "The requested resource was not found.");
+                await HandleResponseAsync(context, HttpStatusCode.NotFound, "Resource Not Found",
+                    "The requested resource was not found.");
                 break;
             case (int)HttpStatusCode.Forbidden:
-                await HandleResponseAsync(context, HttpStatusCode.Forbidden, "Forbidden", "You do not have permission to access this resource.");
+                await HandleResponseAsync(context, HttpStatusCode.Forbidden, "Forbidden",
+                    "You do not have permission to access this resource.");
                 break;
             case (int)HttpStatusCode.MethodNotAllowed:
-                await HandleResponseAsync(context, HttpStatusCode.MethodNotAllowed, "Method Not Allowed", "This HTTP method is not allowed for the requested resource.");
+                await HandleResponseAsync(context, HttpStatusCode.MethodNotAllowed, "Method Not Allowed",
+                    "This HTTP method is not allowed for the requested resource.");
                 break;
         }
     }
@@ -53,7 +56,6 @@ public class ExceptionMiddleware
             InvalidOperationException => HttpStatusCode.BadRequest,
             UnauthorizedAccessException => HttpStatusCode.Unauthorized,
             ConflictException => HttpStatusCode.Conflict,
-            ForbiddenException => HttpStatusCode.Forbidden,
             BadHttpRequestException => HttpStatusCode.BadRequest,
             KeyNotFoundException => HttpStatusCode.NotFound,
             FormatException => HttpStatusCode.BadRequest,
@@ -64,14 +66,14 @@ public class ExceptionMiddleware
 
         var title = statusCode switch
         {
-            HttpStatusCode.BadRequest => "Invalid argument or format.",
-            HttpStatusCode.Unauthorized => "Unauthorized access.",
-            HttpStatusCode.Conflict => "Conflict.",
-            HttpStatusCode.Forbidden => "Forbidden.",
-            HttpStatusCode.NotFound => "Resource not found.",
-            HttpStatusCode.InternalServerError => "Internal server error.",
-            HttpStatusCode.NotImplemented => "Not implemented.",
-            _ => "An error occurred while processing your request."
+            HttpStatusCode.BadRequest => "Invalid argument or format",
+            HttpStatusCode.Unauthorized => "Unauthorized access",
+            HttpStatusCode.Conflict => "Conflict",
+            HttpStatusCode.Forbidden => "Forbidden",
+            HttpStatusCode.NotFound => "Resource not found",
+            HttpStatusCode.InternalServerError => "Internal server error",
+            HttpStatusCode.NotImplemented => "Not implemented",
+            _ => "An error occurred while processing your request"
         };
 
         return HandleResponseAsync(context, statusCode, title, ex.Message);
@@ -79,7 +81,12 @@ public class ExceptionMiddleware
 
     private Task HandleResponseAsync(HttpContext context, HttpStatusCode statusCode, string title, string detail)
     {
-        _logger.LogWarning($"{title}: {context.Request.Path}");
+        // Resolve ISerilog<ExceptionMiddleware> from the scoped service provider
+        using (var scope = _serviceScopeFactory.CreateScope())
+        {
+            var loggerService = scope.ServiceProvider.GetRequiredService<ISerilog<ExceptionMiddleware>>();
+            loggerService.LogWarning($"{title}: {context.Request.Path}");
+        }
 
         var problemDetails = new ProblemDetails
         {

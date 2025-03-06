@@ -2,6 +2,7 @@
 using MovieService.Application.DTOs.Requests;
 using MovieService.Application.DTOs.Responses;
 using MovieService.Application.Interfaces.Repositories;
+using MovieService.Application.Interfaces.Services;
 using MovieService.Common.Exceptions;
 using MovieService.Domain.Enums;
 
@@ -10,10 +11,10 @@ namespace MovieService.Application.UseCases;
 public class UpdateMovieHandler
 {
     private readonly IMovieRepository _movieRepository;
-    private readonly ILogger<UpdateMovieHandler> _logger;
+    private readonly ISerilog<UpdateMovieHandler> _logger;
     private readonly IMapper _mapper;
 
-    public UpdateMovieHandler(IMovieRepository MovieRepository, ILogger<UpdateMovieHandler> logger, IMapper mapper)
+    public UpdateMovieHandler(IMovieRepository MovieRepository, ISerilog<UpdateMovieHandler> logger, IMapper mapper)
     {
         _movieRepository = MovieRepository;
         _logger = logger;

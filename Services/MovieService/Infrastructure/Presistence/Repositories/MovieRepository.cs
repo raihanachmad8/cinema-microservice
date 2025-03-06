@@ -10,9 +10,9 @@ namespace MovieService.Infrastructure.Persistence.Repositories;
 public class MovieRepository : IMovieRepository
 {
     private readonly MovieDbContext _context;
-    private readonly ILoggerService<Movie> _logger;
+    private readonly ISerilog<Movie> _logger;
 
-    public MovieRepository(MovieDbContext context, ILoggerService<Movie> logger)
+    public MovieRepository(MovieDbContext context, ISerilog<Movie> logger)
     {
         _context = context;
         _logger = logger;
@@ -26,7 +26,7 @@ public class MovieRepository : IMovieRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error retrieving movie with ID {id}", ex);
+            _logger.LogError(ex, $"Error retrieving movie with ID {id}");
             throw;
         }
     }
@@ -39,7 +39,7 @@ public class MovieRepository : IMovieRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error retrieving movie with Title {title}", ex);
+            _logger.LogError(ex, $"Error retrieving movie with Title {title}");
             throw;
         }
     }
@@ -52,7 +52,7 @@ public class MovieRepository : IMovieRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error retrieving movie with Genre {genre}", ex);
+            _logger.LogError(ex, $"Error retrieving movie with Genre {genre}");
             throw;
         }
     }
@@ -66,7 +66,7 @@ public class MovieRepository : IMovieRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError("Error retrieving all movies", ex);
+            _logger.LogError(ex, "Error retrieving all movies");
             throw;
         }
     }
@@ -83,7 +83,7 @@ public class MovieRepository : IMovieRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error searching movies with term '{searchTerm}'", ex);
+            _logger.LogError(ex, $"Error searching movies with term '{searchTerm}'");
             throw;
         }
     }
@@ -97,7 +97,7 @@ public class MovieRepository : IMovieRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError("Error adding a new movie", ex);
+            _logger.LogError(ex, "Error adding a new movie");
             throw;
         }
     }
@@ -111,7 +111,7 @@ public class MovieRepository : IMovieRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error updating movie with ID {movie.Id}", ex);
+            _logger.LogError(ex, $"Error updating movie with ID {movie.Id}");
             throw;
         }
     }
@@ -129,7 +129,7 @@ public class MovieRepository : IMovieRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Error deleting movie with ID {id}", ex);
+            _logger.LogError(ex,$"Error deleting movie with ID {id}");
             throw;
         }
     }
@@ -166,7 +166,7 @@ public class MovieRepository : IMovieRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError("Error retrieving movies with search, order, and pagination parameters", ex);
+            _logger.LogError(ex, "Error retrieving movies with search, order, and pagination parameters");
             throw;
         }
     }

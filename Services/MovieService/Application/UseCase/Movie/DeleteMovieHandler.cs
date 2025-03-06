@@ -1,13 +1,14 @@
 ﻿using MovieService.Application.Interfaces.Repositories;
+using MovieService.Application.Interfaces.Services;
 
 namespace MovieService.Application.UseCases;
 
 public class DeleteMovieHandler
 {
     private readonly IMovieRepository _movieRepository;
-    private readonly ILogger<DeleteMovieHandler> _logger;
+    private readonly ISerilog<DeleteMovieHandler> _logger;
 
-    public DeleteMovieHandler(IMovieRepository MovieRepository, ILogger<DeleteMovieHandler> logger)
+    public DeleteMovieHandler(IMovieRepository MovieRepository, ISerilog<DeleteMovieHandler> logger)
     {
         _movieRepository = MovieRepository;
         _logger = logger;

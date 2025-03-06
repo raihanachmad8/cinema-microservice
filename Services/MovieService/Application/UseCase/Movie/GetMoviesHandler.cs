@@ -2,17 +2,18 @@
 using MovieService.Application.Interfaces.Repositories;
 using MovieService.Application.DTOs.Requests;
 using MovieService.Application.DTOs.Responses;
+using MovieService.Application.Interfaces.Services;
 
 namespace MovieService.Application.UseCases;
 
 public class GetMoviesHandler
 {
     private readonly IMovieRepository _movieRepository;
-    private readonly ILogger<GetMoviesHandler> _logger;
+    private readonly ISerilog<GetMoviesHandler> _logger;
     private readonly IMapper _mapper;
 
 
-    public GetMoviesHandler(IMovieRepository MovieRepository, ILogger<GetMoviesHandler> logger,
+    public GetMoviesHandler(IMovieRepository MovieRepository, ISerilog<GetMoviesHandler> logger,
         IMapper mapper)
     {
         _movieRepository = MovieRepository;
