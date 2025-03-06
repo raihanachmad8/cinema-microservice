@@ -12,7 +12,7 @@ using MovieService.Infrastructure.Persistence;
 namespace MovieService.Migrations
 {
     [DbContext(typeof(MovieDbContext))]
-    [Migration("20250304180200_InitCreate")]
+    [Migration("20250306153238_InitCreate")]
     partial class InitCreate
     {
         /// <inheritdoc />
@@ -27,9 +27,11 @@ namespace MovieService.Migrations
 
             modelBuilder.Entity("MovieService.Domain.Entities.Movie", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2")

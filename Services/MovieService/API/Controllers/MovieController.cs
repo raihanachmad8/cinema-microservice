@@ -6,9 +6,8 @@ using MovieService.Application.UseCases;
 
 namespace MovieService.API.Controllers;
 
-[Route("api/Movies")]
+[Route("api/movies")]
 [ApiController]
-[Authorize(Roles = "Admin")]
 public class MovieController : ControllerBase
 {
     private readonly CreateMovieHandler _createMovieHandler;
@@ -60,6 +59,7 @@ public class MovieController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]    
     public async Task<IActionResult> Create([FromBody] MovieRequest request)
     {
         await _movieRequestValidator.ValidateAsync(request);
@@ -76,7 +76,8 @@ public class MovieController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] MovieRequest request)
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Update([FromRoute]int id, [FromBody] MovieRequest request)
     {
         await _movieRequestValidator.ValidateAsync(request);
         var result = await _updateMovieHandler.Handle(id, request);
@@ -84,7 +85,8 @@ public class MovieController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(Guid id)
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Delete([FromRoute]int id)
     {
         await _deleteMovieHandler.Handle(id);
         return NoContent();
