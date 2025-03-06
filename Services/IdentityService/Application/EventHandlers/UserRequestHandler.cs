@@ -1,4 +1,4 @@
-using IdentityService.Appication.Events.Movie;
+using IdentityService.Appication.Events.User;
 using IdentityService.Application.Events.Requests;
 using IdentityService.Application.Events.Responses;
 using IdentityService.Application.Interfaces.Messaging;

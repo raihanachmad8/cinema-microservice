@@ -1,4 +1,4 @@
-﻿namespace IdentityService.Appication.Events.Movie;
+﻿namespace IdentityService.Appication.Events.User;
 
 public class UserDeletedEvent
 {

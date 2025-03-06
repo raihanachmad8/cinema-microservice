@@ -1,6 +1,6 @@
-﻿namespace IdentityService.Appication.Events.Movie;
+﻿namespace IdentityService.Appication.Events.User;
 
-public class UserUpdatedEvent
+public class UserCreatedEvent
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
@@ -8,5 +8,4 @@ public class UserUpdatedEvent
     public string Role { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
-    
 }

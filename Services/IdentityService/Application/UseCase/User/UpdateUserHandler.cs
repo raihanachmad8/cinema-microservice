@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using IdentityService.Appication.Events.Movie;
+using IdentityService.Appication.Events.User;
 using IdentityService.Application.DTOs.Requests;
 using IdentityService.Application.DTOs.Responses;
 using IdentityService.Application.Interfaces.Messaging;

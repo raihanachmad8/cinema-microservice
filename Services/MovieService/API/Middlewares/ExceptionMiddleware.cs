@@ -2,17 +2,18 @@ using System.Net;
 using MovieService.Common.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MovieService.API.Middlewares;
-
+namespace  MovieService.API.Middlewares;
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly ILogger<ExceptionMiddleware> _logger;
+    private readonly IWebHostEnvironment _env;
 
-    public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+    public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger, IWebHostEnvironment env)
     {
         _next = next;
         _logger = logger;
+        _env = env;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -33,16 +34,13 @@ public class ExceptionMiddleware
         switch (context.Response.StatusCode)
         {
             case (int)HttpStatusCode.NotFound:
-                await HandleResponseAsync(context, HttpStatusCode.NotFound, "Resource Not Found",
-                    "The requested resource was not found.");
+                await HandleResponseAsync(context, HttpStatusCode.NotFound, "Resource Not Found", "The requested resource was not found.");
                 break;
             case (int)HttpStatusCode.Forbidden:
-                await HandleResponseAsync(context, HttpStatusCode.Forbidden, "Forbidden",
-                    "You do not have permission to access this resource.");
+                await HandleResponseAsync(context, HttpStatusCode.Forbidden, "Forbidden", "You do not have permission to access this resource.");
                 break;
             case (int)HttpStatusCode.MethodNotAllowed:
-                await HandleResponseAsync(context, HttpStatusCode.MethodNotAllowed, "Method Not Allowed",
-                    "This HTTP method is not allowed for the requested resource.");
+                await HandleResponseAsync(context, HttpStatusCode.MethodNotAllowed, "Method Not Allowed", "This HTTP method is not allowed for the requested resource.");
                 break;
         }
     }
@@ -55,6 +53,7 @@ public class ExceptionMiddleware
             InvalidOperationException => HttpStatusCode.BadRequest,
             UnauthorizedAccessException => HttpStatusCode.Unauthorized,
             ConflictException => HttpStatusCode.Conflict,
+            ForbiddenException => HttpStatusCode.Forbidden,
             BadHttpRequestException => HttpStatusCode.BadRequest,
             KeyNotFoundException => HttpStatusCode.NotFound,
             FormatException => HttpStatusCode.BadRequest,

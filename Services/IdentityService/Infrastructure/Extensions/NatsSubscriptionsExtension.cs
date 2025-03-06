@@ -7,8 +7,8 @@ namespace IdentityService.Infrastructure.Extensions
         public static void UseNatsSubscriptions(this IApplicationBuilder app)
         {
             using var scope = app.ApplicationServices.CreateScope();
-            var movieRequestHandler = scope.ServiceProvider.GetRequiredService<UserRequestHandler>();
-            movieRequestHandler.RegisterSubscribers();
+            var userRequestHandler = scope.ServiceProvider.GetRequiredService<UserRequestHandler>();
+            userRequestHandler.RegisterSubscribers();
         }
     }
 }
