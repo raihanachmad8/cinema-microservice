@@ -18,7 +18,7 @@ public class MovieRepository : IMovieRepository
         _logger = logger;
     }
 
-    public async Task<Movie?> GetByIdAsync(Guid id)
+    public async Task<Movie?> GetByIdAsync(int id)
     {
         try
         {
@@ -116,7 +116,7 @@ public class MovieRepository : IMovieRepository
         }
     }
 
-    public async Task DeleteAsync(Guid id)
+    public async Task DeleteAsync(int id)
     {
         try
         {

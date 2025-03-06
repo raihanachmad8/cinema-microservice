@@ -20,7 +20,7 @@ public class UpdateMovieHandler
         _mapper = mapper;
     }
 
-    public async Task<Response<MovieResponse>> Handle(Guid id, MovieRequest request)
+    public async Task<Response<MovieResponse>> Handle(int id, MovieRequest request)
     {
         _logger.LogInformation("Updating Movie with ID: {Id}", id);
 
