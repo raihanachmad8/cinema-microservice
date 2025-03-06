@@ -1,4 +1,5 @@
-﻿using IdentityService.Infrastructure.Messaging;
+﻿using IdentityService.Application.EventHandlers;
+using IdentityService.Infrastructure.Messaging;
 
 namespace IdentityService.Infrastructure.Extensions
 {

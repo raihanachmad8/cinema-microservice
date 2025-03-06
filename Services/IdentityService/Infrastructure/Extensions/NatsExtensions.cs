@@ -1,4 +1,5 @@
-﻿using NATS.Client;
+﻿using IdentityService.Application.EventHandlers;
+using NATS.Client;
 using IdentityService.Application.Interfaces.Messaging;
 using IdentityService.Infrastructure.Messaging;
 

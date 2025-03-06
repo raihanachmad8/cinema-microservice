@@ -6,7 +6,7 @@ using IdentityService.Application.Interfaces.Messaging;
 using IdentityService.Application.Interfaces.Repositories;
 using IdentityService.Application.Interfaces.Services;
 
-namespace IdentityService.Application.UseCases;
+namespace IdentityService.Application.UseCase.Users;
 
 public class UpdateUserHandler
 {
@@ -23,7 +23,7 @@ public class UpdateUserHandler
         _natsPublisher = natsPublisher;
     }
 
-    public async Task<Response<UserResponse>> Handle(int userId, UpdateUserRequest request)
+    public async Task<Response<UserResponse?>> Handle(int userId, UpdateUserRequest request)
     {
         _logger.LogInformation("Updating user with ID: {UserId}", userId);
 

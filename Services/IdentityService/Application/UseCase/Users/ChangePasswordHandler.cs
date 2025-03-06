@@ -4,7 +4,7 @@ using IdentityService.Application.Interfaces.Repositories;
 using IdentityService.Application.Interfaces.Security;
 using IdentityService.Application.Interfaces.Services;
 
-namespace IdentityService.Application.UseCases;
+namespace IdentityService.Application.UseCase.Users;
 
 public class ChangePasswordHandler
 {
@@ -43,6 +43,6 @@ public class ChangePasswordHandler
         await _userRepository.UpdateAsync(user);
         _logger.LogInformation("Password for user with ID {UserId} changed successfully.", userId);
 
-        return new Response<string>().Ok(null, "Password changed successfully.");
+        return new Response<string>().Ok("", "Password changed successfully.");
     }
 }
