@@ -5,7 +5,8 @@ namespace MovieService.Application.DTOs.Responses;
 public record Response<T>
 {
     public string Status { get; set; } = "200";
-    public string Message { get; set; } = "OK";
+    public string Title { get; set; } = string.Empty;
+    public string Detail { get; set; } = string.Empty;
     public T? Data { get; set; }
 
 
@@ -14,8 +15,9 @@ public record Response<T>
         return new Response<T>
         {
             Status = "200",
-            Message = message,
-            Data = data,
+            Title = "Ok",
+            Detail = message,
+            Data = data
         };
     }
 
@@ -24,7 +26,8 @@ public record Response<T>
         return new Response<T>
         {
             Status = "201",
-            Message = message,
+            Title = "Created",
+            Detail = message,
             Data = data
         };
     }

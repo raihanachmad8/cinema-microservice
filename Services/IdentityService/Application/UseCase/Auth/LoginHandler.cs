@@ -7,50 +7,47 @@ using IdentityService.Domain.Enums;
 using Microsoft.AspNetCore.Authentication.BearerToken;
 using MovieService.Application.DTOs.Responses;
 
-namespace IdentityService.Application.UseCases
+namespace IdentityService.Application.UseCases;
+
+public class LoginHandler
 {
-    public class LoginHandler
+    private readonly IUserRepository _userRepository;
+    private readonly ICryptographyService _cryptoService;
+    private readonly IConfiguration _configuration;
+    private readonly ITokenService _tokenService;
+    private readonly ILogger<LoginHandler> _logger;
+
+
+    public LoginHandler(
+        IUserRepository userRepository,
+        ITokenService tokenService,
+        IConfiguration configuration,
+        IJwtService jwtService,
+        ICryptographyService cryptoService,
+        ILogger<LoginHandler> logger)
     {
-        private readonly IUserRepository _userRepository;
-        private readonly ICryptographyService _cryptoService;
-        private readonly IConfiguration _configuration;
-        private readonly ITokenService _tokenService;
-        private readonly ILogger<LoginHandler> _logger;
-        
-
-        public LoginHandler(
-            IUserRepository userRepository,
-            ITokenService tokenService,
-            IConfiguration configuration,
-            IJwtService jwtService,
-            ICryptographyService cryptoService,
-            ILogger<LoginHandler> logger)
-        {
-            _userRepository = userRepository;
-            _tokenService = tokenService;
-            _configuration = configuration;
-            _cryptoService = cryptoService;
-            _logger = logger;
-        }
-
-        public async Task<Response<TokenResponse>> Handle(LoginRequest request)
-        {
-            _logger.LogInformation("Processing login request for email: {Email}", request.Email);
-
-            var user = await _userRepository.GetByEmailAsync(request.Email);
-            if (user == null || !_cryptoService.Verify(user.Password!, request.Password))
-            {
-                _logger.LogWarning("Login failed: Invalid email or password for email: {Email}", request.Email);
-                throw new BadHttpRequestException("Invalid email or password");
-            }
-
-            _logger.LogInformation("User {Email} logged in successfully.", user.Email);
-
-            var tokenReponse = await _tokenService.GenerateToken(user);
-
-            return new Response<TokenResponse>().Ok(tokenReponse);
-        }
+        _userRepository = userRepository;
+        _tokenService = tokenService;
+        _configuration = configuration;
+        _cryptoService = cryptoService;
+        _logger = logger;
     }
 
+    public async Task<Response<TokenResponse>> Handle(LoginRequest request)
+    {
+        _logger.LogInformation("Processing login request for email: {Email}", request.Email);
 
+        var user = await _userRepository.GetByEmailAsync(request.Email);
+        if (user == null || !_cryptoService.Verify(user.Password!, request.Password))
+        {
+            _logger.LogWarning("Login failed: Invalid email or password for email: {Email}", request.Email);
+            throw new BadHttpRequestException("Invalid email or password");
+        }
+
+        _logger.LogInformation("User {Email} logged in successfully.", user.Email);
+
+        var tokenReponse = await _tokenService.GenerateToken(user);
+
+        return new Response<TokenResponse>().Ok(tokenReponse!);
+    }
 }

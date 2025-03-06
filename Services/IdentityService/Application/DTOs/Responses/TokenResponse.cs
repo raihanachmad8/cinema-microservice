@@ -1,6 +1,6 @@
 ﻿namespace IdentityService.Application.DTOs.Responses;
 
-public class TokenResponse 
+public class TokenResponse
 {
     public string TokenType { get; } = "Bearer";
     public required string AccessToken { get; init; }

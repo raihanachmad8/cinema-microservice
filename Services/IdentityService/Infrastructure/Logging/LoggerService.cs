@@ -5,37 +5,39 @@ using Serilog.Formatting.Json;
 using Serilog.Sinks.SystemConsole;
 using Serilog.Sinks.File;
 
-namespace IdentityService.Infrastructure.Logging
+namespace IdentityService.Infrastructure.Logging;
+
+public class LoggerService<T> : ILoggerService<T>
 {
-    public class LoggerService<T> : ILoggerService<T>
+    public LoggerService()
     {
-        public LoggerService()
-        {
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .WriteTo.Console(
-                    outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{SourceContext}] [{Level}] : {Message}{NewLine}{Exception}"
-                )
-                .WriteTo.File(new JsonFormatter(), "logs/application-log.json", rollingInterval: RollingInterval.Day) // JSON format for the log file
-                .CreateLogger();
-        }
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .WriteTo.Console(
+                outputTemplate:
+                "{Timestamp:yyyy-MM-dd HH:mm:ss} [{SourceContext}] [{Level}] : {Message}{NewLine}{Exception}"
+            )
+            .WriteTo
+            .File(new JsonFormatter(), "logs/application-log.json",
+                rollingInterval: RollingInterval.Day) // JSON format for the log file
+            .CreateLogger();
+    }
 
-        public void LogInformation(string message)
-        {
-            Log.ForContext("SourceContext", typeof(T).Name)
-               .Information(message);
-        }
+    public void LogInformation(string message)
+    {
+        Log.ForContext("SourceContext", typeof(T).Name)
+            .Information(message);
+    }
 
-        public void LogWarning(string message)
-        {
-            Log.ForContext("SourceContext", typeof(T).Name)
-               .Warning(message);
-        }
+    public void LogWarning(string message)
+    {
+        Log.ForContext("SourceContext", typeof(T).Name)
+            .Warning(message);
+    }
 
-        public void LogError(string message, Exception ex)
-        {
-            Log.ForContext("SourceContext", typeof(T).Name)
-               .Error(ex, message);
-        }
+    public void LogError(Exception ex, string message)
+    {
+        Log.ForContext("SourceContext", typeof(T).Name)
+            .Error(ex, message);
     }
 }

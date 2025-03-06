@@ -1,8 +1,7 @@
-namespace IdentityService.Domain.Enums
+namespace IdentityService.Domain.Enums;
+
+public enum TokenType
 {
-    public enum TokenType
-    {
-        Access = 1,
-        Refresh = 2
-    }
+    Access = 1,
+    Refresh = 2
 }

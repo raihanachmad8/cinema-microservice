@@ -8,6 +8,7 @@ using IdentityService.Application.Interfaces.Security;
 using IdentityService.Domain.Entities;
 
 namespace IdentityService.Application.Services;
+
 public class TokenService : ITokenService
 {
     private readonly ITokenRepository _tokenRepository;
@@ -17,10 +18,10 @@ public class TokenService : ITokenService
     private readonly ILoggerService<TokenService> _logger;
 
     public TokenService(
-        IConnectionMultiplexer redis, 
-        IConfiguration configuration, 
+        IConnectionMultiplexer redis,
+        IConfiguration configuration,
         IJwtService jwtService,
-        IUserRepository userRepository, 
+        IUserRepository userRepository,
         ITokenRepository tokenRepository,
         ILoggerService<TokenService> logger)
     {
@@ -38,14 +39,18 @@ public class TokenService : ITokenService
         var access = await _jwtService.GenerateTokenAsync(user);
         var refresh = await _jwtService.GenerateRefreshTokenAsync(user);
 
-        var accessTokenExpiryIn = _configuration.GetValue<int>("ExpiryMinutes");
+        var accessTokenExpiryIn = _configuration.GetValue<int>("JwtSettings:ExpiryMinutes");
         var refreshExpiryIn = _configuration.GetValue<int>("JwtSettings:ExpiryDay");
 
-        _logger.LogInformation($"Saving access token for user {user.Id} to Redis with expiry of {accessTokenExpiryIn} minutes.");
-        await _tokenRepository.AddAsync(user.Id.ToString(), TokenType.Access, access, TimeSpan.FromMinutes(accessTokenExpiryIn));
-        
-        _logger.LogInformation($"Saving refresh token for user {user.Id} to Redis with expiry of {refreshExpiryIn} days.");
-        await _tokenRepository.AddAsync(user.Id.ToString(), TokenType.Refresh, refresh, TimeSpan.FromDays(refreshExpiryIn));
+        _logger.LogInformation(
+            $"Saving access token for user {user.Id} to Redis with expiry of {accessTokenExpiryIn} minutes.");
+        await _tokenRepository.AddAsync(user.Id.ToString(), TokenType.Access, access,
+            TimeSpan.FromMinutes(accessTokenExpiryIn));
+
+        _logger.LogInformation(
+            $"Saving refresh token for user {user.Id} to Redis with expiry of {refreshExpiryIn} days.");
+        await _tokenRepository.AddAsync(user.Id.ToString(), TokenType.Refresh, refresh,
+            TimeSpan.FromDays(refreshExpiryIn));
 
         return new TokenResponse
         {
@@ -59,14 +64,11 @@ public class TokenService : ITokenService
     {
         _logger.LogInformation($"Refreshing token with provided refresh token: {refreshToken}");
 
-        ClaimsPrincipal principal = await _jwtService.ValidateRefreshTokenAsync(refreshToken);
+        var principal = await _jwtService.ValidateRefreshTokenAsync(refreshToken);
 
-        if (principal == null)
-        {
-            return null;
-        }
+        if (principal == null) return null;
 
-        string? id = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var id = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (id == null)
         {
             _logger.LogWarning("Invalid refresh token payload.");
@@ -76,22 +78,29 @@ public class TokenService : ITokenService
         _logger.LogInformation($"Found user ID {id} for refresh token.");
 
         var tokenData = await _tokenRepository.GetAsync(id, TokenType.Refresh, refreshToken);
-        
+
         ValidateToken(tokenData!);
-        
+
         var user = await _userRepository.GetByIdAsync(Guid.Parse(id));
+        if (user == null)
+        {
+            _logger.LogWarning("Invalid refresh token payload.");
+            throw new UnauthorizedAccessException("Invalid refresh token payload.");
+        }
 
         var access = await _jwtService.GenerateTokenAsync(user);
         var refresh = await _jwtService.GenerateRefreshTokenAsync(user);
 
-        var accessTokenExpiryIn = _configuration.GetValue<int>("ExpiryMinutes");
+        var accessTokenExpiryIn = _configuration.GetValue<int>("JwtSettings:ExpiryMinutes");
         var refreshExpiryIn = _configuration.GetValue<int>("JwtSettings:ExpiryDay");
 
         _logger.LogInformation($"Saving new access token for user {user.Id} to Redis.");
-        await _tokenRepository.AddAsync(user.Id.ToString(), TokenType.Access, access, TimeSpan.FromMinutes(accessTokenExpiryIn));
-        
+        await _tokenRepository.AddAsync(user.Id.ToString(), TokenType.Access, access,
+            TimeSpan.FromMinutes(accessTokenExpiryIn));
+
         _logger.LogInformation($"Saving new refresh token for user {user.Id} to Redis.");
-        await _tokenRepository.AddAsync(user.Id.ToString(), TokenType.Refresh, refresh, TimeSpan.FromMinutes(refreshExpiryIn));
+        await _tokenRepository.AddAsync(user.Id.ToString(), TokenType.Refresh, refresh,
+            TimeSpan.FromMinutes(refreshExpiryIn));
 
         return new TokenResponse
         {
@@ -105,8 +114,8 @@ public class TokenService : ITokenService
     {
         _logger.LogInformation($"Getting claims principal for token type {type} and token: {token}");
 
-        return type == TokenType.Access 
-            ? await _jwtService.ValidateTokenAsync(token) 
+        return type == TokenType.Access
+            ? await _jwtService.ValidateTokenAsync(token)
             : await _jwtService.ValidateRefreshTokenAsync(token);
     }
 
@@ -131,32 +140,34 @@ public class TokenService : ITokenService
         }
     }
 
-    public async Task<bool> RevokeTokenAsync(string accessToken)
+    public async Task<bool> RevokeTokenAsync(TokenType type, string token)
     {
-        _logger.LogInformation($"Processing logout request with access token: {accessToken}");
+        _logger.LogInformation($"Processing logout request with token: {token}");
 
-        var principal = await _jwtService.ValidateTokenAsync(accessToken);
+        var principal = type == TokenType.Access
+            ? await _jwtService.ValidateTokenAsync(token)
+            : await _jwtService.ValidateRefreshTokenAsync(token);
         if (principal == null)
         {
             _logger.LogWarning("Logout failed: Invalid access token.");
             throw new UnauthorizedAccessException("Invalid access token.");
         }
 
-        string? id = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var id = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (id == null)
         {
             _logger.LogWarning("Logout failed: Invalid access token payload.");
             throw new UnauthorizedAccessException("Invalid access token payload.");
         }
 
-        
-        var tokenData = await _tokenRepository.GetAsync(id, TokenType.Access,accessToken);
+
+        var tokenData = await _tokenRepository.GetAsync(id, type, token);
         if (tokenData == null)
         {
             _logger.LogWarning($"Token to remove not found: {id} with token type: {TokenType.Access}.");
             return false;
         }
 
-        return await _tokenRepository.RemoveAsync(id, TokenType.Access, accessToken);
+        return await _tokenRepository.RemoveAsync(id, TokenType.Access, token);
     }
 }
