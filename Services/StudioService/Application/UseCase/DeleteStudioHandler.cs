@@ -13,7 +13,7 @@ public class DeleteStudioHandler
         _logger = logger;
     }
 
-    public async Task Handle(Guid id)
+    public async Task Handle(int id)
     {
         _logger.LogInformation("Deleting studio with ID: {Id}", id);
 

@@ -52,7 +52,7 @@ public class StudioController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] StudioRequest request)
+    public async Task<IActionResult> Update(int id, [FromBody] StudioRequest request)
     {
         await _studioRequestValidator.ValidateAsync(request);
         var result = await _updateStudioHandler.Handle(id, request);
@@ -60,7 +60,7 @@ public class StudioController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete(int id)
     {
         await _deleteStudioHandler.Handle(id);
         return NoContent();

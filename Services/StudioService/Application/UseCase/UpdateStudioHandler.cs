@@ -19,7 +19,7 @@ public class UpdateStudioHandler
         _mapper = mapper;
     }
 
-    public async Task<Response<StudioResponse>> Handle(Guid id, StudioRequest request)
+    public async Task<Response<StudioResponse>> Handle(int id, StudioRequest request)
     {
         _logger.LogInformation("Updating studio with ID: {Id}", id);
 
