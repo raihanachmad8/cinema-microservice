@@ -1,6 +1,5 @@
 using MovieService.Infrastructure.Extensions;
 using Microsoft.OpenApi.Models;
-using MovieService.Api.Middlewares;
 using MovieService.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,6 +42,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+app.UseApplicationBuilderExtensions();
 
 if (app.Environment.IsDevelopment())
 {

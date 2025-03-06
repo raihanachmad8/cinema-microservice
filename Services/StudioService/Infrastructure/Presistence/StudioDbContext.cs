@@ -63,46 +63,55 @@ public class StudioDbContext : DbContext
         modelBuilder.Entity<Studio>().HasData(
             new Studio
             {
-                Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                Id = 1,
                 Name = "Studio 1",
-                Capacity = 100,
+                Capacity = 50,
                 AdditionalFacilities = "Dolby Surround, Wide Screen",
                 CreatedAt = DateTime.Parse("2025-03-03"),
                 UpdatedAt = DateTime.Parse("2025-03-03")
             },
             new Studio
             {
-                Id = Guid.Parse("22222222-2222-2222-2222-222222222222"),
+                Id = 2,
                 Name = "Studio 2",
-                Capacity = 150,
+                Capacity = 80,
                 AdditionalFacilities = "IMAX, 3D",
                 CreatedAt = DateTime.Parse("2025-03-03"),
                 UpdatedAt = DateTime.Parse("2025-03-03")
             },
             new Studio
             {
-                Id = Guid.Parse("33333333-3333-3333-3333-333333333333"),
+                Id = 3,
                 Name = "Studio 3",
-                Capacity = 200,
+                Capacity = 50,
                 AdditionalFacilities = "Luxury Recliners, Dolby Atmos",
                 CreatedAt = DateTime.Parse("2025-03-03"),
                 UpdatedAt = DateTime.Parse("2025-03-03")
             },
             new Studio
             {
-                Id = Guid.Parse("44444444-4444-4444-4444-444444444444"),
+                Id = 4,
                 Name = "Studio 4",
-                Capacity = 250,
+                Capacity = 40,
                 AdditionalFacilities = "VIP Seating, 4D Experience",
                 CreatedAt = DateTime.Parse("2025-03-03"),
                 UpdatedAt = DateTime.Parse("2025-03-03")
             },
             new Studio
             {
-                Id = Guid.Parse("55555555-5555-5555-5555-555555555555"),
+                Id = 5,
                 Name = "Studio 5",
-                Capacity = 300,
+                Capacity = 80,
                 AdditionalFacilities = "Kids Area, Wide Screen",
+                CreatedAt = DateTime.Parse("2025-03-03"),
+                UpdatedAt = DateTime.Parse("2025-03-03")
+            },
+            new Studio
+            {
+                Id = 6,
+                Name = "Studio 6",
+                Capacity = 60,
+                AdditionalFacilities = "Wide Screen, Luxury Recliners",
                 CreatedAt = DateTime.Parse("2025-03-03"),
                 UpdatedAt = DateTime.Parse("2025-03-03")
             }

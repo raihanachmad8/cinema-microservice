@@ -11,24 +11,29 @@ namespace IdentityService.Domain.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public int Id { get; set; }
 
-        [Required, MaxLength(100)]
+        [Required] 
+        [MaxLength(100)] 
         public string Name { get; set; } = string.Empty;
 
-        [Required, MaxLength(100), EmailAddress]
+        [Required]
+        [MaxLength(100)]
+        [EmailAddress]
         public string Email { get; set; } = string.Empty;
 
-        [Required]
+        [Required] 
         public string Password { get; set; } = string.Empty;
 
-        [Required]
+        [Required] 
         public Role Role { get; set; } = Role.User;
 
-        [Required, MaxLength(15)]
+        [Required] 
+        [MaxLength(15)] 
         public string PhoneNumber { get; set; } = string.Empty;
 
-        [Required, MaxLength(255)]
+        [Required] 
+        [MaxLength(255)] 
         public string Address { get; set; } = string.Empty;
     }
 }

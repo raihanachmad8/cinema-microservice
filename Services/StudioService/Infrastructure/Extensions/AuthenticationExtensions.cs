@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace StudioService.Infrastructure.Extensions;
 
@@ -24,7 +24,7 @@ public static class AuthenticationExtensions
                 options.MetadataAddress = $"{issuer}/.well-known/openid-configuration";
                 options.Audience = audience;
 
-                options.TokenValidationParameters = new TokenValidationParameters
+                options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateIssuerSigningKey = true,
                     ValidateIssuer = true,
@@ -46,7 +46,7 @@ public static class AuthenticationExtensions
                             Type = "https://tools.ietf.org/html/rfc9110#section-15.5.1",
                             Status = 401,
                             Title = "Unauthorized",
-                            Detail = "Token is missing or invalid.",
+                            Detail = "Token is missing or invalid",
                             Instance = context.Request.Path,
                             Extensions = { ["traceId"] = context.HttpContext.TraceIdentifier }
                         };

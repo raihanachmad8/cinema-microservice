@@ -10,8 +10,10 @@ public static class ServiceCollectionExtensions
     {
         services
             .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
-            .AddAutoMapper(typeof(MovieMappingProfile))
+            .AddAutoMapper(typeof(MappingMovieProfile))
             .AddDatabase(configuration)
+            .AddNats(configuration)
+            .AddAuthenticationExtensions(configuration)
             .AddFluentValidationServices()
             .AddUseCases()
             .AddServices()

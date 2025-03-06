@@ -58,7 +58,7 @@ public class MovieDbContext : DbContext
         modelBuilder.Entity<Movie>().HasData(
             new Movie
             {
-                Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                Id = 1,
                 Title = "The Shawshank Redemption",
                 Genre = Genre.Drama,
                 DurationInMinutes = 120,
@@ -68,7 +68,7 @@ public class MovieDbContext : DbContext
             },
             new Movie
             {
-                Id = Guid.Parse("22222222-2222-2222-2222-222222222222"),
+                Id = 2,
                 Title = "The Godfather",
                 Genre = Genre.Action,
                 DurationInMinutes = 140,
@@ -79,7 +79,7 @@ public class MovieDbContext : DbContext
             },
             new Movie
             {
-                Id = Guid.Parse("33333333-3333-3333-3333-333333333333"),
+                Id = 3,
                 Title = "The Dark Knight",
                 Genre = Genre.Action,
                 DurationInMinutes = 150,
@@ -90,7 +90,7 @@ public class MovieDbContext : DbContext
             },
             new Movie
             {
-                Id = Guid.Parse("44444444-4444-4444-4444-444444444444"),
+                Id = 4,
                 Title = "Pulp Fiction",
                 Genre = Genre.Drama,
                 DurationInMinutes = 130,
@@ -101,7 +101,7 @@ public class MovieDbContext : DbContext
             },
             new Movie
             {
-                Id = Guid.Parse("55555555-5555-5555-5555-555555555555"),
+                Id = 5,
                 Title = "The Lord of the Rings: The Return of the King",
                 Genre = Genre.Action,
                 DurationInMinutes = 170,
@@ -112,7 +112,7 @@ public class MovieDbContext : DbContext
             },
             new Movie
             {
-                Id = Guid.Parse("66666666-6666-6666-6666-666666666666"),
+                Id = 6,
                 Title = "Inception",
                 Genre = Genre.Action,
                 DurationInMinutes = 140,
@@ -123,7 +123,7 @@ public class MovieDbContext : DbContext
             },
             new Movie
             {
-                Id = Guid.Parse("77777777-7777-7777-7777-777777777777"),
+                Id = 7,
                 Title = "The Matrix",
                 Genre = Genre.Action,
                 DurationInMinutes = 130,
@@ -134,7 +134,7 @@ public class MovieDbContext : DbContext
             },
             new Movie
             {
-                Id = Guid.Parse("88888888-8888-8888-8888-888888888888"),
+                Id = 8,
                 Title = "The Dark Knight Rises",
                 Genre = Genre.Action,
                 DurationInMinutes = 150,
@@ -145,7 +145,7 @@ public class MovieDbContext : DbContext
             },
             new Movie
             {
-                Id = Guid.Parse("99999999-9999-9999-9999-999999999999"),
+                Id = 9,
                 Title = "The Lord of the Rings: The Two Towers",
                 Genre = Genre.Action,
                 DurationInMinutes = 170,

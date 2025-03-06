@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using StudioService.Appication.Events.User;
 using StudioService.Application.DTOs.Requests;
 using StudioService.Application.DTOs.Responses;
+using StudioService.Application.Interfaces.Messaging;
 using StudioService.Application.Interfaces.Repositories;
+using StudioService.Application.Interfaces.Services;
 using StudioService.Common.Exceptions;
 
 namespace StudioService.Application.UseCases;
@@ -9,17 +12,19 @@ namespace StudioService.Application.UseCases;
 public class UpdateStudioHandler
 {
     private readonly IStudioRepository _studioRepository;
-    private readonly ILogger<UpdateStudioHandler> _logger;
+    private readonly ISerilog<UpdateStudioHandler> _logger;
     private readonly IMapper _mapper;
+    private readonly INatsPublisher _natsPublisher;
 
-    public UpdateStudioHandler(IStudioRepository studioRepository, ILogger<UpdateStudioHandler> logger, IMapper mapper)
+    public UpdateStudioHandler(IStudioRepository studioRepository, ISerilog<UpdateStudioHandler> logger, IMapper mapper, INatsPublisher natsPublisher)
     {
         _studioRepository = studioRepository;
         _logger = logger;
         _mapper = mapper;
+        _natsPublisher = natsPublisher;
     }
 
-    public async Task<Response<StudioResponse>> Handle(Guid id, StudioRequest request)
+    public async Task<Response<StudioResponse>> Handle(int id, StudioRequest request)
     {
         _logger.LogInformation("Updating studio with ID: {Id}", id);
 
@@ -30,11 +35,11 @@ public class UpdateStudioHandler
             throw new KeyNotFoundException($"Studio with ID {id} not found.");
         }
 
-        var existingName = await _studioRepository.GetByNameAsync(studio.Name);
+        var existingName = await _studioRepository.GetByNameAsync(request.Name);
         if (existingName != null)
         {
-            _logger.LogWarning("Name {Name} already exists", studio.Name);
-            throw new ConflictException("Name is already taken.");
+            _logger.LogWarning("Name {Name} already exists", request.Name);
+            throw new ConflictException("Name is already exists");
         }
 
         studio.Name = request.Name;
@@ -43,6 +48,7 @@ public class UpdateStudioHandler
         studio.UpdatedAt = DateTime.UtcNow;
 
         await _studioRepository.UpdateAsync(studio);
+        await _natsPublisher.PublishAsync("studio.updated", _mapper.Map<StudioUpdatedEvent>(studio));
 
         return new Response<StudioResponse>().Ok(_mapper.Map<StudioResponse>(studio), "Studio updated");
     }

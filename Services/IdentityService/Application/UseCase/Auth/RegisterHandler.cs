@@ -1,82 +1,77 @@
 using CinemaApp.Domain.Enums;
+using IdentityService.Appication.Events.User;
 using IdentityService.Application.DTOs.Requests;
 using IdentityService.Application.DTOs.Responses;
 using IdentityService.Application.Interfaces.Repositories;
 using IdentityService.Application.Interfaces.Security;
 using IdentityService.Application.Interfaces.Services;
 using IdentityService.Common.Exceptions;
+using IdentityService.Application.Interfaces.Messaging;
 using IdentityService.Domain.Entities;
 
-namespace IdentityService.Application.UseCases
+namespace IdentityService.Application.UseCase.Auth;
+
+public class RegisterHandler
 {
-    public class RegisterHandler
+    private readonly IUserRepository _userRepository;
+    private readonly IJwtService _jwtService;
+    private readonly ICryptographyService _cryptoService;
+    private readonly IConfiguration _configuration;
+    private readonly ITokenService _tokenService;
+    private readonly ISerilog<RegisterHandler> _logger;
+    private readonly INatsPublisher _natsPublisher;
+
+    public RegisterHandler(
+        IUserRepository userRepository,
+        ITokenService tokenService,
+        IConfiguration configuration,
+        IJwtService jwtService,
+        ICryptographyService cryptoService,
+        INatsPublisher natsPublisher,
+        ISerilog<RegisterHandler> logger)
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IJwtService _jwtService;
-        private readonly ICryptographyService _cryptoService;
-        private readonly IConfiguration _configuration;
-        private readonly ITokenService _tokenService;
-        private readonly ILogger<RegisterHandler> _logger;
+        _userRepository = userRepository;
+        _tokenService = tokenService;
+        _configuration = configuration;
+        _jwtService = jwtService;
+        _cryptoService = cryptoService;
+        _logger = logger;
+        _natsPublisher = natsPublisher;
+    }
 
-        public RegisterHandler(
-            IUserRepository userRepository,
-            ITokenService tokenService,
-            IConfiguration configuration,
-            IJwtService jwtService,
-            ICryptographyService cryptoService,
-            ILogger<RegisterHandler> logger)
+    public async Task<Response<TokenResponse?>> Handle(RegisterRequest request)
+    {
+        _logger.LogInformation("Processing registration request for email: {Email}", request.Email);
+
+        var existingUser = await _userRepository.GetByEmailAsync(request.Email);
+        if (existingUser != null)
         {
-            _userRepository = userRepository;
-            _tokenService = tokenService;
-            _configuration = configuration;
-            _jwtService = jwtService;
-            _cryptoService = cryptoService;
-            _logger = logger;
+            _logger.LogWarning("Registration failed: Email {Email} already exists", request.Email);
+            throw new ConflictException("User with email already exists");
         }
 
-        public async Task<AuthResponse> Handle(RegisterRequest request)
+        var hashedPassword = _cryptoService.Hash(request.Password);
+
+        var user = new User
         {
-            _logger.LogInformation("Processing registration request for email: {Email}", request.Email);
-            
-            var existingUser = await _userRepository.GetByEmailAsync(request.Email);
-            if (existingUser != null)
-            {
-                _logger.LogWarning("Registration failed: Email {Email} already exists.", request.Email);
-                throw new ConflictException("User with email already exists.");
-            }
-            
-            var hashedPassword = _cryptoService.Hash(request.Password);
+            Name = request.Name,
+            Email = request.Email,
+            Password = hashedPassword,
+            CreatedAt = DateTime.UtcNow,
+            Role = Role.User
+        };
 
-            var user = new User
-            {
-                Name = request.Name,
-                Email = request.Email,
-                Password = hashedPassword,
-                CreatedAt = DateTime.UtcNow,
-                Role = Role.User
-            };
+        await _userRepository.AddAsync(user);
+        await _natsPublisher.PublishAsync("user.created", new UserCreatedEvent
+        {
+            Email = request.Email,
+            Name = request.Name,
+            Role = Role.User.ToString()
+        });
+        
+        _logger.LogInformation("User {Email} registered successfully.", user.Email);
 
-            await _userRepository.AddAsync(user);
-            _logger.LogInformation("User {Email} registered successfully.", user.Email);
-            
-            var accessToken = await _tokenService.GenerateToken(user);
-            // var accessToken = await _jwtService.GenerateTokenAsync(user);
-            // var refreshToken = await _jwtService.GenerateRefreshTokenAsync(user);
-            //
-            // var expirationAccess = _configuration.GetValue<int>("JwtSettings:ExpiryMinutes");
-            //
-            // await _tokenService.StoreTokenAsync(user.Id.ToString(), TokenType.Access, accessToken,
-            //     new TokenData { UserId = user.Id, Token = accessToken, ExpiryDate = DateTime.UtcNow.AddMinutes(expirationAccess) },
-            //     TimeSpan.FromMinutes(expirationAccess));
-            //
-            // await _tokenService.StoreTokenAsync(user.Id.ToString(), TokenType.Refresh, refreshToken,
-            //     new TokenData { UserId = user.Id, Token = refreshToken, ExpiryDate = DateTime.UtcNow.AddMinutes(expirationRefresh) },
-            //     TimeSpan.FromMinutes(expirationRefresh));
-
-            return new AuthResponse
-            {
-                Data = accessToken
-            };
-        }
+        var tokenResponse = await _tokenService.GenerateToken(user);
+        return new Response<TokenResponse>().Created(tokenResponse!);
     }
 }

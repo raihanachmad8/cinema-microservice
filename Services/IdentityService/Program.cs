@@ -1,16 +1,15 @@
-using IdentityService.Api.Middlewares;
+using IdentityService.API.Middlewares;
 using Microsoft.OpenApi.Models;
 using IdentityService.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
-                    .AddEnvironmentVariables();
+builder.Configuration.AddJsonFile("appsettings.json", true, true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true)
+    .AddEnvironmentVariables();
 
 
 builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
-
 
 
 builder.Services.AddSwaggerGen(c =>
@@ -39,12 +38,13 @@ builder.Services.AddSwaggerGen(c =>
             {
                 Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
             },
-            new string[] {}
+            new string[] { }
         }
     });
 });
 
 var app = builder.Build();
+app.UseApplicationBuilderExtensions();
 
 if (app.Environment.IsDevelopment())
 {
@@ -61,6 +61,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Set service URL
-app.Urls.Add(Environment.GetEnvironmentVariable("IDENTITY_SERVICE_URL") ?? builder.Configuration["Service:Url"] ?? "http://localhost:5001");
+app.Urls.Add(Environment.GetEnvironmentVariable("IDENTITY_SERVICE_URL") ??
+             builder.Configuration["Service:Url"] ?? "http://localhost:5001");
 
 app.Run();

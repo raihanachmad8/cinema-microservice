@@ -2,11 +2,15 @@ using CinemaApp.Domain.Enums;
 using IdentityService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+
 namespace IdentityService.Infrastructure.Persistence
 {
     public class IdentityDBContext : DbContext
     {
-        public IdentityDBContext(DbContextOptions<IdentityDBContext> options) : base(options) { }
+        public IdentityDBContext(DbContextOptions<IdentityDBContext> options) : base(options)
+        {
+        }
+
         public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -22,7 +26,6 @@ namespace IdentityService.Infrastructure.Persistence
 
             // Seeder
             SeedData(modelBuilder);
-
         }
 
         public override int SaveChanges()
@@ -40,7 +43,6 @@ namespace IdentityService.Infrastructure.Persistence
         private void UpdateTimestamps()
         {
             foreach (var entry in ChangeTracker.Entries<BaseEntity>())
-            {
                 if (entry.State == EntityState.Added)
                 {
                     entry.Entity.CreatedAt = DateTime.UtcNow;
@@ -55,100 +57,143 @@ namespace IdentityService.Infrastructure.Persistence
                     entry.Entity.DeletedAt = DateTime.UtcNow;
                     entry.State = EntityState.Modified; // Soft delete
                 }
-            }
         }
 
-        private void SeedData(ModelBuilder modelBuilder) {
-            // Seed Users
+        private void SeedData(ModelBuilder modelBuilder)
+        {
+            // Seed Users with integer Ids
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
-                    Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                    Id = 1, // Update to int values
                     Name = "Admin 1",
                     Email = "admin1@cinema.com",
-                    Password = "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw", // Password: Password@123
+                    Password =
+                        "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw", // Password: Password@123
                     PhoneNumber = "08123456789",
                     Address = "Jl. Kebon Jeruk 11, Jakarta Selatan",
                     Role = Role.Admin,
                     CreatedAt = DateTime.Parse("2025-03-03"),
-                    UpdatedAt = DateTime.Parse("2025-03-03"),
+                    UpdatedAt = DateTime.Parse("2025-03-03")
                 },
                 new User
                 {
-                    Id = Guid.Parse("22222222-2222-2222-2222-222222222222"),
+                    Id = 2, // Update to int values
                     Name = "Admin 2",
                     Email = "admin2@cinema.com",
-                    Password = "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw", // Password: Password@123
+                    Password =
+                        "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw", // Password: Password@123
                     PhoneNumber = "08123456789",
                     Address = "Jl. Kebon Jeruk 11, Jakarta Selatan",
                     Role = Role.Admin,
                     CreatedAt = DateTime.Parse("2025-03-03"),
-                    UpdatedAt = DateTime.Parse("2025-03-03"),
+                    UpdatedAt = DateTime.Parse("2025-03-03")
                 },
                 new User
                 {
-                    Id = Guid.Parse("33333333-3333-3333-3333-333333333333"),
+                    Id = 3, // Update to int values
                     Name = "User 1",
                     Email = "user1@cinema.com",
-                    Password = "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw", // Password: Password@123
+                    Password =
+                        "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw", // Password: Password@123
                     PhoneNumber = "08123456789",
                     Address = "Jl. Kebon Jeruk 11, Jakarta Selatan",
                     Role = Role.User,
                     CreatedAt = DateTime.Parse("2025-03-03"),
-                    UpdatedAt = DateTime.Parse("2025-03-03"),
+                    UpdatedAt = DateTime.Parse("2025-03-03")
                 },
                 new User
                 {
-                    Id = Guid.Parse("44444444-4444-4444-4444-444444444444"),
+                    Id = 4, // Update to int values
                     Name = "User 2",
                     Email = "user2@cinema.com",
-                    Password = "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw", // Password: Password@123
+                    Password =
+                        "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw", // Password: Password@123
                     PhoneNumber = "08123456789",
                     Address = "Jl. Kebon Jeruk 11, Jakarta Selatan",
                     Role = Role.User,
                     CreatedAt = DateTime.Parse("2025-03-03"),
-                    UpdatedAt = DateTime.Parse("2025-03-03"),
+                    UpdatedAt = DateTime.Parse("2025-03-03")
                 },
                 new User
                 {
-                    Id = Guid.Parse("55555555-5555-5555-5555-555555555555"),
+                    Id = 5, // Update to int values
                     Name = "User 3",
                     Email = "user3@cinema.com",
-                    Password = "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw", // Password: Password@123
+                    Password =
+                        "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw", // Password: Password@123
                     PhoneNumber = "08123456789",
                     Address = "Jl. Kebon Jeruk 11, Jakarta Selatan",
                     Role = Role.User,
                     CreatedAt = DateTime.Parse("2025-03-03"),
-                    UpdatedAt = DateTime.Parse("2025-03-03"),
+                    UpdatedAt = DateTime.Parse("2025-03-03")
                 },
                 new User
                 {
-                    Id = Guid.Parse("66666666-6666-6666-6666-666666666666"),
+                    Id = 6,
                     Name = "User 4",
                     Email = "user4@cinema.com",
-                    Password = "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw", // Password: Password@123
+                    Password =
+                        "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw", // Password: Password@123
                     PhoneNumber = "08123456789",
                     Address = "Jl. Kebon Jeruk 11, Jakarta Selatan",
                     Role = Role.User,
                     CreatedAt = DateTime.Parse("2025-03-03"),
-                    UpdatedAt = DateTime.Parse("2025-03-03"),
+                    UpdatedAt = DateTime.Parse("2025-03-03")
                 },
                 new User
                 {
-                    Id = Guid.Parse("77777777-7777-7777-7777-777777777777"),
+                    Id = 7,
                     Name = "User 5",
                     Email = "user5@cinema.com",
-                    Password = "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw", // Password: Password@123
+                    Password =
+                        "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw", // Password: Password@123
                     PhoneNumber = "08123456789",
                     Address = "Jl. Kebon Jeruk 11, Jakarta Selatan",
                     Role = Role.User,
                     CreatedAt = DateTime.Parse("2025-03-03"),
-                    UpdatedAt = DateTime.Parse("2025-03-03"),
+                    UpdatedAt = DateTime.Parse("2025-03-03")
+                },
+                new User
+                {
+                    Id = 8,
+                    Name = "User 6",
+                    Email = "user6@cinema.com",
+                    Password =
+                        "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw", // Password: Password@123
+                    PhoneNumber = "08123456789",
+                    Address = "Jl. Kebon Jeruk 11, Jakarta Selatan",
+                    Role = Role.User,
+                    CreatedAt = DateTime.Parse("2025-03-03"),
+                    UpdatedAt = DateTime.Parse("2025-03-03")
+                },
+                new User
+                {
+                    Id = 9,
+                    Name = "User 7",
+                    Email = "user7@cinema.com",
+                    Password =
+                        "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw", // Password: Password@123
+                    PhoneNumber = "08123456789",
+                    Address = "Jl. Kebon Jeruk 11, Jakarta Selatan",
+                    Role = Role.User,
+                    CreatedAt = DateTime.Parse("2025-03-03"),
+                    UpdatedAt = DateTime.Parse("2025-03-03")
+                },
+                new User
+                {
+                    Id = 10,
+                    Name = "User 8",
+                    Email = "user8@cinema.com",
+                    Password =
+                        "$argon2id$v=19$m=65536,t=3,p=1$xBq496riUmc7v0hRVp4s/A$NIwkenkHFcqEJ+21ejwCercJSYl9T08DXuHq3wrOUAw", // Password: Password@123
+                    PhoneNumber = "08123456789",
+                    Address = "Jl. Kebon Jeruk 11, Jakarta Selatan",
+                    Role = Role.User,
+                    CreatedAt = DateTime.Parse("2025-03-03"),
+                    UpdatedAt = DateTime.Parse("2025-03-03")
                 }
-
             );
         }
     }
-
-
 }

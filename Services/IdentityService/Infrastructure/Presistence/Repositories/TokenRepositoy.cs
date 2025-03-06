@@ -10,9 +10,9 @@ namespace IdentityService.Infrastructure.Persistence.Repositories;
 public class TokenRepository : ITokenRepository
 {
     private readonly IDatabase _database;
-    private readonly ILoggerService<TokenRepository> _logger;
+    private readonly ISerilog<TokenRepository> _logger;
 
-    public TokenRepository(IConnectionMultiplexer redis, ILoggerService<TokenRepository> logger)
+    public TokenRepository(IConnectionMultiplexer redis, ISerilog<TokenRepository> logger)
     {
         _database = redis.GetDatabase();
         _logger = logger;
@@ -26,7 +26,7 @@ public class TokenRepository : ITokenRepository
             Id = id,
             Token = token,
             ExpiryDate = DateTime.Now.Add(expiresIn),
-            IsRevoked = false,
+            IsRevoked = false
         };
 
         try
@@ -38,19 +38,15 @@ public class TokenRepository : ITokenRepository
 
 
             if (result)
-            {
                 _logger.LogInformation($"Token added successfully: {id} with token type: {type}.");
-            }
             else
-            {
                 _logger.LogWarning($"Failed to add token: {id} with token type: {type}.");
-            }
 
             return result;
         }
         catch (Exception ex)
         {
-            _logger.LogError("Error occurred while adding token to the database.", ex);
+            _logger.LogError(ex, "Error occurred while adding token to the database.");
             return false;
         }
     }
@@ -82,7 +78,7 @@ public class TokenRepository : ITokenRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError("Error occurred while retrieving token from the database.", ex);
+            _logger.LogError(ex, "Error occurred while retrieving token from the database.");
             return null;
         }
     }
@@ -106,7 +102,7 @@ public class TokenRepository : ITokenRepository
         }
         catch (Exception ex)
         {
-            _logger.LogError("Error occurred while removing token from the database.", ex);
+            _logger.LogError(ex, "Error occurred while removing token from the database.");
             return false;
         }
     }

@@ -9,7 +9,7 @@ public record Movie : BaseEntity
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public int Id { get; set; }
 
     [Required] [MaxLength(255)] public string Title { get; set; } = string.Empty;
 

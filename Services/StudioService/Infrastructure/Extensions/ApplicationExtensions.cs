@@ -1,5 +1,4 @@
 using StudioService.Application.Mapper;
-using StudioServiceService.Infrastructure.Extensions;
 
 namespace StudioService.Infrastructure.Extensions;
 
@@ -9,7 +8,8 @@ public static class ServiceCollectionExtensions
         IConfiguration configuration)
     {
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
-            .AddAutoMapper(typeof(StudioMappingProfile))
+            .AddAutoMapper(typeof(MappingStudioProfile))
+            .AddNats(configuration)
             .AddAuthenticationExtensions(configuration)
             .AddFluentValidationServices()
             .AddDatabase(configuration)
