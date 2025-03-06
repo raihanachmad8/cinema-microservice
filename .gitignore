@@ -485,5 +485,4 @@ $RECYCLE.BIN/
 
 logs
 
-private.pem
-public.pem
+*.pem
