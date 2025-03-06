@@ -38,10 +38,13 @@ namespace ScheduleService.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("deleted_at");
 
+                    b.Property<DateTime>("EndDatetime")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("MovieId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("ShowTime")
+                    b.Property<DateTime>("StartDatetime")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("StudioId")
@@ -63,8 +66,9 @@ namespace ScheduleService.Migrations
                         {
                             Id = 1,
                             CreatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndDatetime = new DateTime(2025, 3, 3, 12, 0, 0, 0, DateTimeKind.Unspecified),
                             MovieId = new Guid("11111111-1111-1111-1111-111111111111"),
-                            ShowTime = new DateTime(2025, 3, 3, 10, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDatetime = new DateTime(2025, 3, 3, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             StudioId = new Guid("11111111-1111-1111-1111-111111111111"),
                             TicketPrice = 35000m,
                             UpdatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -73,8 +77,9 @@ namespace ScheduleService.Migrations
                         {
                             Id = 2,
                             CreatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndDatetime = new DateTime(2025, 3, 3, 13, 20, 0, 0, DateTimeKind.Unspecified),
                             MovieId = new Guid("22222222-2222-2222-2222-222222222222"),
-                            ShowTime = new DateTime(2025, 3, 3, 11, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDatetime = new DateTime(2025, 3, 3, 11, 0, 0, 0, DateTimeKind.Unspecified),
                             StudioId = new Guid("22222222-2222-2222-2222-222222222222"),
                             TicketPrice = 30000m,
                             UpdatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -83,8 +88,9 @@ namespace ScheduleService.Migrations
                         {
                             Id = 3,
                             CreatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndDatetime = new DateTime(2025, 3, 3, 15, 30, 0, 0, DateTimeKind.Unspecified),
                             MovieId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            ShowTime = new DateTime(2025, 3, 3, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDatetime = new DateTime(2025, 3, 3, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             StudioId = new Guid("22222222-2222-2222-2222-222222222222"),
                             TicketPrice = 40000m,
                             UpdatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -93,8 +99,9 @@ namespace ScheduleService.Migrations
                         {
                             Id = 4,
                             CreatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndDatetime = new DateTime(2025, 3, 3, 14, 10, 0, 0, DateTimeKind.Unspecified),
                             MovieId = new Guid("44444444-4444-4444-4444-444444444444"),
-                            ShowTime = new DateTime(2025, 3, 3, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDatetime = new DateTime(2025, 3, 3, 12, 0, 0, 0, DateTimeKind.Unspecified),
                             StudioId = new Guid("11111111-1111-1111-1111-111111111111"),
                             TicketPrice = 35000m,
                             UpdatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -103,8 +110,9 @@ namespace ScheduleService.Migrations
                         {
                             Id = 5,
                             CreatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndDatetime = new DateTime(2025, 3, 3, 15, 50, 0, 0, DateTimeKind.Unspecified),
                             MovieId = new Guid("66666666-6666-6666-6666-666666666666"),
-                            ShowTime = new DateTime(2025, 3, 3, 14, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDatetime = new DateTime(2025, 3, 3, 14, 0, 0, 0, DateTimeKind.Unspecified),
                             StudioId = new Guid("33333333-3333-3333-3333-333333333333"),
                             TicketPrice = 35000m,
                             UpdatedAt = new DateTime(2025, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified)

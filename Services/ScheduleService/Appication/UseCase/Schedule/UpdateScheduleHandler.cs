@@ -30,9 +30,10 @@ namespace ScheduleService.Application.UseCases
                 throw new KeyNotFoundException($"Schedule with ID {id} not found.");
             }
 
+            int duration = 120;
             // Cek konflik, misalnya jika jadwal sudah ada untuk waktu yang sama di studio yang sama
-            var existingSchedule = await _scheduleRepository.GetByShowTimeAsync(request.ShowTime, request.StudioId);
-            if (existingSchedule != null)
+            var existingSchedule = await _scheduleRepository.GetByShowTimeAsync(request.StartDatetime, request.StudioId, duration);
+            if (existingSchedule.Count() > 0)
             {
                 _logger.LogWarning("A schedule already exists for this time at the specified studio.");
                 throw new ConflictException("A schedule already exists for this time at the specified studio.");
@@ -40,7 +41,8 @@ namespace ScheduleService.Application.UseCases
 
             schedule.MovieId = request.MovieId;
             schedule.StudioId = request.StudioId;
-            schedule.ShowTime = request.ShowTime;
+            schedule.StartDatetime = request.StartDatetime;
+            schedule.EndDatetime = request.StartDatetime.AddMinutes(duration);
             schedule.TicketPrice = request.TicketPrice;
 
             await _scheduleRepository.UpdateAsync(schedule);

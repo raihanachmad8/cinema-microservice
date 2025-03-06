@@ -12,7 +12,7 @@ using ScheduleService.Infrastructure.Persistence;
 namespace ScheduleService.Migrations
 {
     [DbContext(typeof(ScheduleDbContext))]
-    [Migration("20250304201958_InitCreate")]
+    [Migration("20250306013629_InitCreate")]
     partial class InitCreate
     {
         /// <inheritdoc />
@@ -41,10 +41,13 @@ namespace ScheduleService.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("deleted_at");
 
+                    b.Property<DateTime>("EndDatetime")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("MovieId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("ShowTime")
+                    b.Property<DateTime>("StartDatetime")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("StudioId")

@@ -13,9 +13,8 @@ namespace ScheduleService.Application.Validators
             RuleFor(x => x.StudioId)
                 .NotEmpty().WithMessage("StudioId is required.");
 
-            RuleFor(x => x.ShowTime)
-                .NotEmpty().WithMessage("ShowTime is required.")
-                .GreaterThan(DateTime.Now).WithMessage("ShowTime must be in the future.");
+            RuleFor(x => x.StartDatetime)
+                .NotEmpty().WithMessage("StartDatetime is required.");
 
             RuleFor(x => x.TicketPrice)
                 .NotEmpty().WithMessage("TicketPrice is required.")

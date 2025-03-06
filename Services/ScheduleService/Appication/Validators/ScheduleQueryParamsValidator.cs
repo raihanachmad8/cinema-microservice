@@ -38,7 +38,7 @@ namespace ScheduleService.Application.Validators
 
         private bool IsValidColumn(string columnName)
         {
-            var validColumns = new List<string> { "MovieId", "StudioId", "ShowTime", "TicketPrice", "CreatedAt", "UpdatedAt" };
+            var validColumns = new List<string> { "MovieId", "StudioId", "StartDatetime", "EndDatetime", "TicketPrice", "CreatedAt", "UpdatedAt" };
             return validColumns.Contains(columnName);
         }
     }

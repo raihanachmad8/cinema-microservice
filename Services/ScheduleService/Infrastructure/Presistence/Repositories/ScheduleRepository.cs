@@ -33,12 +33,17 @@ namespace ScheduleService.Infrastructure.Persistence.Repositories
 
         public async Task<IEnumerable<Schedule>> GetAllAsync() => await _context.Schedules.ToListAsync();
 
-        public async Task<IEnumerable<Schedule>> GetByShowTimeAsync(DateTime time, Guid studioId)
+        public async Task<IEnumerable<Schedule>> GetByShowTimeAsync(DateTime time, Guid studioId, int duration)
         {
             try
             {
+                var startTime = time;
+                var endTime = time.AddMinutes(duration);
+
                 return await _context.Schedules
-                    .Where(s => s.ShowTime.Date == time.Date && s.StudioId == studioId)
+                    .Where(s => s.StudioId == studioId && 
+                                s.StartDatetime < endTime && // Jadwal yang ada mulai sebelum jadwal baru selesai
+                                s.EndDatetime > startTime)   // Jadwal yang ada selesai setelah jadwal baru mulai
                     .ToListAsync();
             }
             catch (Exception ex)
@@ -161,7 +166,7 @@ namespace ScheduleService.Infrastructure.Persistence.Repositories
                 }
                 else
                 {
-                    query = query.OrderBy(s => s.ShowTime);
+                    query = query.OrderBy(s => s.StartDatetime);
                 }
 
                 var schedules = await query.Skip((page - 1) * pageSize)

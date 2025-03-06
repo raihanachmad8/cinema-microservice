@@ -7,7 +7,7 @@ public interface IScheduleRepository
 {
     Task<Schedule?> GetByIdAsync(int id);
     Task<IEnumerable<Schedule>> GetAllAsync();
-    Task<IEnumerable<Schedule>> GetByShowTimeAsync(DateTime time, Guid studioId);
+    Task<IEnumerable<Schedule>> GetByShowTimeAsync(DateTime time, Guid studioId, int Duration);
     Task AddAsync(Schedule schedule);
     Task UpdateAsync(Schedule schedule);
     Task DeleteAsync(int id);

@@ -16,7 +16,8 @@ namespace ScheduleService.Domain.Entities
         public Guid StudioId { get; set; } 
 
         [Required]
-        public DateTime ShowTime { get; set; }
+        public DateTime StartDatetime { get; set; }
+        public DateTime EndDatetime { get; set; }
 
         [Required]
         [Range(0, double.MaxValue, ErrorMessage = "Ticket price must be a positive value.")]

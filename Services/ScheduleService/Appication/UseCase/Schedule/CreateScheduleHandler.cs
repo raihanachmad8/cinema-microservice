@@ -4,7 +4,6 @@ using ScheduleService.Application.DTOs.Responses;
 using ScheduleService.Application.Interfaces.Repositories;
 using ScheduleService.Common.Exceptions;
 using ScheduleService.Domain.Entities;
-using Microsoft.Extensions.Logging;
 
 namespace ScheduleService.Application.UseCases
 {
@@ -14,7 +13,8 @@ namespace ScheduleService.Application.UseCases
         private readonly ILogger<CreateScheduleHandler> _logger;
         private readonly IMapper _mapper;
 
-        public CreateScheduleHandler(IScheduleRepository scheduleRepository, ILogger<CreateScheduleHandler> logger, IMapper mapper)
+        public CreateScheduleHandler(IScheduleRepository scheduleRepository, ILogger<CreateScheduleHandler> logger,
+            IMapper mapper)
         {
             _scheduleRepository = scheduleRepository;
             _logger = logger;
@@ -23,17 +23,23 @@ namespace ScheduleService.Application.UseCases
 
         public async Task<Response<ScheduleResponse>> Handle(ScheduleRequest request)
         {
-            _logger.LogInformation("Creating Schedule for MovieId: {MovieId} at StudioId: {StudioId}", request.MovieId, request.StudioId);
+            _logger.LogInformation("Creating Schedule for MovieId: {MovieId} at StudioId: {StudioId}", request.MovieId,
+                request.StudioId);
+            int duration = 120;
+            int tolerance = 20;
+            var existingSchedules =
+                await _scheduleRepository.GetByShowTimeAsync(request.StartDatetime, request.StudioId, duration + tolerance);
+            Console.WriteLine(existingSchedules.Count());
 
-            var existingSchedule = await _scheduleRepository.GetByShowTimeAsync(request.ShowTime, request.StudioId);
-            Console.WriteLine($"{request.ShowTime.Date} - {request.StudioId} | ${existingSchedule.Count()}");
-            if (existingSchedule.Count() > 0 ) throw new ConflictException("A schedule already exists for this time at the specified studio.");
+            if (existingSchedules.Count() > 0)
+                throw new ConflictException("A schedule already exists for this time at the specified studio.");
 
             var schedule = new Schedule()
             {
                 MovieId = request.MovieId,
                 StudioId = request.StudioId,
-                ShowTime = request.ShowTime,
+                StartDatetime = request.StartDatetime,
+                EndDatetime = request.StartDatetime.AddMinutes(duration),
                 TicketPrice = request.TicketPrice
             };
 

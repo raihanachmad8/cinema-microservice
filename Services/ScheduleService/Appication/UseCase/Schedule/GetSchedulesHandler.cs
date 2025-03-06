@@ -32,12 +32,11 @@ namespace ScheduleService.Application.UseCases
             var schedules = await _scheduleRepository.GetSchedulesAsync(movieId,
                 studioId, queryParams.OrderBy, queryParams.Sort, queryParams.Page,
                 queryParams.PageSize);
-            var scheduleResponses = new List<ScheduleResponse>();
 
 
             
             return new Response<IEnumerable<ScheduleResponse>>().Ok(
-                _mapper.Map<IEnumerable<ScheduleResponse>>(scheduleResponses), "List of Schedules",
+                _mapper.Map<IEnumerable<ScheduleResponse>>(schedules.Schedules), "List of Schedules",
                 schedules.Metadata);
         }
     }
