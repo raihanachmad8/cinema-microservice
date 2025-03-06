@@ -1,13 +1,14 @@
 ﻿using StudioService.Application.Interfaces.Repositories;
+using StudioService.Application.Interfaces.Services;
 
 namespace StudioService.Application.UseCases;
 
 public class DeleteStudioHandler
 {
     private readonly IStudioRepository _studioRepository;
-    private readonly ILogger<DeleteStudioHandler> _logger;
+    private readonly ISerilog<DeleteStudioHandler> _logger;
 
-    public DeleteStudioHandler(IStudioRepository studioRepository, ILogger<DeleteStudioHandler> logger)
+    public DeleteStudioHandler(IStudioRepository studioRepository, ISerilog<DeleteStudioHandler> logger)
     {
         _studioRepository = studioRepository;
         _logger = logger;

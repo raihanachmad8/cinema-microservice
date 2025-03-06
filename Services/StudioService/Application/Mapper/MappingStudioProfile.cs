@@ -4,9 +4,9 @@ using StudioService.Application.DTOs.Responses;
 
 namespace StudioService.Application.Mapper;
 
-public class StudioMappingProfile : Profile
+public class MappingStudioProfile : Profile
 {
-    public StudioMappingProfile()
+    public MappingStudioProfile()
     {
         CreateMap<Studio, StudioResponse>();
     }

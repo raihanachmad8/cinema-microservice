@@ -8,7 +8,7 @@ public static class ServiceCollectionExtensions
         IConfiguration configuration)
     {
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
-            .AddAutoMapper(typeof(StudioMappingProfile))
+            .AddAutoMapper(typeof(MappingStudioProfile))
             .AddAuthenticationExtensions(configuration)
             .AddFluentValidationServices()
             .AddDatabase(configuration)

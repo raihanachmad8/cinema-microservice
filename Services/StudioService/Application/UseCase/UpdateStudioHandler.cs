@@ -2,6 +2,7 @@
 using StudioService.Application.DTOs.Requests;
 using StudioService.Application.DTOs.Responses;
 using StudioService.Application.Interfaces.Repositories;
+using StudioService.Application.Interfaces.Services;
 using StudioService.Common.Exceptions;
 
 namespace StudioService.Application.UseCases;
@@ -9,10 +10,10 @@ namespace StudioService.Application.UseCases;
 public class UpdateStudioHandler
 {
     private readonly IStudioRepository _studioRepository;
-    private readonly ILogger<UpdateStudioHandler> _logger;
+    private readonly ISerilog<UpdateStudioHandler> _logger;
     private readonly IMapper _mapper;
 
-    public UpdateStudioHandler(IStudioRepository studioRepository, ILogger<UpdateStudioHandler> logger, IMapper mapper)
+    public UpdateStudioHandler(IStudioRepository studioRepository, ISerilog<UpdateStudioHandler> logger, IMapper mapper)
     {
         _studioRepository = studioRepository;
         _logger = logger;
@@ -30,11 +31,11 @@ public class UpdateStudioHandler
             throw new KeyNotFoundException($"Studio with ID {id} not found.");
         }
 
-        var existingName = await _studioRepository.GetByNameAsync(studio.Name);
+        var existingName = await _studioRepository.GetByNameAsync(request.Name);
         if (existingName != null)
         {
-            _logger.LogWarning("Name {Name} already exists", studio.Name);
-            throw new ConflictException("Name is already taken.");
+            _logger.LogWarning("Name {Name} already exists", request.Name);
+            throw new ConflictException("Name is already exists");
         }
 
         studio.Name = request.Name;
