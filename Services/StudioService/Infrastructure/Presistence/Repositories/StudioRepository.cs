@@ -17,7 +17,7 @@ public class StudioRepository : IStudioRepository
         _logger = logger;
     }
 
-    public async Task<Studio?> GetByIdAsync(Guid id)
+    public async Task<Studio?> GetByIdAsync(int id)
     {
         try
         {
@@ -101,7 +101,7 @@ public class StudioRepository : IStudioRepository
         }
     }
 
-    public async Task DeleteAsync(Guid id)
+    public async Task DeleteAsync(int id)
     {
         try
         {
