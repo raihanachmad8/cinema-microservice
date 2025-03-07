@@ -1,7 +1,4 @@
-﻿using ScheduleService.Application.Events.Requests;
-using ScheduleService.Application.Events.Responses;
-
-namespace ScheduleService.Application.Interfaces.Messaging
+﻿namespace TicketService.Application.Interfaces.Messaging
 {
     public interface INatsSubscriber
     {
