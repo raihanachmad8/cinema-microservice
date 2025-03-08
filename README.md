@@ -188,7 +188,7 @@ Sistem ini dirancang untuk bioskop modern yang memiliki banyak studio dan berbag
 Di sebuah bioskop modern yang memiliki banyak studio dan berbagai jenis film yang ditayangkan setiap hari, dibutuhkan sebuah sistem informasi untuk memudahkan pengelolaan operasionalnya. Admin bioskop harus bisa mengelola data studio, film yang ditayangkan, jadwal tayang, dan transaksi penjualan tiket secara efisien. Pengguna sistem (pelanggan) harus dapat melihat jadwal film, memilih kursi, dan membeli tiket dengan cepat.
 
 ## Tujuan
-Menciptakan sebuah REST API yang akan digunakan oleh admin dan pengguna untuk melakukan berbagai aktivitas yang berhubungan dengan bioskop, seperti manajemen studio, jadwal tayang, manajemen film, dan transaksi tiket.
+Menciptakan sebuah Microservice API yang akan digunakan oleh admin dan pengguna untuk melakukan berbagai aktivitas yang berhubungan dengan bioskop, seperti manajemen studio, jadwal tayang, manajemen film, dan transaksi tiket.
 
 ## Data Utama
 - **Studio Bioskop**: Tempat di mana film ditayangkan. Setiap studio memiliki nama, kapasitas, dan fasilitas tambahan.
