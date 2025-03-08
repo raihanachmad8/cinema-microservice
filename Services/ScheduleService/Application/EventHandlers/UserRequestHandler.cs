@@ -51,6 +51,7 @@ namespace ScheduleService.Application.EventHandlers
                     Id = schedule.Id,
                     MovieId = schedule.MovieId,
                     StudioId = schedule.StudioId,
+                    TicketPrice = schedule.TicketPrice,
                     StartDatetime = schedule.StartDatetime,
                     EndDatetime = schedule.EndDatetime,
                 };

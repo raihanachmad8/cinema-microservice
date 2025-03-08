@@ -18,7 +18,7 @@ public class CreateTicketHandler
     private readonly INatsPublisher _natsPublisher;
     private readonly IConnectionMultiplexer _redis;
 
-    private const int ReservationBlockDurationMinutes = 1; // Duration to block the seat
+    private const int ReservationBlockDurationMinutes = 5; // Duration to block the seat
 
     public CreateTicketHandler(
         ITicketRepository ticketRepository,
@@ -47,9 +47,10 @@ public class CreateTicketHandler
         // Check if the seat is available in Redis
         var db = _redis.GetDatabase();
         var seatKey = $"seat:{request.SeatId}";
+        var ticketStatus = await db.StringGetAsync(seatKey);
 
         // Check if the seat is currently reserved in Redis
-        if (await db.StringGetAsync(seatKey) == "reserved")
+        if (ticketStatus == "reserved" || ticketStatus == "pending") 
         {
             throw new ConflictException("Seat is currently unavailable for reservation.");
         }

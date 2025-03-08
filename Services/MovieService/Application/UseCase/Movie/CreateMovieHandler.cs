@@ -33,7 +33,7 @@ public class CreateMovieHandler
 
         // Cek conflic
         var existingMovie = await _movieRepository.GetByTitleAsync(request.Title);
-        if (existingMovie != null && existingMovie.DeletedAt != null) throw new ConflictException("Title is already taken");
+        if (existingMovie != null && !existingMovie.DeletedAt.HasValue) throw new ConflictException("Title is already taken");
         
         if (!Enum.TryParse<Genre>(request.Genre, true, out var genre))
         {

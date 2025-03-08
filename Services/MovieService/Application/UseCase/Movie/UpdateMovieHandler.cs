@@ -40,7 +40,7 @@ public class UpdateMovieHandler
         if (existingName != null && existingName.Id != id)
         {
             _logger.LogWarning("Title {Title} already exists", request.Title);
-            throw new ConflictException("Name is already taken.");
+            throw new ConflictException("Title already exists");
         }
         
         if (!Enum.TryParse<Genre>(request.Genre, true, out var genre))

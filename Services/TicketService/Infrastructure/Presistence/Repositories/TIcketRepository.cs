@@ -22,9 +22,13 @@ namespace TicketService.Infrastructure.Presistence.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<Ticket?> GetTicketByIdWithSeats(int ticketId)
+        public async Task<Ticket?> GetTicketByIdWithSeatsAsync(int ticketId, int? userId)
         {
-            return await _dbContext.Tickets.Include(s => s.SeatId).FirstOrDefaultAsync(t => t.Id == ticketId);
+            var ticket = await _dbContext.Tickets
+                .Include(t => t.Seat)
+                .FirstOrDefaultAsync(t => t.Id == ticketId && (userId == null || t.UserId == userId));
+
+            return ticket;
         }
 
 

@@ -1,7 +1,9 @@
+using StackExchange.Redis;
 using TicketService.Appication.Events.User;
 using TicketService.Application.Events.Requests;
 using TicketService.Application.Interfaces.Messaging;
 using TicketService.Application.Events.Responses;
+using TicketService.Application.Events.Ticket;
 using TicketService.Application.Interfaces.Repositories;
 using TicketService.Domain.Entities;
 using TicketService.Domain.Enums;
@@ -25,8 +27,11 @@ namespace TicketService.Application.EventHandlers
             _natsSubscriber.SubscribeAsync<GetTicketRequest, GetTicketResponse>("ticket.get", HandleGetTicketRequest);
 
             _natsSubscriber.Subscribe<ScheduleCreatedEvent>("schedule.created", HandleScheduleCreatedEvent);
-            
-            _natsSubscriber.Subscribe<TransactionCreatedPaymentEvent>("transaction.created.payment", HandleTransactionCreatedPaymentEvent);
+
+            _natsSubscriber.Subscribe<TransactionCreatedEvent>("transaction.created", HandleTransactionCreatedEvent);
+
+            _natsSubscriber.Subscribe<TransactionCreatedPaymentEvent>("transaction.created.payment",
+                HandleTransactionCreatedPaymentEvent);
 
             // // Handler untuk TicketCreatedEvent
             // _natsSubscriber.Subscribe<TicketCreatedEvent>("ticket.created", HandleTicketCreatedEvent);
@@ -39,7 +44,7 @@ namespace TicketService.Application.EventHandlers
             //
             // Console.WriteLine("[NATS] TicketRequestHandler registered for Ticket.get, Ticket.created, Ticket.updated, and Ticket.deleted");
         }
-        
+
         private void HandleTransactionCreatedPaymentEvent(TransactionCreatedPaymentEvent paymentEvent)
         {
             // Use Task.Run to invoke the async logic inside the void method.
@@ -48,7 +53,8 @@ namespace TicketService.Application.EventHandlers
 
         private async Task HandleTransactionCreatedPaymentEventAsync(TransactionCreatedPaymentEvent paymentEvent)
         {
-            Console.WriteLine($"[NATS] Handling payment for transaction {paymentEvent.Id}, updating ticket status to Confirmed");
+            Console.WriteLine(
+                $"[NATS] Handling payment for transaction {paymentEvent.Id}, updating ticket status to Confirmed");
 
             using var scope = _scopeFactory.CreateScope();
             var ticketRepository = scope.ServiceProvider.GetRequiredService<ITicketRepository>();
@@ -56,22 +62,66 @@ namespace TicketService.Application.EventHandlers
             try
             {
                 // Retrieve the ticket by the transaction ID (or another identifier)
-                var ticket = await ticketRepository.GetTicketByIdAsync(paymentEvent.SeatId);
+                var ticket = await ticketRepository.GetTicketByIdWithSeatsAsync(paymentEvent.TicketId, paymentEvent.UserId);
                 if (ticket == null)
                 {
-                    Console.WriteLine($"[NATS] Ticket not found for transaction {paymentEvent.Id}");
+                    Console.WriteLine($"[NATS] Ticket not found for transaction {paymentEvent.TicketId}");
                     return;
                 }
 
                 // Update the status of the ticket to "Confirmed"
                 ticket.Status = TicketStatus.Confirmed;
+                ticket.Seat.IsAvailable = false;
                 await ticketRepository.UpdateTicketAsync(ticket);
 
                 Console.WriteLine($"[NATS] Ticket with ID {ticket.Id} confirmed for transaction {paymentEvent.Id}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[NATS] Error updating ticket status for transaction {paymentEvent.Id}: {ex.Message}");
+                Console.WriteLine(
+                    $"[NATS] Error updating ticket status for transaction {paymentEvent.Id}: {ex.Message}");
+            }
+        }
+
+        private void HandleTransactionCreatedEvent(TransactionCreatedEvent paymentEvent)
+        {
+            // Use Task.Run to invoke the async logic inside the void method.
+            Task.Run(async () => { await HandleTransactionCreatedEventAsync(paymentEvent); });
+        }
+
+        private async Task HandleTransactionCreatedEventAsync(TransactionCreatedEvent paymentEvent)
+        {
+            Console.WriteLine(
+                $"[NATS] Handling payment for transaction {paymentEvent.Id}, updating ticket status to Confirmed");
+
+            using var scope = _scopeFactory.CreateScope();
+            var redisConnection = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
+            var redis = redisConnection.GetDatabase();
+            var ticketRepository = scope.ServiceProvider.GetRequiredService<ITicketRepository>();
+            
+            var ticket = await ticketRepository.GetTicketByIdAsync(paymentEvent.TicketId);
+
+            try
+            {
+                // Retrieve the ticket by the transaction ID (or another identifier)
+                if (ticket == null)
+                {
+                    Console.WriteLine($"[NATS] Ticket not found for transaction {paymentEvent.Id}");
+                    return;
+                }
+
+                // Update the status of the ticket to "Pending"
+                var seatKey = $"seat:{ticket.SeatId}";
+                await redis.StringSetAsync(seatKey, "pending", TimeSpan.FromMinutes(10));
+                
+                
+
+                Console.WriteLine($"[NATS] Ticket with ID {ticket.Id} confirmed for transaction {paymentEvent.Id}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(
+                    $"[NATS] Error updating ticket status for transaction {paymentEvent.Id}: {ex.Message}");
             }
         }
 
@@ -103,7 +153,7 @@ namespace TicketService.Application.EventHandlers
                 return null;
             }
         }
-        
+
         private void HandleScheduleCreatedEvent(ScheduleCreatedEvent scheduleEvent)
         {
             // Use Task.Run to invoke the async logic inside the void method.

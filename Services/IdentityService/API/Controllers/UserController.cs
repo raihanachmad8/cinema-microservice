@@ -36,7 +36,7 @@ namespace IdentityService.API.Controllers
         public async Task<IActionResult> GetProfile()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var userProfile = await _getUserHandler.Handle(Int32.Parse(userId));
+            var userProfile = await _getUserHandler.Handle(int.Parse(userId));
 
             if (userProfile == null) return NotFound();
 
@@ -50,7 +50,7 @@ namespace IdentityService.API.Controllers
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); 
             
-            var result = await _updateUserHandler.Handle(Int32.Parse(userId), request);
+            var result = await _updateUserHandler.Handle(int.Parse(userId), request);
 
             if (result == null) return NotFound();
             return Ok(result);
@@ -61,7 +61,7 @@ namespace IdentityService.API.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             _changePasswordRequestValidator.Validate(request);
-            var result = await _changePasswordHandler.Handle(Int32.Parse(userId!), request);
+            var result = await _changePasswordHandler.Handle(int.Parse(userId!), request);
 
             if (result == null) return BadRequest("Password change failed");
 

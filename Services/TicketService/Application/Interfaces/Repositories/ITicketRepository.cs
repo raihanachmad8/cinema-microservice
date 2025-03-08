@@ -8,7 +8,7 @@ namespace TicketService.Application.Interfaces.Repositories
     public interface ITicketRepository
     {
         Task<Ticket?> GetTicketByIdAsync(int ticketId);
-        Task<Ticket?> GetTicketByIdWithSeats(int ticketId);
+        Task<Ticket?> GetTicketByIdWithSeatsAsync(int ticketId, int? userId);
         Task<IEnumerable<Ticket>> GetTicketsByUserIdAsync(int userId);
         Task<IEnumerable<Ticket>> GetTicketsByTicketIdAsync(int TicketId);
         Task AddTicketAsync(Ticket ticket);
