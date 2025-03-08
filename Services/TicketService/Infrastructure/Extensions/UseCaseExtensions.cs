@@ -10,6 +10,7 @@ public static class UseCaseExtensions
 
         services.AddScoped<CreateTicketHandler>();
         services.AddScoped<GetTicketsHandler>();
+        services.AddScoped<GetTicketDetailHandler>();
         return services;
     }
 }

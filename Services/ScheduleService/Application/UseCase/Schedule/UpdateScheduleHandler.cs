@@ -38,7 +38,7 @@ namespace ScheduleService.Application.UseCases
             int duration = 120;
             // Cek konflik, misalnya jika jadwal sudah ada untuk waktu yang sama di studio yang sama
             var existingSchedule = await _scheduleRepository.GetByShowTimeAsync(request.StartDatetime, request.StudioId, duration);
-            if (existingSchedule.Count() > 0)
+            if (existingSchedule.Count() > 0 && existingSchedule.Where(i => i.StudioId == request.StudioId).Count() == 0)
             {
                 _logger.LogWarning("A schedule already exists for this time at the specified studio.");
                 throw new ConflictException("A schedule already exists for this time at the specified studio.");

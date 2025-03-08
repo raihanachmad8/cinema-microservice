@@ -14,21 +14,21 @@ namespace TicketService.API.Controllers
         private readonly CreateTicketHandler _createTicketHandler;
 
         private readonly GetTicketsHandler _getTicketsHandler;
-        // private readonly GetTicketDetailHandler _getTicketDetailHandler;
+        private readonly GetTicketDetailHandler _getTicketDetailHandler;
         private readonly IValidator<TicketRequest> _ticketRequestValidator;
         private readonly IValidator<TicketQueryParams> _ticketQueryParamsValidator;
 
         public TicketController(
             CreateTicketHandler createTicketHandler,
             GetTicketsHandler getTicketsHandler,
-            // GetTicketsDetailHandler getTicketDetailHandler,
+            GetTicketDetailHandler getTicketDetailHandler,
             IValidator<TicketRequest> ticketRequestValidator,
             IValidator<TicketQueryParams> ticketQueryParamsValidator
         )
         {
             _createTicketHandler = createTicketHandler;
             _getTicketsHandler = getTicketsHandler;
-            // _getTicketDetailHandler = getTicketDetailHandler;
+            _getTicketDetailHandler = getTicketDetailHandler;
             _ticketRequestValidator = ticketRequestValidator;
             _ticketQueryParamsValidator = ticketQueryParamsValidator;
         }
@@ -49,15 +49,16 @@ namespace TicketService.API.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             await _ticketQueryParamsValidator.ValidateAsync(queryParams);
-            var result = await _getTicketsHandler.Handle(Int16.Parse(userId), queryParams);
+            var result = await _getTicketsHandler.Handle(int.Parse(userId), queryParams);
             return Ok(result);
         }
 
-        // [HttpGet("{ticketId}")]
-        // public async Task<IActionResult> GetTicketDetails(int ticketId)
-        // {
-        //     var result = await _getTicketDetailHandler.Handle(ticketId);
-        //     return Ok(result);
-        // }
+        [HttpGet("{ticketId}")]
+        public async Task<IActionResult> GetTicketDetails(int ticketId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var result = await _getTicketDetailHandler.Handle(int.Parse(userId), ticketId);
+            return Ok(result);
+        }
     }
 }

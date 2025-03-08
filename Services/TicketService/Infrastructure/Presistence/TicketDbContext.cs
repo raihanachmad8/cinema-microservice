@@ -80,7 +80,7 @@ namespace TicketService.Infrastructure.Persistence
                     ScheduleId = 1,
                     UserId = 4,
                     SeatId = 1,
-                    Status = TicketStatus.Reserved,
+                    Status = TicketStatus.Pending,
                     ReservedAt = DateTime.Parse("2025-03-06"),
                     CreatedAt = DateTime.Parse("2025-03-06"),
                     UpdatedAt = DateTime.Parse("2025-03-06")
@@ -91,7 +91,7 @@ namespace TicketService.Infrastructure.Persistence
                     ScheduleId = 1,
                     UserId = 5,
                     SeatId = 2,
-                    Status = TicketStatus.Reserved,
+                    Status = TicketStatus.Pending,
                     ReservedAt = DateTime.Parse("2025-03-06"),
                     CreatedAt = DateTime.Parse("2025-03-06"),
                     UpdatedAt = DateTime.Parse("2025-03-06")
@@ -102,7 +102,7 @@ namespace TicketService.Infrastructure.Persistence
                     ScheduleId = 1,
                     UserId = 3,
                     SeatId = 3,
-                    Status = TicketStatus.Reserved,
+                    Status = TicketStatus.Pending,
                     ReservedAt = DateTime.Parse("2025-03-06"),
                     CreatedAt = DateTime.Parse("2025-03-06"),
                     UpdatedAt = DateTime.Parse("2025-03-06")

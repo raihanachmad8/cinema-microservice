@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MovieService.Appication.Events.Movie;
 using MovieService.Application.Interfaces.Messaging;
 using MovieService.Application.Interfaces.Repositories;
 using MovieService.Application.Interfaces.Services;
@@ -24,15 +25,15 @@ public class DeleteMovieHandler
     {
         _logger.LogInformation("Deleting Movie with ID: {Id}", id);
 
-        var Movie = await _movieRepository.GetByIdAsync(id);
-        if (Movie == null)
+        var movie = await _movieRepository.GetByIdAsync(id);
+        if (movie == null)
         {
             _logger.LogWarning("Movie with ID {Id} not found", id);
             throw new KeyNotFoundException($"Movie with ID {id} not found.");
         }
 
         await _movieRepository.DeleteAsync(id);
-        await _natsPublisher.PublishAsync("movie.deleted", _mapper.Map<DeleteMovieHandler>(Movie));
+        await _natsPublisher.PublishAsync("movie.deleted", _mapper.Map<MovieDeletedEvent>(movie));
         _logger.LogInformation("Movie with ID {Id} deleted successfully", id);
     }
 }
