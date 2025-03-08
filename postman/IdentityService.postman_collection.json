@@ -1,0 +1,2197 @@
+{
+	"info": {
+		"_postman_id": "766b08af-c010-4366-b57a-698edb29af73",
+		"name": "IdentityService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28863651"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "Login - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"  let jsonResponse = pm.response.json();",
+											"  let at = jsonResponse.data.accessToken;",
+											"  let rt = jsonResponse.data.refreshToken;",
+											"  pm.environment.set(\"admin_at\", at);",
+											"  pm.environment.set(\"admin_rt\", rt);",
+											"}",
+											"",
+											"pm.test(\"Status is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Title is 'Ok'\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.title).to.eql(\"Ok\");",
+											"});",
+											"",
+											"pm.test(\"Detail is 'Ok'\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.detail).to.eql(\"Ok\");",
+											"});",
+											"",
+											"pm.test(\"Access token is present\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.data.accessToken).to.not.be.null;",
+											"    pm.expect(jsonData.data.accessToken).to.be.a(\"string\");",
+											"});",
+											"",
+											"pm.test(\"Refresh token is present\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.data.refreshToken).to.not.be.null;",
+											"    pm.expect(jsonData.data.refreshToken).to.be.a(\"string\");",
+											"});",
+											"",
+											"pm.test(\"Expiration time is a valid number\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.data.expiresIn).to.be.a(\"number\");",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Email\": \"admin1@cinema.com\",\r\n    \"Password\": \"Password@123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IDENTITY_SERVICE}}/auth/login",
+									"host": [
+										"{{IDENTITY_SERVICE}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Login - 200",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"Email\": \"admin1@cinema.com\",\r\n    \"Password\": \"Password@123\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{IDENTITY_SERVICE}}/auth/login",
+											"host": [
+												"{{IDENTITY_SERVICE}}"
+											],
+											"path": [
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 06 Mar 2025 11:46:11 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": 200,\n    \"title\": \"Ok\",\n    \"detail\": \"Ok\",\n    \"data\": {\n        \"tokenType\": \"Bearer\",\n        \"accessToken\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTc0MTI2NTE3MSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAxIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAwIn0.MSohifAl8GjgKgyXf5GyywOuGxQ6FmbRhZKbQ89F5eWi48wkU4AOa-jwV7Sk0q59Jqnjf3URWmEE40oyEeg92anryUr3MxQTUTECA5jqn8ezj9VYiSKAj3IDRrLLWf04y6jIB2iPoGuoHeSjhYGQFlC0PXTdvZUOh3t5jQ4stekVeaRjWVKct24aXayEHNjmWN37z09vxS84pvtXExi0mefOZD_1nTlziUwCdS2-IM0LnPwXS4x0-Z3fBTfqund2cKnqDBkJ4SYm8H1DPRxoPiDrSlMIn1jcCqUrRD5nNJMSqp4Mwaye9qDA4unr8lh20C2on5x9IOvNRhqlWDs43Q\",\n        \"expiresIn\": 14,\n        \"refreshToken\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJleHAiOjE3NDI0NzExNzEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTAwMSIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTAwMCJ9.E7dthmZ6LTosTnEeO2193yMyqpiilY3VKc-9RyppU9_W8-A6LMbbIEs_hdA2DmU2HQCXykiFAZxLHZApQ9r6TRrQMSOt6nOSWWihxZtXeNWkFiqbNewHusH0PHiFuir6DueKzS1GZrM88SdR5rMsLFRQsJNW1pz3xo2Yb0GjhJVWy4oK0sSFCJ7fiJIU4PQR4BgmDiHrcCArC3l2-J8er-gN31dXbtiNKMbNwSy2Kx7AKtvqrqDmaYl-Vf7SIUMWEbih1is2PUjGUMPozaOAlkQ3ibKNhDYd3m_YQx-QJb9YLkYiNWE1Qq-vHMdcKQdkE8O7LtTOV-Qw15rIC5a32Q\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Login - 400",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Title is 'One or more validation errors occurred.'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.title).to.eql(\"One or more validation errors occurred.\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Type URL is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Password error message is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors.Password).to.include(\"Password is required.\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"TraceId is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+											"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Email\": \"admin1@cinema.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IDENTITY_SERVICE}}/auth/login",
+									"host": [
+										"{{IDENTITY_SERVICE}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Login - 400",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"Email\": \"admin1@cinema.com\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{IDENTITY_SERVICE}}/auth/login",
+											"host": [
+												"{{IDENTITY_SERVICE}}"
+											],
+											"path": [
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/problem+json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 06 Mar 2025 11:46:23 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"One or more validation errors occurred.\",\n    \"status\": 400,\n    \"errors\": {\n        \"Password\": [\n            \"Password is required.\"\n        ]\n    },\n    \"traceId\": \"00-f30173987837335e00a48d31da6b0b3b-54f4153afde9800b-00\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Logout",
+					"item": [
+						{
+							"name": "Logout- 204",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body is empty\", function () {\r",
+											"    pm.response.to.have.body(\"\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin_at}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{IDENTITY_SERVICE}}/auth/logout",
+									"host": [
+										"{{IDENTITY_SERVICE}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Logout- 204",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{IDENTITY_SERVICE}}/auth/logout",
+											"host": [
+												"{{IDENTITY_SERVICE}}"
+											],
+											"path": [
+												"auth",
+												"logout"
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 06 Mar 2025 11:47:15 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "logout - 401",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Title is 'Unauthorized'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.title).to.eql(\"Unauthorized\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Type URL is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"TraceId is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+											"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IDENTITY_SERVICE}}/auth/logout",
+									"host": [
+										"{{IDENTITY_SERVICE}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "logout - 401",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{IDENTITY_SERVICE}}/auth/logout",
+											"host": [
+												"{{IDENTITY_SERVICE}}"
+											],
+											"path": [
+												"auth",
+												"logout"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 06 Mar 2025 11:47:28 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Unauthorized\",\n    \"status\": 401,\n    \"detail\": \"Token is missing or invalid\",\n    \"instance\": \"/api/auth/logout\",\n    \"traceId\": \"0HNASKH9N78CE:00000007\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "RefreshToken",
+					"item": [
+						{
+							"name": "Refresh- 401",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Title is 'Unauthorized'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.title).to.eql(\"Unauthorized\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Detail is 'Token is missing or invalid'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.detail).to.eql(\"Token is missing or invalid\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Type URL is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"TraceId is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+											"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Email\": \"admin@cinema.om\",\r\n    \"Password\": \"wrong\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IDENTITY_SERVICE}}/auth/refresh",
+									"host": [
+										"{{IDENTITY_SERVICE}}"
+									],
+									"path": [
+										"auth",
+										"refresh"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Refresh- 401",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"Email\": \"admin@cinema.om\",\r\n    \"Password\": \"wrong\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{IDENTITY_SERVICE}}/auth/refresh",
+											"host": [
+												"{{IDENTITY_SERVICE}}"
+											],
+											"path": [
+												"auth",
+												"refresh"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 06 Mar 2025 11:47:42 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Unauthorized\",\n    \"status\": 401,\n    \"detail\": \"Token is missing or invalid\",\n    \"instance\": \"/api/auth/refresh\",\n    \"traceId\": \"0HNASKH9N78CE:00000008\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Refresh- 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {\r",
+											"  let jsonResponse = pm.response.json();\r",
+											"  let at = jsonResponse.data.accessToken;\r",
+											"  let rt = jsonResponse.data.refreshToken;\r",
+											"  pm.environment.set(\"admin_at\", at);\r",
+											"  pm.environment.set(\"admin_rt\", rt);\r",
+											"}\r",
+											"\r",
+											"\r",
+											"pm.test(\"Status is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Title is 'Ok'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.title).to.eql(\"Ok\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Detail is 'Ok'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.detail).to.eql(\"Ok\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Access token is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.data.accessToken).to.not.be.null;\r",
+											"    pm.expect(jsonData.data.accessToken).to.be.a(\"string\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Refresh token is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.data.refreshToken).to.not.be.null;\r",
+											"    pm.expect(jsonData.data.refreshToken).to.be.a(\"string\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Expiration time is a valid number\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.data.expiresIn).to.be.a(\"number\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin_rt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Email\": \"admin@cinema.com\",\r\n    \"Password\": \"Password@123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IDENTITY_SERVICE}}/auth/refresh",
+									"host": [
+										"{{IDENTITY_SERVICE}}"
+									],
+									"path": [
+										"auth",
+										"refresh"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Refresh- 200",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"Email\": \"admin@cinema.com\",\r\n    \"Password\": \"Password@123\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{IDENTITY_SERVICE}}/auth/refresh",
+											"host": [
+												"{{IDENTITY_SERVICE}}"
+											],
+											"path": [
+												"auth",
+												"refresh"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 06 Mar 2025 11:47:50 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": 200,\n    \"title\": \"Ok\",\n    \"detail\": \"Ok\",\n    \"data\": {\n        \"tokenType\": \"Bearer\",\n        \"accessToken\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsImV4cCI6MTc0MTI2NTI3MSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAxIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAwIn0.Qn36a7aQKqcst8Dnzpj8g3Lmpzm5L9KRoCsef1LpUo6VH9RweoQROkhAB9fCddJF4YnBgmMH771cYZNztx-mw2WCnd-997GI7UUFFq-RIMOVhkO82lQ_kR5EK8gMW8uGyVucIXEAf4q5KVLgmsIgFNrNoN1Hor8b5DjUMtTh3PrAM8Ggy2dwyXsEE7ILxxGBYKkS8z47BMpnX52Aq1lY3eee57MNPlOR5SD7K_1D26X4F7wW84mDhHJ6gi_PzpNQDwBaQYgVgVbVjUQq0f2DwQmkCvGgmpCI8moDDo-qf0xLC7496goMiopVmie5R6hlzDpLZCkXz4U-na5uSoAADQ\",\n        \"expiresIn\": 14,\n        \"refreshToken\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJleHAiOjE3NDI0NzEyNzEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTAwMSIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTAwMCJ9.u6kN_XdWlynJCEDzT59XzunlsPxhXlLqAf2dTAZG7tVsm3EEC6a9MSwN6eNUBweNoddTtpcaDNjzdUUFeshkfrHp8ND33ysTdyqMbgL0oj0LEVmIFprgqXhekAaOXyAyCBFYoTu7Ln8t3h-tL5mUuynF6HdZ6L7snl-cV65Npx_glghGrBx9vBUmIb6f49_b3x94UeaBCZvqy8HXbD-yqOdEytoIktMkVBoFfiJ8WwPujIOylSMLhHqTuLTLAUQl9LV16W2RrHkW6Ik8qR8rzeyfjS_mYB8VTTUqcAlELDfwENT-FgxCNU7-CjEqxeNF_sQ9SCsiCbbDjuT-2XyRUg\"\n    }\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "Login - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {",
+											"  let jsonResponse = pm.response.json();",
+											"  let at = jsonResponse.data.accessToken;",
+											"  let rt = jsonResponse.data.refreshToken;",
+											"  pm.environment.set(\"user_at\", at);",
+											"  pm.environment.set(\"user_rt\", rt);",
+											"}",
+											"",
+											"pm.test(\"Status is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Title is 'Ok'\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.title).to.eql(\"Ok\");",
+											"});",
+											"",
+											"pm.test(\"Detail is 'Ok'\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.detail).to.eql(\"Ok\");",
+											"});",
+											"",
+											"pm.test(\"Access token is present\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.data.accessToken).to.not.be.null;",
+											"    pm.expect(jsonData.data.accessToken).to.be.a(\"string\");",
+											"});",
+											"",
+											"pm.test(\"Refresh token is present\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.data.refreshToken).to.not.be.null;",
+											"    pm.expect(jsonData.data.refreshToken).to.be.a(\"string\");",
+											"});",
+											"",
+											"pm.test(\"Expiration time is a valid number\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.data.expiresIn).to.be.a(\"number\");",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Email\": \"user1@cinema.com\",\r\n    \"Password\": \"Password@123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IDENTITY_SERVICE}}/auth/login",
+									"host": [
+										"{{IDENTITY_SERVICE}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Login - 200",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"Email\": \"user1@cinema.com\",\r\n    \"Password\": \"Password@123\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{IDENTITY_SERVICE}}/auth/login",
+											"host": [
+												"{{IDENTITY_SERVICE}}"
+											],
+											"path": [
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 06 Mar 2025 11:48:52 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": 200,\n    \"title\": \"Ok\",\n    \"detail\": \"Ok\",\n    \"data\": {\n        \"tokenType\": \"Bearer\",\n        \"accessToken\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwiZXhwIjoxNzQxMjY1MzMzLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMDEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAifQ.T--yovByaMV3iIcYKyeQ5BHV4C8qc4Qy0ciXL6gB_Nuo2kUeXy3BMgXbeFayFTjKa7Ta1tqsuZ6ZW6CbCCV_ROtfxt8eau9SBMWwe2_LYGVKlS5n49NcLU6T5gVNEgjso_e10-WOWF1NVBJUlwc-AT_gChBIBkt1iIYcS1-ip4TwmgniNnLEvBEl-H-gwJNO9QAD12qpWyrddBBr3UQ70ByuUHWzqJVPSZrDkoNsCBAx9TM9k_f4ME3AjDJ44Q6cNb1ufnlH9Sn7P2i2Xwnyq0SdCkOcIAwInOAMErnM8mrFDbajOZ9KphJ7QH8O8ia7Zyx1ZcqPvTjdwZNKYWh2KA\",\n        \"expiresIn\": 14,\n        \"refreshToken\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjMiLCJleHAiOjE3NDI0NzEzMzMsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTAwMSIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTAwMCJ9.ZGeYKfqdq70Py8FyiTEh6M4of8tOZbR3h5bQlg7231slRg8lZ9yRjhnU-7JBGhy7-Yn0SGjRs8Gi1XkAiQUYkiz2KflIfWFpL1cmIa-hjB8hPiMIFeDaqkbTDzVZl2Lk2n8v4f7YZEhir6gIZbIOujCuJGUUg0-avETDr8RWaU6EWmcxiNhzhADvtK1duw_dNELd-xBcC8zspQ2zn4_9tygBKa-fxTILpiS8WDr8vU7Mm0ysBwVev50j1hqMWbpu0xpaP-XOsBh578gGwDa3HMYTgulcyho3OnCTFvWly40SKGP9QSsvUcfOvfyLnLnRodd5YtrrKXmycKeda_vS4g\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Login - 400",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Title is 'One or more validation errors occurred.'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.title).to.eql(\"One or more validation errors occurred.\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Type URL is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Password error message is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors.Password).to.include(\"Password is required.\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"TraceId is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+											"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Email\": \"user1@cinema.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IDENTITY_SERVICE}}/auth/login",
+									"host": [
+										"{{IDENTITY_SERVICE}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Login - 400",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"Email\": \"user1@cinema.com\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{IDENTITY_SERVICE}}/auth/login",
+											"host": [
+												"{{IDENTITY_SERVICE}}"
+											],
+											"path": [
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/problem+json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 06 Mar 2025 11:48:57 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"One or more validation errors occurred.\",\n    \"status\": 400,\n    \"errors\": {\n        \"Password\": [\n            \"Password is required.\"\n        ]\n    },\n    \"traceId\": \"00-0b9d40aac45395ea511d9e573ebc8e03-034a8319a87653b5-00\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Logout",
+					"item": [
+						{
+							"name": "Logout- 204",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body is empty\", function () {\r",
+											"    pm.response.to.have.body(\"\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_at}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{IDENTITY_SERVICE}}/auth/logout",
+									"host": [
+										"{{IDENTITY_SERVICE}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Logout- 204",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{IDENTITY_SERVICE}}/auth/logout",
+											"host": [
+												"{{IDENTITY_SERVICE}}"
+											],
+											"path": [
+												"auth",
+												"logout"
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "plain",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Thu, 06 Mar 2025 11:49:08 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										}
+									],
+									"cookie": [],
+									"body": null
+								}
+							]
+						},
+						{
+							"name": "logout - 401",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Title is 'Unauthorized'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.title).to.eql(\"Unauthorized\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Type URL is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"TraceId is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+											"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IDENTITY_SERVICE}}/auth/logout",
+									"host": [
+										"{{IDENTITY_SERVICE}}"
+									],
+									"path": [
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "logout - 401",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{IDENTITY_SERVICE}}/auth/logout",
+											"host": [
+												"{{IDENTITY_SERVICE}}"
+											],
+											"path": [
+												"auth",
+												"logout"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 06 Mar 2025 11:49:13 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Unauthorized\",\n    \"status\": 401,\n    \"detail\": \"Token is missing or invalid\",\n    \"instance\": \"/api/auth/logout\",\n    \"traceId\": \"0HNASKH9N78CE:0000000E\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "RefreshToken",
+					"item": [
+						{
+							"name": "Refresh- 401",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Title is 'Unauthorized'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.title).to.eql(\"Unauthorized\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Detail is 'Token is missing or invalid'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.detail).to.eql(\"Token is missing or invalid\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Type URL is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"TraceId is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+											"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Email\": \"admin@cinema.om\",\r\n    \"Password\": \"wrong\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IDENTITY_SERVICE}}/auth/refresh",
+									"host": [
+										"{{IDENTITY_SERVICE}}"
+									],
+									"path": [
+										"auth",
+										"refresh"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Refresh- 401",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"Email\": \"admin@cinema.om\",\r\n    \"Password\": \"wrong\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{IDENTITY_SERVICE}}/auth/refresh",
+											"host": [
+												"{{IDENTITY_SERVICE}}"
+											],
+											"path": [
+												"auth",
+												"refresh"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 06 Mar 2025 11:49:19 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Unauthorized\",\n    \"status\": 401,\n    \"detail\": \"Token is missing or invalid\",\n    \"instance\": \"/api/auth/refresh\",\n    \"traceId\": \"0HNASKH9N78CE:0000000F\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Refresh- 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 200) {\r",
+											"  let jsonResponse = pm.response.json();\r",
+											"  let at = jsonResponse.data.accessToken;\r",
+											"  let rt = jsonResponse.data.refreshToken;\r",
+											"  pm.environment.set(\"user_at\", at);\r",
+											"  pm.environment.set(\"user_rt\", rt);\r",
+											"}\r",
+											"\r",
+											"\r",
+											"pm.test(\"Status is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Title is 'Ok'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.title).to.eql(\"Ok\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Detail is 'Ok'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.detail).to.eql(\"Ok\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Access token is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.data.accessToken).to.not.be.null;\r",
+											"    pm.expect(jsonData.data.accessToken).to.be.a(\"string\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Refresh token is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.data.refreshToken).to.not.be.null;\r",
+											"    pm.expect(jsonData.data.refreshToken).to.be.a(\"string\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Expiration time is a valid number\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.data.expiresIn).to.be.a(\"number\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_rt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Email\": \"admin@cinema.com\",\r\n    \"Password\": \"Password@123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IDENTITY_SERVICE}}/auth/refresh",
+									"host": [
+										"{{IDENTITY_SERVICE}}"
+									],
+									"path": [
+										"auth",
+										"refresh"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Refresh- 200",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"Email\": \"admin@cinema.com\",\r\n    \"Password\": \"Password@123\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{IDENTITY_SERVICE}}/auth/refresh",
+											"host": [
+												"{{IDENTITY_SERVICE}}"
+											],
+											"path": [
+												"auth",
+												"refresh"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 06 Mar 2025 11:49:25 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": 200,\n    \"title\": \"Ok\",\n    \"detail\": \"Ok\",\n    \"data\": {\n        \"tokenType\": \"Bearer\",\n        \"accessToken\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJVc2VyIiwiZXhwIjoxNzQxMjY1MzY2LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMDEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAifQ.HW-wMPMjzBjnJQ6PKCsisDpk00Nsi0UM_jozE1SNTiauKIZYBaGKRzDEmV6Q1EbjLUqvavNY8vYMMzsVuYOM14zhGkt1iU7igKc54DhSPiFhrGguuxuDUxNcvH3I3hlti_4HxOcfVP7bBpS9RL9r4YeG9M1URF-gpw6flZ-_UQXEISgQ0AfkkzOO5hjPyY1WZ8S055r1Pj-ykLGlc2uCGX64jjyBltS-QQb1MGXR91hGTeA6nC3YBEUG5VKq5X7BTWIdioC_J9y4MMfrLrw8B7KUQ5q6IJqq7Xwu7DE_f7-rnVBgjrEGnalJMiltzbckEKprB1liIa2WpzH02A18Ew\",\n        \"expiresIn\": 14,\n        \"refreshToken\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjMiLCJleHAiOjE3NDI0NzEzNjYsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTAwMSIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTAwMCJ9.HgEQfClRQsPavxfXkiNclzuvMCshGK0Y3dQsEtc65OoTXG-cMWM2Xi8nAXKUX4Q0AhESXxlXaRz9jSUmdWe94ScgnTH2VvZk7XehsDzaCqS_N8xrVf_y1colEZiPKaCm4vaBwUfEjPr8y9oviZsZ_e-ZzVkN8pWgMlA7Bm_iDY3IUfyFLL_YESILJYVRZK5M5XAW94caPwdm6EyTJwkspCoUW1cIwlTqTi5zgT855Dn4RkfyNMwQ06xrpfEci-wdUeoGyxl4jZ93keVKqMX5JZ5ASYUvsunudf7JqOH_VeGP4cUXOIDo-6ACM9wrJXmIhKAfFWGDtPAGKHorzHY96g\"\n    }\n}"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Regiser -- Public",
+			"item": [
+				{
+					"name": "Register - 201",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"  let jsonResponse = pm.response.json();",
+									"  let at = jsonResponse.data.accessToken;",
+									"  let rt = jsonResponse.data.refreshToken;",
+									"  pm.environment.set(\"new_user_at\", at);",
+									"  pm.environment.set(\"new_user_rt\", rt);",
+									"}",
+									"",
+									"",
+									"pm.test(\"Status is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Title is 'Created'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.title).to.eql(\"Created\");",
+									"});",
+									"",
+									"pm.test(\"Detail is 'Created'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.detail).to.eql(\"Created\");",
+									"});",
+									"",
+									"pm.test(\"Access token is present\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.accessToken).to.not.be.null;",
+									"    pm.expect(jsonData.data.accessToken).to.be.a(\"string\");",
+									"});",
+									"",
+									"pm.test(\"Refresh token is present\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.refreshToken).to.not.be.null;",
+									"    pm.expect(jsonData.data.refreshToken).to.be.a(\"string\");",
+									"});",
+									"",
+									"pm.test(\"Expiration time is a valid number\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.expiresIn).to.be.a(\"number\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Function to generate random string for name and email\r",
+									"function randomString(length) {\r",
+									"    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';\r",
+									"    let result = '';\r",
+									"    for (let i = 0; i < length; i++) {\r",
+									"        result += chars.charAt(Math.floor(Math.random() * chars.length));\r",
+									"    }\r",
+									"    return result;\r",
+									"}\r",
+									"\r",
+									"// Generate random name and email\r",
+									"const name = randomString(5);\r",
+									"const email = `${name.toLowerCase()}@example.com`;\r",
+									"\r",
+									"// Set the generated values as environment variables\r",
+									"pm.environment.set(\"random_name\", name);\r",
+									"pm.environment.set(\"random_email\", email);\r",
+									"\r",
+									"// Log the generated values for debugging purposes\r",
+									"console.log(\"Generated User:\", name, email);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"{{random_name}}\",\r\n    \"Email\": \"{{random_email}}\",\r\n    \"Password\": \"Password@123\",\r\n    \"ConfirmPassword\": \"Password@123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{IDENTITY_SERVICE}}/auth/register",
+							"host": [
+								"{{IDENTITY_SERVICE}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Register - 201",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Name\": \"{{random_name}}\",\r\n    \"Email\": \"{{random_email}}\",\r\n    \"Password\": \"Password@123\",\r\n    \"ConfirmPassword\": \"Password@123\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IDENTITY_SERVICE}}/auth/register",
+									"host": [
+										"{{IDENTITY_SERVICE}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 11:49:34 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Location",
+									"value": "http://localhost:5001/api/auth/register"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 201,\n    \"title\": \"Created\",\n    \"detail\": \"Created\",\n    \"data\": {\n        \"tokenType\": \"Bearer\",\n        \"accessToken\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjE1IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsImV4cCI6MTc0MTI2NTM3NSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAxIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAwIn0.KnSnCshs7OlK_NLXuj4vhJep8qO94yL1HS1FBmbzPiF7-x6s8xP24Kje6Ezgl5bWpT6m1s93tgNHead7PzYqd3HAl4DYfVRfWiOanjX-HdYYqLx4dEqtdcL7Cqu0y9o4xRxCFUc0cdEcx-k8h07H36--4JzrmYz1sO6XhdkURgbd9zyj2s4yQ2WtGAF45VtoHzoX-D8pkqJCkwCda3U535KW8p6Q6EjsGjTDjrN6LZBlPmOjqygm7yyEleM3MDHReUXXTz0ecV1OZoVGZKIs96XScCgVHPl4CpH47JeJ7qCpUttbY0X2lOVgs3i32tWaHgESoqmj-9kZ5RqO4vOT3A\",\n        \"expiresIn\": 14,\n        \"refreshToken\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjE1IiwiZXhwIjoxNzQyNDcxMzc1LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMDEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAifQ.fOQEY810oMTHesdBztRzTRKMaxd12IbCXxEiG7huZEhCMhAn70v770_5xJZl1hM5OirhLTyYwStoqc7sxAf21C1rzVFQxMztysuCO8Jx6ix__8JQr7ty4GRVPCfQMeAVq3flY-1bYhURdkMhM-5p6pCSa0UGMKYrb4dHkPzZqANhVrqqr3euo96EH96OnKaWp809qNPFGYt4KLF8oA6ayFoXSlDus_FKTx4Zh-Bx7cV51U8CpE5mBfgDZCpvM6j_Yd7Gknlxw_jznjqr6NUr10qRlqVIOgX-0ful5kHLQouUmKXcT6ZpTUC7irJqBo6JIMw6JcIg-Q0QWyfASLfYoQ\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Register 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Title is 'One or more validation errors occurred.'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.title).to.eql(\"One or more validation errors occurred.\");",
+									"});",
+									"",
+									"pm.test(\"Type URL is present\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");",
+									"});",
+									"",
+									"pm.test(\"ConfirmPassword error messages are present\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.errors.ConfirmPassword).to.include(\"Confirm password is required.\");",
+									"    pm.expect(jsonData.errors.ConfirmPassword).to.include(\"Password and confirm password must match.\");",
+									"});",
+									"",
+									"pm.test(\"TraceId is present\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.traceId).to.not.be.null;",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\":  \"Eka\",\r\n    \"Email\": \"eka@example.com\",\r\n    \"Password\": \"Password@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{IDENTITY_SERVICE}}/auth/register",
+							"host": [
+								"{{IDENTITY_SERVICE}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Register 400",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Name\":  \"Eka\",\r\n    \"Email\": \"eka@example.com\",\r\n    \"Password\": \"Password@123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IDENTITY_SERVICE}}/auth/register",
+									"host": [
+										"{{IDENTITY_SERVICE}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/problem+json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 11:49:48 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"One or more validation errors occurred.\",\n    \"status\": 400,\n    \"errors\": {\n        \"ConfirmPassword\": [\n            \"Confirm password is required.\",\n            \"Password and confirm password must match.\"\n        ]\n    },\n    \"traceId\": \"00-44f5b3aa2473299b07d4d5d45a940bec-a1e2b7906c97eec0-00\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Register 409",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Status is 409\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});",
+									"",
+									"pm.test(\"Title is 'Conflict'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.title).to.eql(\"Conflict\");",
+									"});",
+									"",
+									"pm.test(\"Detail is 'Ok'\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.detail).to.eql(\"User with email already exists\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Type URL is present\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"TraceId is present\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.traceId).to.not.be.null;",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"admin\",\r\n    \"Email\": \"admin@cinema.com\",\r\n    \"Password\": \"Password@123\",\r\n    \"ConfirmPassword\": \"Password@123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{IDENTITY_SERVICE}}/auth/register",
+							"host": [
+								"{{IDENTITY_SERVICE}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Register 409",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Name\": \"admin\",\r\n    \"Email\": \"admin@cinema.com\",\r\n    \"Password\": \"Password@123\",\r\n    \"ConfirmPassword\": \"Password@123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IDENTITY_SERVICE}}/auth/register",
+									"host": [
+										"{{IDENTITY_SERVICE}}"
+									],
+									"path": [
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 11:50:00 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Location",
+									"value": "http://localhost:5001/api/auth/register"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 201,\n    \"title\": \"Created\",\n    \"detail\": \"Created\",\n    \"data\": {\n        \"tokenType\": \"Bearer\",\n        \"accessToken\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjE3IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXNlciIsImV4cCI6MTc0MTI2NTQwMSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAxIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAwIn0.oiYhnZuyt8f9XHuLMM5SoEHunjApRhafIqh8ql8mUzH-y2fgT5L57bKLnwuy4FBSX03MWAg-31WjTQT6TOn-cBKkJCqqUGoeQTbt_hWLmrUwn0R4v2GNjs3WBF-xxbL4nxX7znsKMhEJiymAHoewDsNMRH37hj0RFowTjckLOBSNC6m9TXGXpbUffH2WQ5EVHl43x-A603cUSlxHKhgFCN5pIQH2-5BcBUH494rsEv3TUCXDH0DYPK-xcuVnRcS8iTu-Pq7s3DIEItIHWuCNBm2OI9cphK1QkSywbONa1wC1v3nMaeLzl34CZjvV2TJzaXL_CdK52fVTri3lq0uAZQ\",\n        \"expiresIn\": 14,\n        \"refreshToken\": \"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjE3IiwiZXhwIjoxNzQyNDcxNDAxLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUwMDEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjUwMDAifQ.ofczyoJwEYaYHVvcErt_KNgAXL-Arb06tJvpMJLwK8dJJ5KsIpb2J9ryVRTqSLvOh0Ych6-RnUIw8cStDRd0Xm8izwAWQufqcgV6mQO02GJcrsDv8OQbnE_PfkrbWotCL2NBI-hD6MrUeyODqKTL9f0zWg4_a0Kt-hWMUD1PbcUf_ugA2SIE-FwuBIJaQt64qy9P4RCqTb6lctqvD6y9oQ95h0bOhgp0wBqXdbdEcq-wYSFjDL5qEvqKoVC3Y8jriytOQlB1Gp1CPr00ECGTkSZB-ZFSNeZY5BMiks5JGaOojjYOH-rQilz3gW8t84p9LGFoKhv3NyTcaXJFBqu9oA\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Profile",
+					"item": [
+						{
+							"name": "Get",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Title is 'Ok'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.title).to.eql(\"Ok\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Detail is 'Get User'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.detail).to.eql(\"Get User\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Data Profile\", function() {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.data).to.have.property(\"id\").that.is.a('number');\r",
+											"    pm.expect(jsonData.data).to.have.property(\"name\").that.is.a('string');\r",
+											"    pm.expect(jsonData.data).to.have.property(\"email\").that.is.a('string');\r",
+											"    pm.expect(jsonData.data).to.have.property(\"role\").that.is.a('number');\r",
+											"    pm.expect(jsonData.data).to.have.property(\"phoneNumber\").that.is.a('string');\r",
+											"    pm.expect(jsonData.data).to.have.property(\"address\").that.is.a('string');\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_at}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{IDENTITY_SERVICE}}/users/profile",
+									"host": [
+										"{{IDENTITY_SERVICE}}"
+									],
+									"path": [
+										"users",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Profiile - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Title is 'Ok'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.title).to.eql(\"Ok\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Detail is 'User updated'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.detail).to.eql(\"User updated\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Data Profile\", function() {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.data).to.have.property(\"id\").that.is.a('number');\r",
+											"    pm.expect(jsonData.data).to.have.property(\"name\").that.is.a('string');\r",
+											"    pm.expect(jsonData.data).to.have.property(\"email\").that.is.a('string');\r",
+											"    pm.expect(jsonData.data).to.have.property(\"role\").that.is.a('number');\r",
+											"    pm.expect(jsonData.data).to.have.property(\"phoneNumber\").that.is.a('string');\r",
+											"    pm.expect(jsonData.data).to.have.property(\"address\").that.is.a('string');\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_at}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Name\": \"User\",\r\n    \"Email\": \"user1@cinema.com\",\r\n    \"PhoneNumber\": \"08123456789\",\r\n    \"Address\": \"Jl. Kebon Jeruk 11, Jakarta Selatan\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IDENTITY_SERVICE}}/users/profile",
+									"host": [
+										"{{IDENTITY_SERVICE}}"
+									],
+									"path": [
+										"users",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Profiile - 400",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Title is 'One or more validation errors occurred.'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.title).to.eql(\"One or more validation errors occurred.\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Type URL is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Address is empty\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors.Address).to.include(\"Address cannot be empty.\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"TraceId is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+											"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_at}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Name\": \"User\",\r\n    \"Email\": \"user1@cinema.com\",\r\n    \"PhoneNumber\": \"08123456789\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IDENTITY_SERVICE}}/users/profile",
+									"host": [
+										"{{IDENTITY_SERVICE}}"
+									],
+									"path": [
+										"users",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ChangePassword - 200",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Title is 'Ok'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.title).to.eql(\"Ok\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Detail is 'Password changed successfully.'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.detail).to.eql(\"Password changed successfully.\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Data is null\", function() {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.data).to.eql(null);  \r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_at}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"CurrentPassword\": \"Password@123\",\r\n    \"NewPassword\": \"Password@123\",\r\n    \"ConfirmNewPassword\": \"Password@123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IDENTITY_SERVICE}}/users/change-password",
+									"host": [
+										"{{IDENTITY_SERVICE}}"
+									],
+									"path": [
+										"users",
+										"change-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ChangePassword - 400",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Title is 'One or more validation errors occurred.'\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.title).to.eql(\"One or more validation errors occurred.\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Type URL is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"ConfirmNewPassword is empty\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.errors.ConfirmNewPassword).to.include(\"Confirm new password cannot be empty.\");\r",
+											"    pm.expect(jsonData.errors.ConfirmNewPassword).to.include(\"New password and confirm password must match.\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"TraceId is present\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+											"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{user_at}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"CurrentPassword\": \"Password@123\",\r\n    \"NewPassword\": \"Password@123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{IDENTITY_SERVICE}}/users/change-password",
+									"host": [
+										"{{IDENTITY_SERVICE}}"
+									],
+									"path": [
+										"users",
+										"change-password"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

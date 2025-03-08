@@ -1,0 +1,2111 @@
+{
+	"info": {
+		"_postman_id": "1c479a17-1063-4383-937a-7a0d682feaa0",
+		"name": "StudioService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28863651"
+	},
+	"item": [
+		{
+			"name": "Get Studio",
+			"item": [
+				{
+					"name": "Get 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response message is 'Ok'\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.title).to.eql(\"Ok\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response detail is 'List of studios'\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.detail).to.eql(\"List of studios\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that the 'data' array contains 6 studios\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.length).to.eql(6);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if each studio has valid properties\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    jsonResponse.data.forEach(studio => {\r",
+									"        pm.expect(studio).to.have.all.keys('id', 'name', 'capacity', 'additionalFacilities', 'createdAt', 'updatedAt');\r",
+									"        pm.expect(studio.id).to.be.a('number');\r",
+									"        pm.expect(studio.name).to.be.a('string');\r",
+									"        pm.expect(studio.capacity).to.be.a('number');\r",
+									"        pm.expect(studio.additionalFacilities).to.be.a('string');\r",
+									"        pm.expect(studio.createdAt).to.be.a('string');\r",
+									"        pm.expect(studio.updatedAt).to.be.a('string');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check the metadata object\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.metadata).to.have.all.keys('page', 'pageSize', 'totalPages', 'totalRecords');\r",
+									"    pm.expect(jsonResponse.metadata.page).to.be.a('number');\r",
+									"    pm.expect(jsonResponse.metadata.pageSize).to.be.a('number');\r",
+									"    pm.expect(jsonResponse.metadata.totalPages).to.be.a('number');\r",
+									"    pm.expect(jsonResponse.metadata.totalRecords).to.be.a('number');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios?search=&orderby=Capacity&sort=desc&page=1&pagesize=20",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "",
+									"description": "On: Name, AdditionalFacilities"
+								},
+								{
+									"key": "orderby",
+									"value": "Capacity",
+									"description": "Name, Capacity, AdditionalFacilities, CreatedAt, UpdatedAt"
+								},
+								{
+									"key": "sort",
+									"value": "desc",
+									"description": "asc,desc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pagesize",
+									"value": "20",
+									"description": "Max: 100"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get 200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios?search=&orderby=Capacity&sort=desc&page=1&pagesize=20",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "",
+											"description": "On: Name, AdditionalFacilities"
+										},
+										{
+											"key": "orderby",
+											"value": "Capacity",
+											"description": "Name, Capacity, AdditionalFacilities, CreatedAt, UpdatedAt"
+										},
+										{
+											"key": "sort",
+											"value": "desc",
+											"description": "asc,desc"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pagesize",
+											"value": "20",
+											"description": "Max: 100"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 11:51:01 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"title\": \"Ok\",\n    \"detail\": \"List of studios\",\n    \"data\": [\n        {\n            \"id\": 2,\n            \"name\": \"Studio 2\",\n            \"capacity\": 80,\n            \"additionalFacilities\": \"IMAX, 3D\",\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        },\n        {\n            \"id\": 5,\n            \"name\": \"Studio 5\",\n            \"capacity\": 80,\n            \"additionalFacilities\": \"Kids Area, Wide Screen\",\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        },\n        {\n            \"id\": 6,\n            \"name\": \"Studio 6\",\n            \"capacity\": 60,\n            \"additionalFacilities\": \"Wide Screen, Luxury Recliners\",\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Studio 3\",\n            \"capacity\": 50,\n            \"additionalFacilities\": \"Luxury Recliners, Dolby Atmos\",\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        },\n        {\n            \"id\": 1,\n            \"name\": \"Studio 1\",\n            \"capacity\": 50,\n            \"additionalFacilities\": \"Dolby Surround, Wide Screen\",\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Studio 4\",\n            \"capacity\": 40,\n            \"additionalFacilities\": \"VIP Seating, 4D Experience\",\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        },\n        {\n            \"id\": 7,\n            \"name\": \"Studio 12\",\n            \"capacity\": 20,\n            \"additionalFacilities\": \"\",\n            \"createdAt\": \"2025-03-06T11:36:33.5877278\",\n            \"updatedAt\": \"2025-03-06T11:36:33.5877287\"\n        }\n    ],\n    \"metadata\": {\n        \"page\": 1,\n        \"pageSize\": 20,\n        \"totalPages\": 1,\n        \"totalRecords\": 7\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response message is 'Ok'\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.title).to.eql(\"Ok\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response detail is 'List of studios'\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.detail).to.eql(\"List of studios\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that the 'data' array contains 6 studios\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.length).to.eql(6);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if each studio has valid properties\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    jsonResponse.data.forEach(studio => {\r",
+									"        pm.expect(studio).to.have.all.keys('id', 'name', 'capacity', 'additionalFacilities', 'createdAt', 'updatedAt');\r",
+									"        pm.expect(studio.id).to.be.a('number');\r",
+									"        pm.expect(studio.name).to.be.a('string');\r",
+									"        pm.expect(studio.capacity).to.be.a('number');\r",
+									"        pm.expect(studio.additionalFacilities).to.be.a('string');\r",
+									"        pm.expect(studio.createdAt).to.be.a('string');\r",
+									"        pm.expect(studio.updatedAt).to.be.a('string');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check the metadata object\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.metadata).to.have.all.keys('page', 'pageSize', 'totalPages', 'totalRecords');\r",
+									"    pm.expect(jsonResponse.metadata.page).to.be.a('number');\r",
+									"    pm.expect(jsonResponse.metadata.pageSize).to.be.a('number');\r",
+									"    pm.expect(jsonResponse.metadata.totalPages).to.be.a('number');\r",
+									"    pm.expect(jsonResponse.metadata.totalRecords).to.be.a('number');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios?search=studi&orderby=capacity&sort=desc&page=1&pagesize=20",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "studi",
+									"description": "On: Name, AdditionalFacilities"
+								},
+								{
+									"key": "orderby",
+									"value": "capacity",
+									"description": "Name, Capacity, AdditionalFacilities, CreatedAt, UpdatedAt"
+								},
+								{
+									"key": "sort",
+									"value": "desc",
+									"description": "asc, desc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pagesize",
+									"value": "20",
+									"description": "Max: 100"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get 400",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios?search=studi&orderby=capacity&sort=desc&page=1&pagesize=20",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "studi",
+											"description": "On: Name, AdditionalFacilities"
+										},
+										{
+											"key": "orderby",
+											"value": "capacity",
+											"description": "Name, Capacity, AdditionalFacilities, CreatedAt, UpdatedAt"
+										},
+										{
+											"key": "sort",
+											"value": "desc",
+											"description": "asc, desc"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pagesize",
+											"value": "20",
+											"description": "Max: 100"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/problem+json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 11:50:48 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"One or more validation errors occurred.\",\n    \"status\": 400,\n    \"errors\": {\n        \"OrderBy\": [\n            \"OrderBy must be a valid column name.\"\n        ]\n    },\n    \"traceId\": \"00-5ee26f8afc4deb99fbff491bad73c418-f99dfb90efa7afd6-00\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get 401",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Unauthorized'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Unauthorized\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'Token is missing or invalid'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"Token is missing or invalid\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios?search=studi&orderby=capacity&sort=desc&page=1&pagesize=20",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "studi",
+									"description": "On: Name, AdditionalFacilities"
+								},
+								{
+									"key": "orderby",
+									"value": "capacity",
+									"description": "Name, Capacity, AdditionalFacilities, CreatedAt, UpdatedAt"
+								},
+								{
+									"key": "sort",
+									"value": "desc",
+									"description": "asc, desc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pagesize",
+									"value": "20",
+									"description": "Max: 100"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get 401",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios?search=studi&orderby=capacity&sort=desc&page=1&pagesize=20",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "studi",
+											"description": "On: Name, AdditionalFacilities"
+										},
+										{
+											"key": "orderby",
+											"value": "capacity",
+											"description": "Name, Capacity, AdditionalFacilities, CreatedAt, UpdatedAt"
+										},
+										{
+											"key": "sort",
+											"value": "desc",
+											"description": "asc, desc"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pagesize",
+											"value": "20",
+											"description": "Max: 100"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 11:51:40 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Unauthorized\",\n    \"status\": 401,\n    \"detail\": \"Token is missing or invalid\",\n    \"instance\": \"/api/studios\",\n    \"traceId\": \"0HNASKGK9UGQF:0000000E\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Forbidden'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Forbidden\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'You do not have permission to access this resource'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"You do not have permission to access this resource.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios?search=studi&orderby=capacity&sort=desc&page=1&pagesize=20",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "studi",
+									"description": "On: Name, AdditionalFacilities"
+								},
+								{
+									"key": "orderby",
+									"value": "capacity",
+									"description": "Name, Capacity, AdditionalFacilities, CreatedAt, UpdatedAt"
+								},
+								{
+									"key": "sort",
+									"value": "desc",
+									"description": "asc, desc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pagesize",
+									"value": "20",
+									"description": "Max: 100"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get 403",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios?search=studi&orderby=capacity&sort=desc&page=1&pagesize=20",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "studi",
+											"description": "On: Name, AdditionalFacilities"
+										},
+										{
+											"key": "orderby",
+											"value": "capacity",
+											"description": "Name, Capacity, AdditionalFacilities, CreatedAt, UpdatedAt"
+										},
+										{
+											"key": "sort",
+											"value": "desc",
+											"description": "asc, desc"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pagesize",
+											"value": "20",
+											"description": "Max: 100"
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 11:51:45 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Forbidden\",\n    \"status\": 403,\n    \"detail\": \"You do not have permission to access this resource.\",\n    \"instance\": \"/api/studios\",\n    \"traceId\": \"0HNASKGK9UGQF:0000000F\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Create Studio",
+			"item": [
+				{
+					"name": "Create Studio 401",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Unauthorized'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Unauthorized\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'Token is missing or invalid'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"Token is missing or invalid\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Studio 401",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 11:52:19 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Unauthorized\",\n    \"status\": 401,\n    \"detail\": \"Token is missing or invalid\",\n    \"instance\": \"/api/studios\",\n    \"traceId\": \"0HNASKGK9UGQF:00000012\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Studio 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Forbidden'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Forbidden\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'You do not have permission to access this resource'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"You do not have permission to access this resource.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Studio 403",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 11:52:25 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Forbidden\",\n    \"status\": 403,\n    \"detail\": \"You do not have permission to access this resource.\",\n    \"instance\": \"/api/studios\",\n    \"traceId\": \"0HNASKGK9UGQF:00000013\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Studio 415",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 415\", function () {\r",
+									"    pm.response.to.have.status(415);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Unsupported Media Type'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Unsupported Media Type\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.16\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Studio 415",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios"
+									]
+								}
+							},
+							"status": "Unsupported Media Type",
+							"code": 415,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/problem+json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 11:52:30 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.16\",\n    \"title\": \"Unsupported Media Type\",\n    \"status\": 415,\n    \"traceId\": \"00-38c077fc45cbee6e194b2a1069692054-7d5af2a2f4e8bdf3-00\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Studio 201",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response title is 'Created'\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.title).to.eql(\"Created\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response detail is 'Created studio'\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.detail).to.eql(\"Created studio\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if the 'data' object has valid properties\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data).to.have.all.keys('id', 'name', 'capacity', 'additionalFacilities', 'createdAt', 'updatedAt');\r",
+									"    pm.expect(jsonResponse.data.id).to.be.a('number');\r",
+									"    pm.expect(jsonResponse.data.name).to.be.a('string');\r",
+									"    pm.expect(jsonResponse.data.capacity).to.be.a('number');\r",
+									"    pm.expect(jsonResponse.data.additionalFacilities).to.be.a('string');\r",
+									"    pm.expect(jsonResponse.data.createdAt).to.be.a('string');\r",
+									"    pm.expect(jsonResponse.data.updatedAt).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that the 'name' is 'Studio 12'\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.name).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that the 'capacity' is 20\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.capacity).to.be.a('number');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate random number\r",
+									"function generateRandomNumber() {\r",
+									"    return Math.floor(Math.random() * 1000); // Random number between 0 and 999\r",
+									"}\r",
+									"\r",
+									"// Generate random studio name with the random number\r",
+									"function generateRandomStudioName() {\r",
+									"    const studioPrefix = \"Studio \";\r",
+									"    const randomNumber = generateRandomNumber();\r",
+									"    return studioPrefix + randomNumber;\r",
+									"}\r",
+									"\r",
+									"// Random capacity between 10 and 100\r",
+									"function generateRandomCapacity() {\r",
+									"    return Math.floor(Math.random() * (100 - 10 + 1)) + 10;\r",
+									"}\r",
+									"\r",
+									"// Set random studio name and capacity in environment variables\r",
+									"pm.environment.set(\"studioName\", generateRandomStudioName());\r",
+									"pm.environment.set(\"studioCapacity\", generateRandomCapacity());\r",
+									"\r",
+									"// Update the request body dynamically with the generated values\r",
+									"pm.request.body.raw = JSON.stringify({\r",
+									"    \"Name\": pm.environment.get(\"studioName\"),\r",
+									"    \"Capacity\": pm.environment.get(\"studioCapacity\")\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"Studio 13\",\r\n    \"Capacity\": 20\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Studio 201",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Name\": \"Studio 13\",\r\n    \"Capacity\": 20\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 11:54:49 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Location",
+									"value": "http://localhost:5002/api/studios"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"title\": \"Ok\",\n    \"detail\": \"Created studio\",\n    \"data\": {\n        \"id\": 9,\n        \"name\": \"Studio 843\",\n        \"capacity\": 26,\n        \"additionalFacilities\": \"\",\n        \"createdAt\": \"2025-03-06T11:54:49.4971648Z\",\n        \"updatedAt\": \"2025-03-06T11:54:49.4971653Z\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Studio 409",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 409\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Conflict'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Conflict\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'Ok'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"User with email already exists\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"Studio 1\",\r\n    \"Capacity\": 20\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Studio 201",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Name\": \"Studio 13\",\r\n    \"Capacity\": 20\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 11:54:49 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Location",
+									"value": "http://localhost:5002/api/studios"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"title\": \"Ok\",\n    \"detail\": \"Created studio\",\n    \"data\": {\n        \"id\": 9,\n        \"name\": \"Studio 843\",\n        \"capacity\": 26,\n        \"additionalFacilities\": \"\",\n        \"createdAt\": \"2025-03-06T11:54:49.4971648Z\",\n        \"updatedAt\": \"2025-03-06T11:54:49.4971653Z\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Update Studio",
+			"item": [
+				{
+					"name": "Update Studio 200",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate random number\r",
+									"function generateRandomNumber() {\r",
+									"    return Math.floor(Math.random() * 1000); // Random number between 0 and 999\r",
+									"}\r",
+									"\r",
+									"// Generate random studio name with the random number\r",
+									"function generateRandomStudioName() {\r",
+									"    const studioPrefix = \"Studio \";\r",
+									"    const randomNumber = generateRandomNumber();\r",
+									"    return studioPrefix + randomNumber;\r",
+									"}\r",
+									"\r",
+									"// Random capacity between 10 and 100\r",
+									"function generateRandomCapacity() {\r",
+									"    return Math.floor(Math.random() * (100 - 10 + 1)) + 10;\r",
+									"}\r",
+									"\r",
+									"// Set random studio name and capacity in environment variables\r",
+									"pm.environment.set(\"studioName\", generateRandomStudioName());\r",
+									"pm.environment.set(\"studioCapacity\", generateRandomCapacity());\r",
+									"\r",
+									"// Update the request body dynamically with the generated values\r",
+									"pm.request.body.raw = JSON.stringify({\r",
+									"    \"Name\": pm.environment.get(\"studioName\"),\r",
+									"    \"Capacity\": pm.environment.get(\"studioCapacity\"),\r",
+									"    \"additionalFacilities\": \"IMAX, 3D\"\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Studio 23\",\r\n    \"capacity\": 80,\r\n    \"additionalFacilities\": \"IMAX, 3D\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios/2",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Studio 200",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Studio 23\",\r\n    \"capacity\": 80,\r\n    \"additionalFacilities\": \"IMAX, 3D\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios/2",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 12:40:18 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"title\": \"Ok\",\n    \"detail\": \"Studio updated\",\n    \"data\": {\n        \"id\": 2,\n        \"name\": \"Studio 774\",\n        \"capacity\": 70,\n        \"additionalFacilities\": \"IMAX, 3D\",\n        \"createdAt\": \"2025-03-03T00:00:00\",\n        \"updatedAt\": \"2025-03-06T12:40:18.3170978Z\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Studio 401",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Unauthorized'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Unauthorized\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'Token is missing or invalid'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"Token is missing or invalid\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Studio 23\",\r\n    \"capacity\": 80,\r\n    \"additionalFacilities\": \"IMAX, 3D\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios/2",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Studio 401",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Studio 23\",\r\n    \"capacity\": 80,\r\n    \"additionalFacilities\": \"IMAX, 3D\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios/2",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios",
+										"2"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 12:35:49 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Unauthorized\",\n    \"status\": 401,\n    \"detail\": \"Token is missing or invalid\",\n    \"instance\": \"/api/studios/2\",\n    \"traceId\": \"0HNASLCFRM3CT:00000006\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Studio 403",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Forbidden'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Forbidden\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'You do not have permission to access this resource'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"You do not have permission to access this resource.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Studio 23\",\r\n    \"capacity\": 80,\r\n    \"additionalFacilities\": \"IMAX, 3D\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios/2",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Studio 403",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Studio 23\",\r\n    \"capacity\": 80,\r\n    \"additionalFacilities\": \"IMAX, 3D\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios/2",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios",
+										"2"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 12:41:57 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Forbidden\",\n    \"status\": 403,\n    \"detail\": \"You do not have permission to access this resource.\",\n    \"instance\": \"/api/studios/2\",\n    \"traceId\": \"0HNASLEV4MA7B:0000000A\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Studio 409",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 409\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Conflict'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Conflict\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'Ok'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"Name is already exists\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Studio 3\",\r\n    \"capacity\": 80,\r\n    \"additionalFacilities\": \"IMAX, 3D\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios/2",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Studio 401 Copy 2",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Studio 3\",\r\n    \"capacity\": 80,\r\n    \"additionalFacilities\": \"IMAX, 3D\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios/2",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios",
+										"2"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 12:39:01 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Conflict\",\n    \"status\": 409,\n    \"detail\": \"Name is already exists\",\n    \"instance\": \"/api/studios/2\",\n    \"traceId\": \"0HNASLEV4MA7B:00000003\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Delete Studio",
+			"item": [
+				{
+					"name": "Delete Studio 401",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Unauthorized'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Unauthorized\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'Token is missing or invalid'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"Token is missing or invalid\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios/13",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios",
+								"13"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios/13",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios",
+										"13"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 12:43:02 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Unauthorized\",\n    \"status\": 401,\n    \"detail\": \"Token is missing or invalid\",\n    \"instance\": \"/api/studios/13\",\n    \"traceId\": \"0HNASLEV4MA7B:0000000C\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Studio 204",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body is empty\", function () {\r",
+									"    pm.response.to.have.body(\"\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios/7",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios",
+								"7"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete Studio 204",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios/7",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios",
+										"7"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 12:45:09 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete Studio 403 Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Forbidden'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Forbidden\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'You do not have permission to access this resource'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"You do not have permission to access this resource.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios/13",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios",
+								"13"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete Studio 403",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios/13",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios",
+										"13"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 12:42:41 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Forbidden\",\n    \"status\": 403,\n    \"detail\": \"You do not have permission to access this resource.\",\n    \"instance\": \"/api/studios/13\",\n    \"traceId\": \"0HNASLEV4MA7B:0000000B\"\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,1837 @@
+{
+	"info": {
+		"_postman_id": "abe3d899-5b34-4128-b72e-8a50ed304e8d",
+		"name": "MovieService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28863651"
+	},
+	"item": [
+		{
+			"name": "Get Movie",
+			"item": [
+				{
+					"name": "Get 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response title is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.title).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response detail is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.detail).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains data array\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse).to.have.property('data').that.is.an('array');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Data array is not empty\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Each movie object contains required fields\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    jsonResponse.data.forEach(movie => {\r",
+									"        pm.expect(movie).to.have.all.keys('id', 'title', 'genre', 'durationInMinutes', 'createdAt', 'updatedAt');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"ID is a number for each movie\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    jsonResponse.data.forEach(movie => {\r",
+									"        pm.expect(movie.id).to.be.a('number');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is a string for each movie\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    jsonResponse.data.forEach(movie => {\r",
+									"        pm.expect(movie.title).to.be.a('string');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Genre is a string for each movie\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    jsonResponse.data.forEach(movie => {\r",
+									"        pm.expect(movie.genre).to.be.a('string');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Duration is a number for each movie\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    jsonResponse.data.forEach(movie => {\r",
+									"        pm.expect(movie.durationInMinutes).to.be.a('number');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"CreatedAt is a string for each movie\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    jsonResponse.data.forEach(movie => {\r",
+									"        pm.expect(movie.createdAt).to.be.a('string');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"UpdatedAt is a string for each movie\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    jsonResponse.data.forEach(movie => {\r",
+									"        pm.expect(movie.updatedAt).to.be.a('string');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains metadata object\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse).to.have.property('metadata').that.is.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Metadata contains required fields\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.metadata).to.have.all.keys('page', 'pageSize', 'totalPages', 'totalRecords');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Page is a number\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.metadata.page).to.be.a('number');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"PageSize is a number\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.metadata.pageSize).to.be.a('number');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"TotalPages is a number\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.metadata.totalPages).to.be.a('number');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"TotalRecords is a number\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.metadata.totalRecords).to.be.a('number');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MOVIE_SERVICE}}/movies?search=&orderby=&sort=desc&page=1&pagesize=20",
+							"host": [
+								"{{MOVIE_SERVICE}}"
+							],
+							"path": [
+								"movies"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": ""
+								},
+								{
+									"key": "orderby",
+									"value": ""
+								},
+								{
+									"key": "sort",
+									"value": "desc",
+									"description": "asc,desc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pagesize",
+									"value": "20",
+									"description": "Max: 100"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get 200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{MOVIE_SERVICE}}/movies?search=&orderby=&sort=desc&page=1&pagesize=20",
+									"host": [
+										"{{MOVIE_SERVICE}}"
+									],
+									"path": [
+										"movies"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": ""
+										},
+										{
+											"key": "orderby",
+											"value": ""
+										},
+										{
+											"key": "sort",
+											"value": "desc",
+											"description": "asc,desc"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pagesize",
+											"value": "20",
+											"description": "Max: 100"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 03:31:01 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"title\": \"Ok\",\n    \"detail\": \"List of Movies\",\n    \"data\": [\n        {\n            \"id\": 6,\n            \"title\": \"Inception\",\n            \"genre\": \"Action\",\n            \"durationInMinutes\": 140,\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        },\n        {\n            \"id\": 4,\n            \"title\": \"Pulp Fiction\",\n            \"genre\": \"Drama\",\n            \"durationInMinutes\": 130,\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        },\n        {\n            \"id\": 11,\n            \"title\": \"string\",\n            \"genre\": \"Comedy\",\n            \"durationInMinutes\": 20,\n            \"createdAt\": \"2025-03-06T15:52:24.528486\",\n            \"updatedAt\": \"2025-03-06T15:52:41.9356622\"\n        },\n        {\n            \"id\": 3,\n            \"title\": \"The Dark Knight\",\n            \"genre\": \"Action\",\n            \"durationInMinutes\": 150,\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        },\n        {\n            \"id\": 8,\n            \"title\": \"The Dark Knight Rises\",\n            \"genre\": \"Action\",\n            \"durationInMinutes\": 150,\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        },\n        {\n            \"id\": 2,\n            \"title\": \"The Godfather\",\n            \"genre\": \"Action\",\n            \"durationInMinutes\": 140,\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        },\n        {\n            \"id\": 5,\n            \"title\": \"The Lord of the Rings: The Return of the King\",\n            \"genre\": \"Action\",\n            \"durationInMinutes\": 170,\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        },\n        {\n            \"id\": 9,\n            \"title\": \"The Lord of the Rings: The Two Towers\",\n            \"genre\": \"Action\",\n            \"durationInMinutes\": 170,\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        },\n        {\n            \"id\": 7,\n            \"title\": \"The Matrix\",\n            \"genre\": \"Action\",\n            \"durationInMinutes\": 130,\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        },\n        {\n            \"id\": 1,\n            \"title\": \"The Shawshank Redemption\",\n            \"genre\": \"Drama\",\n            \"durationInMinutes\": 120,\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        }\n    ],\n    \"metadata\": {\n        \"page\": 1,\n        \"pageSize\": 20,\n        \"totalPages\": 1,\n        \"totalRecords\": 10\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response type is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.type).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response title is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.title).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response status is a number\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.status).to.be.a('number');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains errors object\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse).to.have.property('errors').that.is.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Errors object contains 'Sort' key\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.errors).to.have.property('Sort').that.is.an('array');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Sort error message is correct\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.errors.Sort).to.include(\"Sort must be either 'asc' or 'desc'.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response traceId is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.traceId).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{MOVIE_SERVICE}}/movies?search=&orderby=&sort=descd&page=1&pagesize=20",
+							"host": [
+								"{{MOVIE_SERVICE}}"
+							],
+							"path": [
+								"movies"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": ""
+								},
+								{
+									"key": "orderby",
+									"value": ""
+								},
+								{
+									"key": "sort",
+									"value": "descd"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pagesize",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get 400",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{MOVIE_SERVICE}}/movies?search=&orderby=&sort=descd&page=1&pagesize=20",
+									"host": [
+										"{{MOVIE_SERVICE}}"
+									],
+									"path": [
+										"movies"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": ""
+										},
+										{
+											"key": "orderby",
+											"value": ""
+										},
+										{
+											"key": "sort",
+											"value": "descd",
+											"description": "asc, desc"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pagesize",
+											"value": "20",
+											"description": "Max: 100"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/problem+json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 03:29:46 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"One or more validation errors occurred.\",\n    \"status\": 400,\n    \"errors\": {\n        \"Sort\": [\n            \"Sort must be either 'asc' or 'desc'.\"\n        ]\n    },\n    \"traceId\": \"00-685451bd234d710811d693fae776189a-b389c93c5c30d145-00\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Create Movie",
+			"item": [
+				{
+					"name": "Create 401",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Unauthorized'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Unauthorized\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'Token is missing or invalid'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"Token is missing or invalid\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{MOVIE_SERVICE}}/movies",
+							"host": [
+								"{{MOVIE_SERVICE}}"
+							],
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create 401",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{MOVIE_SERVICE}}/movies",
+									"host": [
+										"{{MOVIE_SERVICE}}"
+									],
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 03:32:22 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Unauthorized\",\n    \"status\": 401,\n    \"detail\": \"Token is missing or invalid\",\n    \"instance\": \"/api/movies\",\n    \"traceId\": \"0HNATST7O4RKT:00000001\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Forbidden'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Forbidden\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'You do not have permission to access this resource'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"You do not have permission to access this resource.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{MOVIE_SERVICE}}/movies",
+							"host": [
+								"{{MOVIE_SERVICE}}"
+							],
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create 403",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{MOVIE_SERVICE}}/movies",
+									"host": [
+										"{{MOVIE_SERVICE}}"
+									],
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 03:34:22 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Forbidden\",\n    \"status\": 403,\n    \"detail\": \"You do not have permission to access this resource.\",\n    \"instance\": \"/api/movies\",\n    \"traceId\": \"0HNATST7O4RKT:00000007\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create 415",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 415\", function () {\r",
+									"    pm.response.to.have.status(415);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Unsupported Media Type'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Unsupported Media Type\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.16\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{MOVIE_SERVICE}}/movies",
+							"host": [
+								"{{MOVIE_SERVICE}}"
+							],
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create 415",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{MOVIE_SERVICE}}/movies",
+									"host": [
+										"{{MOVIE_SERVICE}}"
+									],
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"status": "Unsupported Media Type",
+							"code": 415,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/problem+json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 03:36:06 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.16\",\n    \"title\": \"Unsupported Media Type\",\n    \"status\": 415,\n    \"traceId\": \"00-a04990887f62c3828dc9fef34fdc32ac-ae1614974b44e6e0-00\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create 409",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 409\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Conflict'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Conflict\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'Ok'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"Title is already taken\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"string\",\r\n  \"genre\": \"Action\",\r\n  \"durationInMinutes\": 200,\r\n  \"description\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MOVIE_SERVICE}}/movies",
+							"host": [
+								"{{MOVIE_SERVICE}}"
+							],
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Studio 409",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"string\",\r\n  \"genre\": \"Action\",\r\n  \"durationInMinutes\": 200,\r\n  \"description\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{MOVIE_SERVICE}}/movies",
+									"host": [
+										"{{MOVIE_SERVICE}}"
+									],
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 05:11:13 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Conflict\",\n    \"status\": 409,\n    \"detail\": \"Title is already taken\",\n    \"instance\": \"/api/movies\",\n    \"traceId\": \"0HNATVOMMDETI:00000004\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create 201",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response title is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.title).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response detail is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.detail).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains data object\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse).to.have.property('data').that.is.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Data object contains required fields\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data).to.have.all.keys('id', 'title', 'genre', 'durationInMinutes', 'createdAt', 'updatedAt');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"ID is a number\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.id).to.be.a('number');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.title).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Genre is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.genre).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Duration is a number\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.durationInMinutes).to.be.a('number');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"CreatedAt is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.createdAt).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"UpdatedAt is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.updatedAt).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"strings\",\r\n  \"genre\": \"Action\",\r\n  \"durationInMinutes\": 10,\r\n  \"description\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MOVIE_SERVICE}}/movies",
+							"host": [
+								"{{MOVIE_SERVICE}}"
+							],
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create 201",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"strings\",\r\n  \"genre\": \"Action\",\r\n  \"durationInMinutes\": 10,\r\n  \"description\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{MOVIE_SERVICE}}/movies",
+									"host": [
+										"{{MOVIE_SERVICE}}"
+									],
+									"path": [
+										"movies"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 05:10:48 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Location",
+									"value": "http://localhost:5003/api/movies"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"title\": \"Ok\",\n    \"detail\": \"Created Movie\",\n    \"data\": {\n        \"id\": 22,\n        \"title\": \"strings\",\n        \"genre\": \"Action\",\n        \"durationInMinutes\": 10,\n        \"createdAt\": \"2025-03-08T05:10:48.8325778Z\",\n        \"updatedAt\": \"2025-03-08T05:10:48.8325784Z\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Update Movie",
+			"item": [
+				{
+					"name": "Update 401",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Unauthorized'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Unauthorized\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'Token is missing or invalid'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"Token is missing or invalid\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Studio 23\",\r\n    \"capacity\": 80,\r\n    \"additionalFacilities\": \"IMAX, 3D\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MOVIE_SERVICE}}/movies/3",
+							"host": [
+								"{{MOVIE_SERVICE}}"
+							],
+							"path": [
+								"movies",
+								"3"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update  401",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Studio 23\",\r\n    \"capacity\": 80,\r\n    \"additionalFacilities\": \"IMAX, 3D\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{MOVIE_SERVICE}}/movies/3",
+									"host": [
+										"{{MOVIE_SERVICE}}"
+									],
+									"path": [
+										"movies",
+										"3"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 04:22:34 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Unauthorized\",\n    \"status\": 401,\n    \"detail\": \"Token is missing or invalid\",\n    \"instance\": \"/api/movies/3\",\n    \"traceId\": \"0HNATST7O4RKV:00000003\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update 403",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Forbidden'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Forbidden\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'You do not have permission to access this resource'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"You do not have permission to access this resource.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Studio 23\",\r\n    \"capacity\": 80,\r\n    \"additionalFacilities\": \"IMAX, 3D\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MOVIE_SERVICE}}/movies/3",
+							"host": [
+								"{{MOVIE_SERVICE}}"
+							],
+							"path": [
+								"movies",
+								"3"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update 403",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Studio 23\",\r\n    \"capacity\": 80,\r\n    \"additionalFacilities\": \"IMAX, 3D\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{MOVIE_SERVICE}}/movies/3",
+									"host": [
+										"{{MOVIE_SERVICE}}"
+									],
+									"path": [
+										"movies",
+										"3"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 04:23:57 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Forbidden\",\n    \"status\": 403,\n    \"detail\": \"You do not have permission to access this resource.\",\n    \"instance\": \"/api/movies/3\",\n    \"traceId\": \"0HNATST7O4RL1:00000001\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update  409",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 409\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Conflict'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Conflict\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'Ok'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"Title already exists\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"string\",\r\n  \"genre\": \"Action\",\r\n  \"durationInMinutes\": 200,\r\n  \"description\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MOVIE_SERVICE}}/movies/3",
+							"host": [
+								"{{MOVIE_SERVICE}}"
+							],
+							"path": [
+								"movies",
+								"3"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update  409",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"string\",\r\n  \"genre\": \"Action\",\r\n  \"durationInMinutes\": 200,\r\n  \"description\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{MOVIE_SERVICE}}/movies/3",
+									"host": [
+										"{{MOVIE_SERVICE}}"
+									],
+									"path": [
+										"movies",
+										"3"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 05:12:14 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Conflict\",\n    \"status\": 409,\n    \"detail\": \"Title already exists\",\n    \"instance\": \"/api/movies/3\",\n    \"traceId\": \"0HNATVOMMDETI:00000006\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update  200",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response title is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.title).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response detail is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.detail).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains data object\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse).to.have.property('data').that.is.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Data object contains required fields\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data).to.have.all.keys('id', 'title', 'genre', 'durationInMinutes', 'createdAt', 'updatedAt');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"ID is a number\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.id).to.be.a('number');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.title).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Genre is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.genre).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Duration is a number\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.durationInMinutes).to.be.a('number');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"CreatedAt is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.createdAt).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"UpdatedAt is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.updatedAt).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"The Dark Knight\",\r\n  \"genre\": \"Action\",\r\n  \"durationInMinutes\": 200,\r\n  \"description\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MOVIE_SERVICE}}/movies/3",
+							"host": [
+								"{{MOVIE_SERVICE}}"
+							],
+							"path": [
+								"movies",
+								"3"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update  200",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"The Dark Knight\",\r\n  \"genre\": \"Action\",\r\n  \"durationInMinutes\": 200,\r\n  \"description\": \"string\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{MOVIE_SERVICE}}/movies/3",
+									"host": [
+										"{{MOVIE_SERVICE}}"
+									],
+									"path": [
+										"movies",
+										"3"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 05:12:54 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"title\": \"Ok\",\n    \"detail\": \"Movie updated\",\n    \"data\": {\n        \"id\": 3,\n        \"title\": \"The Dark Knight\",\n        \"genre\": \"Action\",\n        \"durationInMinutes\": 150,\n        \"createdAt\": \"2025-03-03T00:00:00\",\n        \"updatedAt\": \"2025-03-08T05:12:55.365837Z\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Delete Movie",
+			"item": [
+				{
+					"name": "Delete 401",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Unauthorized'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Unauthorized\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'Token is missing or invalid'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"Token is missing or invalid\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MOVIE_SERVICE}}/movies/3",
+							"host": [
+								"{{MOVIE_SERVICE}}"
+							],
+							"path": [
+								"movies",
+								"3"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete 401",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{MOVIE_SERVICE}}/movies/3",
+									"host": [
+										"{{MOVIE_SERVICE}}"
+									],
+									"path": [
+										"movies",
+										"3"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 05:28:18 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Unauthorized\",\n    \"status\": 401,\n    \"detail\": \"Token is missing or invalid\",\n    \"instance\": \"/api/movies/3\",\n    \"traceId\": \"0HNATVOMMDETK:00000001\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete 204",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body is empty\", function () {\r",
+									"    pm.response.to.have.body(\"\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MOVIE_SERVICE}}/movies/2",
+							"host": [
+								"{{MOVIE_SERVICE}}"
+							],
+							"path": [
+								"movies",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete 204",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{MOVIE_SERVICE}}/movies/2",
+									"host": [
+										"{{MOVIE_SERVICE}}"
+									],
+									"path": [
+										"movies",
+										"2"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 05:30:12 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Forbidden'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Forbidden\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'You do not have permission to access this resource'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"You do not have permission to access this resource.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{MOVIE_SERVICE}}/movies/3",
+							"host": [
+								"{{MOVIE_SERVICE}}"
+							],
+							"path": [
+								"movies",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get Genre",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{MOVIE_SERVICE}}/movies/genre",
+					"host": [
+						"{{MOVIE_SERVICE}}"
+					],
+					"path": [
+						"movies",
+						"genre"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
