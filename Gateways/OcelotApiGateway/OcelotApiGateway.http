@@ -1,0 +1,7 @@
+@OcelotApiGateway_HostAddress = http://localhost:5000
+
+###
+GET {{OcelotApiGateway_HostAddress}}/todos
+Accept: application/json
+
+###

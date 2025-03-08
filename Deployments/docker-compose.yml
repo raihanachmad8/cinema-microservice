@@ -1,0 +1,41 @@
+services:
+  mssql:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: cinema_mssql
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "YourPassword123!"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - mssql_data:/var/opt/mssql
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+  
+  api_gateway:
+    build:
+      context: ./../Gateways/OcelotApiGateway
+      dockerfile: Dockerfile
+    container_name: cinema_api_gateway
+    environment:
+      - API_GATEWAY_HOST=http://api_gateway:5000
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./docker/mssql/mssql_data:/var/opt/mssql
+    depends_on: 
+      - mssql
+      - nats
+
+  nats:
+    image: "nats:latest"
+    container_name: cinema_nats
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+
+volumes:
+  mssql_data:
