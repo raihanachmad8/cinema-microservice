@@ -1,0 +1,324 @@
+{
+	"info": {
+		"_postman_id": "76ff398f-db49-43cc-b463-de68d0128044",
+		"name": "TransactionService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28863651"
+	},
+	"item": [
+		{
+			"name": "Create - 201",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{admin_at}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ticketId\": 1,\r\n    \"PaymentMethod\": \"Cash\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{TRANSACTION_SERVICE}}/transactions",
+					"host": [
+						"{{TRANSACTION_SERVICE}}"
+					],
+					"path": [
+						"transactions"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create - 201",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ticketId\": 1,\r\n    \"PaymentMethod\": \"Cash\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{TRANSACTION_SERVICE}}/transactions",
+							"host": [
+								"{{TRANSACTION_SERVICE}}"
+							],
+							"path": [
+								"transactions"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 08 Mar 2025 08:08:37 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Location",
+							"value": "http://localhost:5006/api/transactions"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": 201,\n    \"title\": \"Created\",\n    \"detail\": \"Transaction Created\",\n    \"data\": {\n        \"id\": 12,\n        \"ticketId\": 1,\n        \"userId\": 0,\n        \"paymentMethod\": \"0\",\n        \"paymentStatus\": \"Pending\",\n        \"transactionDate\": \"2025-03-08T08:08:37.7840594Z\",\n        \"ticket\": {\n            \"id\": 1,\n            \"scheduleId\": 1,\n            \"userId\": 4,\n            \"seatId\": 1,\n            \"status\": \"Reserved\",\n            \"reservedAt\": \"2025-03-06T00:00:00\"\n        },\n        \"totalAmount\": 35000\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get - 200",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user_at}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{TRANSACTION_SERVICE}}/transactions",
+					"host": [
+						"{{TRANSACTION_SERVICE}}"
+					],
+					"path": [
+						"transactions"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get - 200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{TRANSACTION_SERVICE}}/transactions",
+							"host": [
+								"{{TRANSACTION_SERVICE}}"
+							],
+							"path": [
+								"transactions"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 08 Mar 2025 09:05:59 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": 200,\n    \"title\": \"Ok\",\n    \"detail\": \"Tickets retrieved successfully.\",\n    \"data\": [\n        {\n            \"id\": 3,\n            \"ticketId\": 2,\n            \"userId\": 3,\n            \"paymentMethod\": \"BankTransfer\",\n            \"paymentStatus\": \"Pending\",\n            \"transactionDate\": \"2025-03-08T08:53:02.6232636\",\n            \"ticket\": null,\n            \"totalAmount\": 35000\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "GetDetail - 200",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user_at}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{TRANSACTION_SERVICE}}/transactions/3",
+					"host": [
+						"{{TRANSACTION_SERVICE}}"
+					],
+					"path": [
+						"transactions",
+						"3"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GetDetail - 200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{TRANSACTION_SERVICE}}/transactions/3",
+							"host": [
+								"{{TRANSACTION_SERVICE}}"
+							],
+							"path": [
+								"transactions",
+								"3"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 08 Mar 2025 09:13:46 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": 200,\n    \"title\": \"Ok\",\n    \"detail\": \"Get detail transaction\",\n    \"data\": {\n        \"id\": 3,\n        \"ticketId\": 2,\n        \"userId\": 3,\n        \"paymentMethod\": \"BankTransfer\",\n        \"paymentStatus\": \"Pending\",\n        \"transactionDate\": \"2025-03-08T09:06:03.2332093\",\n        \"ticket\": {\n            \"id\": 2,\n            \"scheduleId\": 1,\n            \"userId\": 5,\n            \"seatId\": 2,\n            \"status\": \"Reserved\",\n            \"reservedAt\": \"2025-03-06T00:00:00\"\n        },\n        \"totalAmount\": 35000\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Payment",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user_at}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Amount\": 30000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{TRANSACTION_SERVICE}}/transactions/3/payment",
+					"host": [
+						"{{TRANSACTION_SERVICE}}"
+					],
+					"path": [
+						"transactions",
+						"3",
+						"payment"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "New Request",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Amount\": 30000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{TRANSACTION_SERVICE}}/transactions/3/payment",
+							"host": [
+								"{{TRANSACTION_SERVICE}}"
+							],
+							"path": [
+								"transactions",
+								"3",
+								"payment"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 08 Mar 2025 09:13:50 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": 200,\n    \"title\": \"Ok\",\n    \"detail\": \"Payment successful\",\n    \"data\": {\n        \"id\": 3,\n        \"ticketId\": 2,\n        \"userId\": 3,\n        \"paymentMethod\": \"BankTransfer\",\n        \"paymentStatus\": \"Successful\",\n        \"transactionDate\": \"2025-03-08T09:13:50.5951826Z\",\n        \"ticket\": {\n            \"id\": 2,\n            \"scheduleId\": 1,\n            \"userId\": 5,\n            \"seatId\": 2,\n            \"status\": \"Reserved\",\n            \"reservedAt\": \"2025-03-06T00:00:00\"\n        },\n        \"totalAmount\": 35000\n    }\n}"
+				}
+			]
+		}
+	]
+}

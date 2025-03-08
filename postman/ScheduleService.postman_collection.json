@@ -1,0 +1,1759 @@
+{
+	"info": {
+		"_postman_id": "81bffd57-7f40-4339-a54d-0bcc8d44ca92",
+		"name": "ScheduleService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28863651"
+	},
+	"item": [
+		{
+			"name": "Get Schedule",
+			"item": [
+				{
+					"name": "Get 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response message is 'Ok'\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.title).to.eql(\"Ok\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response detail is 'List of Schedules'\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.detail).to.eql(\"List of Schedules\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check that the 'data' array contains array\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data).to.be.an('array')\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if each schedule has valid properties\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    jsonResponse.data.forEach(schedule => {\r",
+									"        pm.expect(schedule).to.have.all.keys('id', 'movieId', 'studioId', 'ticketPrice', 'movie', 'studio', 'startDatetime', 'endDatetime');\r",
+									"        pm.expect(schedule.id).to.be.a('number');\r",
+									"        pm.expect(schedule.movieId).to.be.a('number');\r",
+									"        pm.expect(schedule.studioId).to.be.a('number');\r",
+									"        pm.expect(schedule.ticketPrice).to.be.a('number');\r",
+									"        pm.expect(schedule.startDatetime).to.be.a('string');\r",
+									"        pm.expect(schedule.endDatetime).to.be.a('string');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check the metadata object\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.metadata).to.have.all.keys('page', 'pageSize', 'totalPages', 'totalRecords');\r",
+									"    pm.expect(jsonResponse.metadata.page).to.be.a('number');\r",
+									"    pm.expect(jsonResponse.metadata.pageSize).to.be.a('number');\r",
+									"    pm.expect(jsonResponse.metadata.totalPages).to.be.a('number');\r",
+									"    pm.expect(jsonResponse.metadata.totalRecords).to.be.a('number');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SCHEDULE_SERVICE}}/schedules",
+							"host": [
+								"{{SCHEDULE_SERVICE}}"
+							],
+							"path": [
+								"schedules"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get 200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios?search=&orderby=Capacity&sort=desc&page=1&pagesize=20",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "",
+											"description": "On: Name, AdditionalFacilities"
+										},
+										{
+											"key": "orderby",
+											"value": "Capacity",
+											"description": "Name, Capacity, AdditionalFacilities, CreatedAt, UpdatedAt"
+										},
+										{
+											"key": "sort",
+											"value": "desc",
+											"description": "asc,desc"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pagesize",
+											"value": "20",
+											"description": "Max: 100"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 11:51:01 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"title\": \"Ok\",\n    \"detail\": \"List of studios\",\n    \"data\": [\n        {\n            \"id\": 2,\n            \"name\": \"Studio 2\",\n            \"capacity\": 80,\n            \"additionalFacilities\": \"IMAX, 3D\",\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        },\n        {\n            \"id\": 5,\n            \"name\": \"Studio 5\",\n            \"capacity\": 80,\n            \"additionalFacilities\": \"Kids Area, Wide Screen\",\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        },\n        {\n            \"id\": 6,\n            \"name\": \"Studio 6\",\n            \"capacity\": 60,\n            \"additionalFacilities\": \"Wide Screen, Luxury Recliners\",\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Studio 3\",\n            \"capacity\": 50,\n            \"additionalFacilities\": \"Luxury Recliners, Dolby Atmos\",\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        },\n        {\n            \"id\": 1,\n            \"name\": \"Studio 1\",\n            \"capacity\": 50,\n            \"additionalFacilities\": \"Dolby Surround, Wide Screen\",\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Studio 4\",\n            \"capacity\": 40,\n            \"additionalFacilities\": \"VIP Seating, 4D Experience\",\n            \"createdAt\": \"2025-03-03T00:00:00\",\n            \"updatedAt\": \"2025-03-03T00:00:00\"\n        },\n        {\n            \"id\": 7,\n            \"name\": \"Studio 12\",\n            \"capacity\": 20,\n            \"additionalFacilities\": \"\",\n            \"createdAt\": \"2025-03-06T11:36:33.5877278\",\n            \"updatedAt\": \"2025-03-06T11:36:33.5877287\"\n        }\n    ],\n    \"metadata\": {\n        \"page\": 1,\n        \"pageSize\": 20,\n        \"totalPages\": 1,\n        \"totalRecords\": 7\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response type is valid\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response title is correct\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.title).to.eql(\"One or more validation errors occurred.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains errors object\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse).to.have.property('errors').that.is.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Errors object contains 'OrderBy' key\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.errors).to.have.property('OrderBy').that.is.an('array');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"OrderBy error message is correct\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.errors.OrderBy).to.include(\"OrderBy must be a valid column name.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains traceId\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse).to.have.property('traceId').that.is.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SCHEDULE_SERVICE}}/schedules?search=studi&orderby=capacity&sort=desc&page=1&pagesize=20",
+							"host": [
+								"{{SCHEDULE_SERVICE}}"
+							],
+							"path": [
+								"schedules"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "studi"
+								},
+								{
+									"key": "orderby",
+									"value": "capacity"
+								},
+								{
+									"key": "sort",
+									"value": "desc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pagesize",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get 400",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios?search=studi&orderby=capacity&sort=desc&page=1&pagesize=20",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "studi",
+											"description": "On: Name, AdditionalFacilities"
+										},
+										{
+											"key": "orderby",
+											"value": "capacity",
+											"description": "Name, Capacity, AdditionalFacilities, CreatedAt, UpdatedAt"
+										},
+										{
+											"key": "sort",
+											"value": "desc",
+											"description": "asc, desc"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "pagesize",
+											"value": "20",
+											"description": "Max: 100"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/problem+json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 06 Mar 2025 11:50:48 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"One or more validation errors occurred.\",\n    \"status\": 400,\n    \"errors\": {\n        \"OrderBy\": [\n            \"OrderBy must be a valid column name.\"\n        ]\n    },\n    \"traceId\": \"00-5ee26f8afc4deb99fbff491bad73c418-f99dfb90efa7afd6-00\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Create Schedule",
+			"item": [
+				{
+					"name": "Create 401",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Unauthorized'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Unauthorized\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'Token is missing or invalid'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"Token is missing or invalid\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{SCHEDULE_SERVICE}}/schedules",
+							"host": [
+								"{{SCHEDULE_SERVICE}}"
+							],
+							"path": [
+								"schedules"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Studio 401",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{SCHEDULE_SERVICE}}/schedules",
+									"host": [
+										"{{SCHEDULE_SERVICE}}"
+									],
+									"path": [
+										"schedules"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 02:39:10 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Unauthorized\",\n    \"status\": 401,\n    \"detail\": \"Token is missing or invalid.\",\n    \"instance\": \"/api/schedules\",\n    \"traceId\": \"0HNATST8FQELK:00000006\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Forbidden'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Forbidden\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'You do not have permission to access this resource'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"You do not have permission to access this resource.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_rt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{SCHEDULE_SERVICE}}/schedules",
+							"host": [
+								"{{SCHEDULE_SERVICE}}"
+							],
+							"path": [
+								"schedules"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create 403",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{SCHEDULE_SERVICE}}/schedules",
+									"host": [
+										"{{SCHEDULE_SERVICE}}"
+									],
+									"path": [
+										"schedules"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 02:38:30 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Forbidden\",\n    \"status\": 403,\n    \"detail\": \"You do not have permission to access this resource.\",\n    \"instance\": \"/api/schedules\",\n    \"traceId\": \"0HNATST8FQELK:00000005\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Studio 415",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 415\", function () {\r",
+									"    pm.response.to.have.status(415);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Unsupported Media Type'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Unsupported Media Type\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.16\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{SCHEDULE_SERVICE}}/schedules",
+							"host": [
+								"{{SCHEDULE_SERVICE}}"
+							],
+							"path": [
+								"schedules"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Studio 415",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{SCHEDULE_SERVICE}}/schedules",
+									"host": [
+										"{{SCHEDULE_SERVICE}}"
+									],
+									"path": [
+										"schedules"
+									]
+								}
+							},
+							"status": "Unsupported Media Type",
+							"code": 415,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/problem+json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 03:01:07 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.16\",\n    \"title\": \"Unsupported Media Type\",\n    \"status\": 415,\n    \"traceId\": \"00-eea51e9e6fa2eb3961713eca49c938c9-25596791fb902726-00\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create 201",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response title is correct\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.title).to.eql(\"Ok\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response detail is correct\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.detail).to.eql(\"Created Schedule\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains data object\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse).to.have.property('data').that.is.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Data object contains required fields\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data).to.have.all.keys('id', 'movieId', 'studioId', 'movie', 'studio', 'ticketPrice', 'startDatetime', 'endDatetime');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Ticket price is correct\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.ticketPrice).to.eql(35000);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"movieId\": 1,\r\n  \"studioId\": 2,\r\n  \"startDatetime\": \"2025-03-09T02:41:41.262Z\",\r\n  \"ticketPrice\": 35000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{SCHEDULE_SERVICE}}/schedules",
+							"host": [
+								"{{SCHEDULE_SERVICE}}"
+							],
+							"path": [
+								"schedules"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create 201",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"movieId\": 1,\r\n  \"studioId\": 2,\r\n  \"startDatetime\": \"2025-03-09T02:41:41.262Z\",\r\n  \"ticketPrice\": 35000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{SCHEDULE_SERVICE}}/schedules",
+									"host": [
+										"{{SCHEDULE_SERVICE}}"
+									],
+									"path": [
+										"schedules"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 02:59:34 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Location",
+									"value": "http://localhost:5004/api/Schedules"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"title\": \"Ok\",\n    \"detail\": \"Created Schedule\",\n    \"data\": {\n        \"id\": 13,\n        \"movieId\": 1,\n        \"studioId\": 2,\n        \"movie\": null,\n        \"studio\": null,\n        \"ticketPrice\": 35000,\n        \"startDatetime\": \"2025-03-09T02:41:41.262Z\",\n        \"endDatetime\": \"2025-03-09T04:41:41.262Z\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create 409",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 409\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Conflict'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Conflict\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'Ok'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"User with email already exists\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"movieId\": 1,\r\n  \"studioId\": 3,\r\n  \"startDatetime\": \"2025-03-08T02:41:41.262Z\",\r\n  \"ticketPrice\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{SCHEDULE_SERVICE}}/schedules",
+							"host": [
+								"{{SCHEDULE_SERVICE}}"
+							],
+							"path": [
+								"schedules"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Studio 409",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"movieId\": 1,\r\n  \"studioId\": 2,\r\n  \"startDatetime\": \"2025-03-09T02:41:41.262Z\",\r\n  \"ticketPrice\": 35000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{SCHEDULE_SERVICE}}/schedules",
+									"host": [
+										"{{SCHEDULE_SERVICE}}"
+									],
+									"path": [
+										"schedules"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 03:00:50 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Conflict\",\n    \"status\": 409,\n    \"detail\": \"A schedule already exists for this time at the specified studio.\",\n    \"instance\": \"/api/schedules\",\n    \"traceId\": \"0HNATST8FQELT:00000012\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Update Schedule",
+			"item": [
+				{
+					"name": "Update 401",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Unauthorized'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Unauthorized\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'Token is missing or invalid'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"Token is missing or invalid\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Studio 23\",\r\n    \"capacity\": 80,\r\n    \"additionalFacilities\": \"IMAX, 3D\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios/2",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update 401",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Studio 23\",\r\n    \"capacity\": 80,\r\n    \"additionalFacilities\": \"IMAX, 3D\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios/2",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios",
+										"2"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 03:03:51 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Unauthorized\",\n    \"status\": 401,\n    \"detail\": \"Token is missing or invalid\",\n    \"instance\": \"/api/studios/2\",\n    \"traceId\": \"0HNATST7SBSJK:00000004\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update 403",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Forbidden'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Forbidden\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'You do not have permission to access this resource'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"You do not have permission to access this resource.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Studio 23\",\r\n    \"capacity\": 80,\r\n    \"additionalFacilities\": \"IMAX, 3D\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios/2",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update 403",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Studio 23\",\r\n    \"capacity\": 80,\r\n    \"additionalFacilities\": \"IMAX, 3D\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios/2",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios",
+										"2"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 03:03:03 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Forbidden\",\n    \"status\": 403,\n    \"detail\": \"You do not have permission to access this resource.\",\n    \"instance\": \"/api/studios/2\",\n    \"traceId\": \"0HNATST7SBSJK:00000003\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update 200",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response title is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.title).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response detail is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.detail).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response contains data object\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse).to.have.property('data').that.is.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Data object contains required fields\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data).to.have.all.keys('id', 'movieId', 'studioId', 'movie', 'studio', 'ticketPrice', 'startDatetime', 'endDatetime');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"ID is a number\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.id).to.be.a('number');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Movie ID is a number\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.movieId).to.be.a('number');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Studio ID is a number\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.studioId).to.be.a('number');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Ticket price is a number\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.ticketPrice).to.be.a('number');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Start datetime is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.startDatetime).to.be.a('string');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"End datetime is a string\", function () {\r",
+									"    const jsonResponse = pm.response.json();\r",
+									"    pm.expect(jsonResponse.data.endDatetime).to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"movieId\": 1,\r\n  \"studioId\": 1,\r\n  \"startDatetime\": \"2025-03-08T03:01:49.669Z\",\r\n  \"ticketPrice\": 34000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{SCHEDULE_SERVICE}}/schedules/4",
+							"host": [
+								"{{SCHEDULE_SERVICE}}"
+							],
+							"path": [
+								"schedules",
+								"4"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update 200",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"movieId\": 1,\r\n  \"studioId\": 1,\r\n  \"startDatetime\": \"2025-03-08T03:01:49.669Z\",\r\n  \"ticketPrice\": 34000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{SCHEDULE_SERVICE}}/schedules/4",
+									"host": [
+										"{{SCHEDULE_SERVICE}}"
+									],
+									"path": [
+										"schedules",
+										"4"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 03:18:27 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"title\": \"Ok\",\n    \"detail\": \"Schedule updated\",\n    \"data\": {\n        \"id\": 4,\n        \"movieId\": 1,\n        \"studioId\": 1,\n        \"movie\": null,\n        \"studio\": null,\n        \"ticketPrice\": 34000,\n        \"startDatetime\": \"2025-03-08T03:01:49.669Z\",\n        \"endDatetime\": \"2025-03-08T05:01:49.669Z\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update 409",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 409\", function () {\r",
+									"    pm.response.to.have.status(409);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Conflict'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Conflict\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'Ok'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"A schedule already exists for this time at the specified studio.\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"movieId\": 1,\r\n  \"studioId\": 1,\r\n  \"startDatetime\": \"2025-03-08T03:01:49.669Z\",\r\n  \"ticketPrice\": 34000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{SCHEDULE_SERVICE}}/schedules/3",
+							"host": [
+								"{{SCHEDULE_SERVICE}}"
+							],
+							"path": [
+								"schedules",
+								"3"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update 409",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"movieId\": 1,\r\n  \"studioId\": 2,\r\n  \"startDatetime\": \"2025-03-08T03:01:49.669Z\",\r\n  \"ticketPrice\": 34000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{SCHEDULE_SERVICE}}/schedules/3",
+									"host": [
+										"{{SCHEDULE_SERVICE}}"
+									],
+									"path": [
+										"schedules",
+										"3"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 03:10:55 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Conflict\",\n    \"status\": 409,\n    \"detail\": \"A schedule already exists for this time at the specified studio.\",\n    \"instance\": \"/api/schedules/3\",\n    \"traceId\": \"0HNATST8FQEM2:00000003\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Delete Studio",
+			"item": [
+				{
+					"name": "Delete 401",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Unauthorized'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Unauthorized\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'Token is missing or invalid'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"Token is missing or invalid\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios/2",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete 401",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios/2",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios",
+										"2"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 03:20:17 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Unauthorized\",\n    \"status\": 401,\n    \"detail\": \"Token is missing or invalid\",\n    \"instance\": \"/api/studios/13\",\n    \"traceId\": \"0HNATST7SBSJO:00000005\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete  204",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body is empty\", function () {\r",
+									"    pm.response.to.have.body(\"\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios/2",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete 204",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios/2",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios",
+										"2"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 03:21:11 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status is 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Title is 'Forbidden'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.title).to.eql(\"Forbidden\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Detail is 'You do not have permission to access this resource'\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.detail).to.eql(\"You do not have permission to access this resource.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Type URL is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.type).to.eql(\"https://tools.ietf.org/html/rfc9110#section-15.5.1\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"TraceId is present\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.traceId).to.not.be.null;\r",
+									"    pm.expect(jsonData.traceId).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user_at}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{STUDIO_SERVICE}}/studios/13",
+							"host": [
+								"{{STUDIO_SERVICE}}"
+							],
+							"path": [
+								"studios",
+								"13"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete 403",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{STUDIO_SERVICE}}/studios/2",
+									"host": [
+										"{{STUDIO_SERVICE}}"
+									],
+									"path": [
+										"studios",
+										"2"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Mar 2025 03:19:53 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"Forbidden\",\n    \"status\": 403,\n    \"detail\": \"You do not have permission to access this resource.\",\n    \"instance\": \"/api/studios/13\",\n    \"traceId\": \"0HNATST7SBSJO:00000004\"\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}

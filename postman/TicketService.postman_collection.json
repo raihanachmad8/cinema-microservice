@@ -1,0 +1,235 @@
+{
+	"info": {
+		"_postman_id": "5e66aa9a-358e-4927-afe2-d2d8457b142c",
+		"name": "TicketService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28863651"
+	},
+	"item": [
+		{
+			"name": "Create - 201",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{admin_at}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"SeatId\": 1,\r\n    \"ScheduleID\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{TICKET_SERVICE}}/tickets",
+					"host": [
+						"{{TICKET_SERVICE}}"
+					],
+					"path": [
+						"tickets"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create - 201",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"SeatId\": 1,\r\n    \"ScheduleID\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{TICKET_SERVICE}}/tickets",
+							"host": [
+								"{{TICKET_SERVICE}}"
+							],
+							"path": [
+								"tickets"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 08 Mar 2025 09:15:22 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Location",
+							"value": "http://localhost:5005/api/tickets"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": 201,\n    \"title\": \"Created\",\n    \"detail\": \"Ticket created successfully.\",\n    \"data\": {\n        \"id\": 24,\n        \"scheduleId\": 1,\n        \"userId\": 1,\n        \"seatId\": 1,\n        \"status\": \"Reserved\",\n        \"reservedAt\": \"2025-03-08T09:15:22.6118539Z\",\n        \"seat\": {\n            \"id\": 1,\n            \"studioId\": 1,\n            \"seatNumber\": \"A1\",\n            \"isAvailable\": false,\n            \"reservedAt\": \"2025-03-07T01:14:19.6215816\",\n            \"occupiedAt\": null\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get - 200",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user_at}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{TICKET_SERVICE}}/tickets",
+					"host": [
+						"{{TICKET_SERVICE}}"
+					],
+					"path": [
+						"tickets"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get - 200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{TICKET_SERVICE}}/tickets",
+							"host": [
+								"{{TICKET_SERVICE}}"
+							],
+							"path": [
+								"tickets"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 08 Mar 2025 09:14:45 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": 200,\n    \"title\": \"Ok\",\n    \"detail\": \"Tickets retrieved successfully.\",\n    \"data\": [\n        {\n            \"id\": 3,\n            \"scheduleId\": 1,\n            \"userId\": 3,\n            \"seatId\": 3,\n            \"status\": \"Reserved\",\n            \"reservedAt\": \"2025-03-06T00:00:00\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user_at}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{TICKET_SERVICE}}/tickets/3",
+					"host": [
+						"{{TICKET_SERVICE}}"
+					],
+					"path": [
+						"tickets",
+						"3"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Detail",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{TICKET_SERVICE}}/tickets/3",
+							"host": [
+								"{{TICKET_SERVICE}}"
+							],
+							"path": [
+								"tickets",
+								"3"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 08 Mar 2025 09:14:37 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": 200,\n    \"title\": \"Ok\",\n    \"detail\": \"Tickets retrieved successfully.\",\n    \"data\": {\n        \"id\": 3,\n        \"scheduleId\": 1,\n        \"userId\": 3,\n        \"seatId\": 3,\n        \"status\": \"Reserved\",\n        \"reservedAt\": \"2025-03-06T00:00:00\",\n        \"seat\": {\n            \"id\": 3,\n            \"studioId\": 1,\n            \"seatNumber\": \"A3\",\n            \"isAvailable\": false,\n            \"reservedAt\": \"2025-03-07T01:17:29.8068102\",\n            \"occupiedAt\": null\n        }\n    }\n}"
+				}
+			]
+		}
+	]
+}
